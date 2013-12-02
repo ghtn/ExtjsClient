@@ -1,0 +1,20 @@
+[
+    {
+        "id": 39,
+        "text": "通讯录类别",
+        "leaf": false,
+        "expanded": true,
+        "children": [
+            {
+                "id": 40,
+                "text": "市场部",
+                "leaf": true
+            },
+            {
+                "id": 41,
+                "text": "办公室",
+                "leaf": true
+            }
+        ]
+    }
+]

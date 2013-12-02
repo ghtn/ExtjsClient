@@ -1,0 +1,74 @@
+[
+    {
+        "id": 1,
+        "text": "手机报",
+        "leaf": false,
+        "expanded": true,
+        "children": [
+            {
+                "id": 2,
+                "text": "制作手机报",
+                "url": "test.jsp",
+                "leaf": true
+            },
+            {
+                "id": 3,
+                "text": "发件箱",
+                "url": "test2.jsp",
+                "leaf": true
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "text": "素材库",
+        "leaf": false,
+        "expanded": true,
+        "children": [
+            {
+                "id": 5,
+                "text": "我的素材",
+                "url": "http://www.pconline.com.cn",
+                "leaf": true
+            },
+            {
+                "id": 6,
+                "text": "制作文本素材",
+                "url": "http://www.pconline.com.cn",
+                "leaf": true
+            },
+            {
+                "id": 7,
+                "text": "制作图片素材",
+                "url": "http://www.pconline.com.cn",
+                "leaf": true
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "text": "系统管理",
+        "leaf": false,
+        "expanded": true,
+        "children": [
+            {
+                "id": 9,
+                "text": "账户信息",
+                "url": "http://www.pconline.com.cn",
+                "leaf": true
+            },
+            {
+                "id": 10,
+                "text": "通讯录",
+                "url": "contactsBaseView",
+                "leaf": true
+            },
+            {
+                "id": 11,
+                "text": "我的标签",
+                "url": "http://www.pconline.com.cn",
+                "leaf": true
+            }
+        ]
+    }
+]
