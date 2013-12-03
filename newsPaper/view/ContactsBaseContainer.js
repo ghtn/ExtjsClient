@@ -8,10 +8,14 @@
 Ext.define('NewsPaper.view.ContactsBaseContainer', {
     extend: 'Ext.container.Container',
     alias: 'widget.contactsBaseContainer',
-    layout: 'fit',
     items: [
         {
             xtype:'contactsTypeContainer'
         }
-    ]
+    ],
+    border: 5,
+    style: {
+        borderColor: 'red',
+        borderStyle: 'solid'
+    }
 });

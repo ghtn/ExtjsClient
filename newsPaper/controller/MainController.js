@@ -14,7 +14,8 @@ Ext.define('NewsPaper.controller.MainController', {
     init: function () {
         //init函数通过this.control来负责监听
         this.control({
-            //被监听的组件的别名
+            //可以通过别名或itemId设置需要监听的组建
+            //别名：'别名'，itemId: '#itemId'
             'mainTreeView': {
                 //监听鼠标点击事件，点击后调用changePage方法
                 itemclick: this.showPage
@@ -31,7 +32,7 @@ Ext.define('NewsPaper.controller.MainController', {
                 tab = mainTabPanel.add({
                     id: rec.data.id,
                     title: rec.data.text,
-                    //xtype : rec.data.url,
+                    xtype : rec.data.url,
                     //html: rec.data.text,
                     closable: true
                 });

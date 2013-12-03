@@ -11,5 +11,19 @@ Ext.define('NewsPaper.model.ContactsTypeTreeModel', {
         {name: 'id', type: 'int'},
         {name: 'text', type: 'string'},
         {name: 'url', type: 'string'}
-    ]
+    ],
+    proxy: {
+        type: 'ajax',
+        reader: 'json',
+
+        api: {
+            create: '/newsPaper/contactsType/addChild',
+            read: '/newsPaper/contactsType/getContactsTypeTree',
+            update: './data/contactsTypeTree.json',
+            destroy: './data/contactsTypeTree.json'
+        },
+        writer: {
+            type: 'json'
+        }
+    }
 });

@@ -7,13 +7,10 @@
  */
 Ext.define('NewsPaper.store.ContactsTypeTreeStore', {
     extend: 'Ext.data.TreeStore',
+    id: 'contactsTypeTreeStore',
     defaultRoodId: 'root',
     model: 'NewsPaper.model.ContactsTypeTreeModel',
 
-    proxy: {
-        type: 'ajax',
-        url: './data/contactsTypeTree.json',
-        reader: 'json',
-        autoLoad: true
-    }
+    autoLoad: true
+    //autoSync: true
 });
