@@ -25,6 +25,7 @@ Ext.define('NewsPaper.view.Viewport', {
         {
             region: 'center',
             title: '主页面',
+            autoScroll: true,
             items: [
                 {
                     xtype: 'mainTabpanelView'
@@ -41,6 +42,7 @@ Ext.define('NewsPaper.view.Viewport', {
             maxWidth: 400,
             split: true,
             collapsible: true,
+            autoScroll: true,
             items: [
                 {
                     xtype: 'mainTreeView'

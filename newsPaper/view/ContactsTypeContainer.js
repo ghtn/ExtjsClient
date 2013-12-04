@@ -8,7 +8,7 @@
 Ext.define('NewsPaper.view.ContactsTypeContainer', {
     extend: 'Ext.container.Container',
     alias: 'widget.contactsTypeContainer',
-    width: 200,
+    columnWidth: .2,
     items: [
         {
             xtype: 'contactsTypeTreeView'

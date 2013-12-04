@@ -10,5 +10,6 @@ Ext.define('NewsPaper.view.MainTabpanelView', {
     id: 'mainTabpanelView',
     alias: 'widget.mainTabpanelView',
     plain: true,
-    border:false
+    autoScroll: true,
+    border: false
 });

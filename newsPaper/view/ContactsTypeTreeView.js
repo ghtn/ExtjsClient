@@ -11,7 +11,7 @@ Ext.define('NewsPaper.view.ContactsTypeTreeView', {
     id: 'contactsTypeTreeView',
     title: '通讯录类别',
     hideHeaders: true,
-    rootVisible: false,
+    rootVisible: true,
     border: false,
     store: 'ContactsTypeTreeStore',
     tbar: [

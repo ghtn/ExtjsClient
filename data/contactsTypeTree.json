@@ -1,20 +1,192 @@
-[
+{"id": 1, "text": "通讯录类别", "leaf": false, "expanded": true, "children": [
     {
-        "id": 39,
-        "text": "通讯录类别",
+        "id": 3,
+        "text": "新添加",
         "leaf": false,
         "expanded": true,
         "children": [
             {
-                "id": 40,
-                "text": "市场部",
-                "leaf": true
+                "id": 5,
+                "text": "新添加",
+                "leaf": false,
+                "expanded": true,
+                "children": [
+                    {
+                        "id": 22,
+                        "text": "新添加",
+                        "leaf": false,
+                        "expanded": true,
+                        "children": [
+                            {
+                                "id": 23,
+                                "text": "新添加",
+                                "leaf": true,
+                                "expanded": null,
+                                "children": null
+                            }
+                        ]
+                    }
+                ]
             },
             {
-                "id": 41,
-                "text": "办公室",
-                "leaf": true
+                "id": 16,
+                "text": "新添加",
+                "leaf": false,
+                "expanded": true,
+                "children": [
+                    {
+                        "id": 24,
+                        "text": "新添加",
+                        "leaf": true,
+                        "expanded": null,
+                        "children": null
+                    }
+                ]
+            },
+            {
+                "id": 19,
+                "text": "新添加",
+                "leaf": false,
+                "expanded": true,
+                "children": [
+                    {
+                        "id": 26,
+                        "text": "新添加",
+                        "leaf": false,
+                        "expanded": true,
+                        "children": [
+                            {
+                                "id": 27,
+                                "text": "新添加",
+                                "leaf": true,
+                                "expanded": null,
+                                "children": null
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 20,
+                "text": "新添加",
+                "leaf": true,
+                "expanded": null,
+                "children": null
+            },
+            {
+                "id": 21,
+                "text": "新添加",
+                "leaf": true,
+                "expanded": null,
+                "children": null
+            },
+            {
+                "id": 25,
+                "text": "新添加",
+                "leaf": true,
+                "expanded": null,
+                "children": null
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "text": "新添加",
+        "leaf": false,
+        "expanded": true,
+        "children": [
+            {
+                "id": 6,
+                "text": "新添加",
+                "leaf": true,
+                "expanded": null,
+                "children": null
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "text": "新添加",
+        "leaf": false,
+        "expanded": true,
+        "children": [
+            {
+                "id": 8,
+                "text": "新添加",
+                "leaf": true,
+                "expanded": null,
+                "children": null
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "text": "新添加",
+        "leaf": false,
+        "expanded": true,
+        "children": [
+            {
+                "id": 11,
+                "text": "新添加",
+                "leaf": false,
+                "expanded": true,
+                "children": [
+                    {
+                        "id": 12,
+                        "text": "新添加",
+                        "leaf": true,
+                        "expanded": null,
+                        "children": null
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "text": "新添加",
+        "leaf": false,
+        "expanded": true,
+        "children": [
+            {
+                "id": 13,
+                "text": "新添加",
+                "leaf": false,
+                "expanded": true,
+                "children": [
+                    {
+                        "id": 14,
+                        "text": "新添加",
+                        "leaf": false,
+                        "expanded": true,
+                        "children": [
+                            {
+                                "id": 15,
+                                "text": "新添加",
+                                "leaf": false,
+                                "expanded": true,
+                                "children": [
+                                    {
+                                        "id": 17,
+                                        "text": "新添加",
+                                        "leaf": false,
+                                        "expanded": true,
+                                        "children": [
+                                            {
+                                                "id": 18,
+                                                "text": "新添加",
+                                                "leaf": true,
+                                                "expanded": null,
+                                                "children": null
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             }
         ]
     }
-]
+]}

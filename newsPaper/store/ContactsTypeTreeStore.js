@@ -9,6 +9,11 @@ Ext.define('NewsPaper.store.ContactsTypeTreeStore', {
     extend: 'Ext.data.TreeStore',
     id: 'contactsTypeTreeStore',
     defaultRoodId: 'root',
+    root: {
+        id: '-1',
+        expanded: true,
+        text: '通讯录类别'
+    },
     model: 'NewsPaper.model.ContactsTypeTreeModel',
 
     autoLoad: true
