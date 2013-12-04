@@ -102,30 +102,34 @@ Ext.define('NewsPaper.controller.ContactsController', {
     editContactsType: function (editor, e, eOpts) {
         var tree = Ext.getCmp('contactsTypeTreeView');
         var store = tree.store;
-        var newValue = e.value;
-        var id = e.record.data.id;
-        //alert('newValue = ' + newValue + ", id = " + id);
-        Ext.Ajax.request({
-            url: '/newsPaper/contactsType/updateContactsType',
-            method: 'post',
-            params: {
-                id: id,
-                name: newValue
-            },
-            success: function (response, opts) {
-                var result = response.responseText;
-                if (result.toUpperCase() == "SUCCESS") {
-                    Ext.example.msg('编辑成功', '编辑通讯录类别成功!');
-                } else {
+        var newValue = e.value.trim();
+        var oldValue = e.originalValue.trim();
+        if (newValue != oldValue) {
+            var id = e.record.data.id;
+            //alert('newValue = ' + newValue + ", id = " + id);
+            Ext.Ajax.request({
+                url: '/newsPaper/contactsType/updateContactsType',
+                method: 'post',
+                params: {
+                    id: id,
+                    name: newValue
+                },
+                success: function (response, opts) {
+                    var result = response.responseText;
+                    if (result.toUpperCase() == "SUCCESS") {
+                        Ext.example.msg('编辑成功', '编辑通讯录类别成功!');
+                    } else {
+                        Ext.example.msg('编辑失败', '编辑通讯录类别失败!');
+                    }
+                    treeRefresh(store, tree);
+                },
+                failure: function (response, opts) {
                     Ext.example.msg('编辑失败', '编辑通讯录类别失败!');
+                    treeRefresh(store, tree);
                 }
-                treeRefresh(store, tree);
-            },
-            failure: function (response, opts) {
-                Ext.example.msg('编辑失败', '编辑通讯录类别失败!');
-                treeRefresh(store, tree);
-            }
-        });
+            });
+        }
+
     }
 
 });
