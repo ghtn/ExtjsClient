@@ -27,7 +27,20 @@ Ext.define('NewsPaper.controller.ContactsController', {
                 itemclick: this.showContacts
             },
             'contactsGridView': {
-                render: this.contactsGridRender
+                render: this.contactsGridRender,
+                edit: this.editContacts
+            },
+            '#addContacts': {
+                click: this.addContactsClick
+            },
+            '#removeContacts': {
+                click: this.removeContactsClick
+            },
+            '#formReset': {
+                click: this.formReset
+            },
+            '#formSubmit': {
+                click: this.formSubmit
             }
         })
     },
@@ -168,6 +181,88 @@ Ext.define('NewsPaper.controller.ContactsController', {
                 Ext.apply(store.proxy.extraParams, idParam);
             }
         })
+    },
+    addContactsClick: function () {
+        var tree = Ext.getCmp('contactsTypeTreeView');
+        var node = tree.getSelectionModel().getSelection()[0];
+        if (node) {
+            if (node.data.leaf == true) {
+                Ext.create('NewsPaper.view.ContactsWindowView').show();
+            } else {
+                Ext.MessageBox.alert('错误', '请选择一个具体的通讯录类别!');
+            }
+        } else {
+            Ext.MessageBox.alert('错误', '请选择一个通讯录类别!');
+        }
+    },
+    removeContactsClick: function () {
+        //alert("remove");
+    },
+    editContacts: function (editor, context, eOpts) {
+        var oldValues = context.originalValues;
+        var newValues = context.newValues;
+        if (oldValues.name != newValues.name
+            || oldValues.idCard != newValues.idCard
+            || oldValues.phone != newValues.phone
+            || oldValues.email != newValues.email) {
+
+            var grid = Ext.getCmp('contactsGridView');
+            var store = grid.getStore();
+            Ext.Ajax.request({
+                url: '/newsPaper/contacts/updateContacts',
+                method: 'post',
+                params: {
+                    id: oldValues.id,
+                    name: newValues.name,
+                    idCard: newValues.idCard,
+                    phone: newValues.phone,
+                    email: newValues.email
+                },
+                success: function (response) {
+                    var result = response.responseText;
+                    if (result.toUpperCase() == "SUCCESS") {
+                        Ext.example.msg('编辑成功', '编辑通讯录成功!');
+                    } else {
+                        Ext.example.msg('编辑失败', '编辑通讯录失败!');
+                    }
+                    store.reload();
+                },
+                failure: function (response) {
+                    Ext.example.msg('编辑失败', '编辑通讯录失败!');
+                }
+            });
+        }
+    },
+    formReset: function () {
+        Ext.getCmp('contactsForm').getForm().reset();
+    },
+    formSubmit: function () {
+        var window = Ext.getCmp('contactsWindowView');
+        var tree = Ext.getCmp('contactsTypeTreeView');
+        var node = tree.getSelectionModel().getSelection()[0];
+        var id = node.data.id;
+        var grid = Ext.getCmp('contactsGridView');
+        var store = grid.getStore();
+        var form = Ext.getCmp('contactsForm').getForm();
+        if (form.isValid()) {
+            form.submit({
+                params: {
+                    'contactsType.id': id
+                },
+                success: function (form, action) {
+                    //Ext.Msg.alert('Success', action.result.msg);
+                    Ext.example.msg('增加成功', '增加通讯录人员成功!');
+                    window.close();
+                    store.reload();
+                },
+                failure: function (form, action) {
+                    //Ext.Msg.alert('Failed', action.result.msg);
+                    Ext.example.msg('增加失败', '增加通讯录人员失败!');
+                    window.close();
+                    store.reload();
+                }
+            });
+        }
     }
 });
 

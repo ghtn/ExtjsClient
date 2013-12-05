@@ -33,8 +33,9 @@ Ext.define('NewsPaper.view.ContactsTypeTreeView', {
     ],
     selType: 'cellmodel',
     plugins: [
-        Ext.create('Ext.grid.plugin.CellEditing', {
+        {
+            ptype: 'cellediting',
             clicksToEdit: 2
-        })
+        }
     ]
 });
