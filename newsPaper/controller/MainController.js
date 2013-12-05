@@ -32,12 +32,24 @@ Ext.define('NewsPaper.controller.MainController', {
                 tab = mainTabPanel.add({
                     id: rec.data.id,
                     title: rec.data.text,
-                    xtype : rec.data.url,
+                    xtype: rec.data.url,
                     //html: rec.data.text,
                     closable: true
                 });
             }
             mainTabPanel.setActiveTab(tab);
+
+            var store;
+            if (rec.data.id == 10) {
+                store = Ext.data.StoreManager.lookup('ContactsGridStore');
+                store.load({
+                    params: {
+                        start: 0,
+                        limit: 20
+                    }
+                });
+            }
+
         }
     }
 });

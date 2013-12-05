@@ -8,9 +8,10 @@
 
 Ext.define('NewsPaper.controller.ContactsController', {
     extend: 'Ext.app.Controller',
-    views: ['ContactsBaseContainer', 'ContactsTypeContainer', 'ContactsTypeTreeView'],
-    stores: ['ContactsTypeTreeStore'],
-    models: ['ContactsTypeTreeModel'],
+    views: ['ContactsBaseContainer', 'ContactsTypeContainer', 'ContactsTypeTreeView',
+        'ContactsContainer', 'ContactsGridView'],
+    stores: ['ContactsTypeTreeStore', 'ContactsGridStore'],
+    models: ['ContactsTypeTreeModel', 'ContactsGridModel'],
 
     init: function () {
 
@@ -22,7 +23,11 @@ Ext.define('NewsPaper.controller.ContactsController', {
                 click: this.removeContactsTypeClick
             },
             'contactsTypeTreeView': {
-                edit: this.editContactsType
+                edit: this.editContactsType,
+                itemclick: this.showContacts
+            },
+            'contactsGridView': {
+                render: this.contactsGridRender
             }
         })
     },
@@ -130,8 +135,40 @@ Ext.define('NewsPaper.controller.ContactsController', {
             });
         }
 
+    },
+    /**
+     * 分页加载contacts
+     * @param view
+     * @param rec
+     * @param item
+     * @param index
+     * @param e
+     */
+    showContacts: function (view, rec, item, index, e) {
+        //alert(rec.data.id);
+        var store = Ext.data.StoreManager.lookup('ContactsGridStore');
+        store.loadPage(1);
+    },
+    /**
+     * 在分页加载之前增加id参数
+     * @param grid
+     * @param opts
+     */
+    contactsGridRender: function (grid, opts) {
+        var store = grid.getStore();
+        store.on('beforeload', function () {
+            var tree = Ext.getCmp('contactsTypeTreeView');
+            var node = tree.getSelectionModel().getSelection()[0];
+            if (node) {
+                var id = node.data.id;
+                if (id == -1) {
+                    id = 0;
+                }
+                var idParam = {id: id};
+                Ext.apply(store.proxy.extraParams, idParam);
+            }
+        })
     }
-
 });
 
 function treeRefresh(store, tree) {

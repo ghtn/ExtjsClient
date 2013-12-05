@@ -14,8 +14,13 @@ Ext.define('NewsPaper.store.ContactsTypeTreeStore', {
         expanded: true,
         text: '通讯录类别'
     },
-    model: 'NewsPaper.model.ContactsTypeTreeModel',
 
+    model: 'NewsPaper.model.ContactsTypeTreeModel',
+    proxy: {
+        type: 'ajax',
+        reader: 'json',
+        url: '/newsPaper/contactsType/getContactsTypeTree'
+    },
     autoLoad: true
     //autoSync: true
 });

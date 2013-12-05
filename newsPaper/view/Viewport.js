@@ -34,7 +34,6 @@ Ext.define('NewsPaper.view.Viewport', {
         },
         {
             region: 'west',
-            width: 100,
             title: '功能区',
             animCollapse: true,
             width: 200,

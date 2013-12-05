@@ -1,20 +1,17 @@
 /**
  * Created with IntelliJ IDEA.
  * User: Administrator
- * Date: 13-12-2
- * Time: 下午4:09
+ * Date: 13-12-4
+ * Time: 下午4:38
  * To change this template use File | Settings | File Templates.
  */
-Ext.define('NewsPaper.view.ContactsBaseContainer', {
+Ext.define('NewsPaper.view.ContactsContainer', {
     extend: 'Ext.container.Container',
-    alias: 'widget.contactsBaseContainer',
-    layout: 'column',
+    alias: 'widget.contactsContainer',
+    columnWidth: .8,
     items: [
         {
-            xtype: 'contactsTypeContainer'
-        },
-        {
-            xtype: 'contactsContainer'
+            xtype: 'contactsGridView'
         }
     ],
     border: 5,

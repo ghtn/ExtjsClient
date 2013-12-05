@@ -5,12 +5,14 @@
  * Time: 下午4:18
  * To change this template use File | Settings | File Templates.
  */
-Ext.define('NewsPaper.model.ContactsTypeTreeModel', {
+Ext.define('NewsPaper.model.ContactsGridModel', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
-        {name: 'text', type: 'string'},
-        {name: 'url', type: 'string'}
+        {name: 'name', type: 'string'},
+        {name: 'idCard', type: 'string'},
+        {name: 'phone', type: 'string'},
+        {name: 'email', type: 'string'}
     ]
 
 });
