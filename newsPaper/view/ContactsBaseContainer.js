@@ -8,18 +8,38 @@
 Ext.define('NewsPaper.view.ContactsBaseContainer', {
     extend: 'Ext.container.Container',
     alias: 'widget.contactsBaseContainer',
-    layout: 'column',
+    layout: 'border',
     items: [
         {
-            xtype: 'contactsTypeContainer'
+            region: 'west',
+            title: '通讯录类别',
+            animCollapse: true,
+            width: 200,
+            minWidth: 150,
+            maxWidth: 400,
+            split: true,
+            collapsible: true,
+            autoScroll: true,
+            items: [
+                {
+                    xtype: 'contactsTypeContainer'
+                }
+            ]
         },
         {
-            xtype: 'contactsContainer'
+            region: 'center',
+            title: '通讯录列表',
+            autoScroll: true,
+            items: [
+                {
+                    xtype: 'contactsContainer'
+                }
+            ]
         }
-    ],
-    border: 5,
-    style: {
-        borderColor: 'red',
-        borderStyle: 'solid'
-    }
+    ]
+    /*border: 5,
+     style: {
+     borderColor: 'red',
+     borderStyle: 'solid'
+     }*/
 });

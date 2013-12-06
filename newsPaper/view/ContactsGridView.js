@@ -9,7 +9,6 @@ Ext.define('NewsPaper.view.ContactsGridView', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.contactsGridView',
     id: 'contactsGridView',
-    title: '通讯录列表',
     store: 'ContactsGridStore',
     columns: [
         {xtype: 'rownumberer'},
@@ -49,7 +48,7 @@ Ext.define('NewsPaper.view.ContactsGridView', {
             }
         },
         {
-            text: '邮箱', dataIndex: 'email', flex: 3, editor: 'textfield'
+            text: '邮箱', dataIndex: 'email', flex: 4, editor: 'textfield'
         }
     ],
     bbar: [

@@ -9,7 +9,6 @@ Ext.define('NewsPaper.view.ContactsTypeTreeView', {
     extend: 'Ext.tree.Panel',
     alias: 'widget.contactsTypeTreeView',
     id: 'contactsTypeTreeView',
-    title: '通讯录类别',
     hideHeaders: true,
     rootVisible: true,
     border: false,

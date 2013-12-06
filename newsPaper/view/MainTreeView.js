@@ -8,7 +8,6 @@
 Ext.define('NewsPaper.view.MainTreeView', {
     extend: 'Ext.tree.Panel',
     alias: 'widget.mainTreeView',
-    title: '功能树',
     rootVisible: false,
     border: false,
     store: 'MainTreeStore'

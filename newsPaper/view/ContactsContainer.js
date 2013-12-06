@@ -8,15 +8,9 @@
 Ext.define('NewsPaper.view.ContactsContainer', {
     extend: 'Ext.container.Container',
     alias: 'widget.contactsContainer',
-    columnWidth: .8,
     items: [
         {
             xtype: 'contactsGridView'
         }
-    ],
-    border: 5,
-    style: {
-        borderColor: 'red',
-        borderStyle: 'solid'
-    }
+    ]
 });

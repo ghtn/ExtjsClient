@@ -65,17 +65,19 @@ Ext.define('NewsPaper.controller.ContactsController', {
                     var result = response.responseText;
                     if (result.toUpperCase() == "SUCCESS") {
                         Ext.example.msg('添加成功', '添加通讯录类别成功!');
+                        treeRefresh(store, tree);
+                    } else if (result.toUpperCase() == "EXISTS") {
+                        Ext.MessageBox.alert('添加失败', '添加通讯录类别失败!<br><br>' +
+                            '错误信息 : 此通讯录类别下存在通讯录人员!');
                     } else {
-                        Ext.example.msg('添加失败', '添加通讯录类别失败!');
+                        Ext.MessageBox.alert('添加失败', '添加通讯录类别失败!<br><br>' +
+                            '错误信息 : 服务器端发生错误!');
                     }
-
-                    treeRefresh(store, tree);
-
                 },
                 failure: function (response, opts) {
                     progress.close();
-                    Ext.example.msg('添加失败', '添加通讯录类别失败!');
-                    treeRefresh(store, tree);
+                    Ext.MessageBox.alert('添加失败', '添加通讯录类别失败!<br><br>' +
+                        '错误信息 : 服务器端发生错误!');
                 }
             });
         } else {
@@ -111,7 +113,7 @@ Ext.define('NewsPaper.controller.ContactsController', {
                             if (result.toUpperCase() == "SUCCESS") {
                                 Ext.example.msg('删除成功', '删除通讯录类别成功!');
                             } else {
-                                Ext.example.msg('删除失败', '删除通讯录类别失败!');
+                                Ext.MessageBox.alert('删除失败', '删除通讯录类别失败!');
                             }
 
                             // 删除后刷新contactsType树,选中根节点,加载contacts
@@ -121,7 +123,7 @@ Ext.define('NewsPaper.controller.ContactsController', {
                         },
                         failure: function (response, opts) {
                             progress.close();
-                            Ext.example.msg('删除失败', '删除通讯录类别失败!');
+                            Ext.MessageBox.alert('删除失败', '删除通讯录类别失败!');
                         }
                     });
                 }
@@ -154,13 +156,13 @@ Ext.define('NewsPaper.controller.ContactsController', {
                     if (result.toUpperCase() == "SUCCESS") {
                         Ext.example.msg('编辑成功', '编辑通讯录类别成功!');
                     } else {
-                        Ext.example.msg('编辑失败', '编辑通讯录类别失败!');
+                        Ext.MessageBox.alert('编辑失败', '编辑通讯录类别失败!');
                     }
                     treeRefresh(store, tree);
                 },
                 failure: function (response, opts) {
                     progress.close();
-                    Ext.example.msg('编辑失败', '编辑通讯录类别失败!');
+                    Ext.MessageBox.alert('编辑失败', '编辑通讯录类别失败!');
                     treeRefresh(store, tree);
                 }
             });
@@ -236,13 +238,13 @@ Ext.define('NewsPaper.controller.ContactsController', {
                             if (result.toUpperCase() == "SUCCESS") {
                                 Ext.example.msg('删除成功', '删除通讯录成功!');
                             } else {
-                                Ext.example.msg('删除失败', '删除通讯录失败!');
+                                Ext.MessageBox.alert('删除失败', '删除通讯录失败!');
                             }
                             store.reload();
                         },
                         failure: function () {
                             progress.close();
-                            Ext.example.msg('删除失败', '删除通讯录失败!');
+                            Ext.MessageBox.alert('删除失败', '删除通讯录失败!');
                         }
                     });
                 }
@@ -282,13 +284,13 @@ Ext.define('NewsPaper.controller.ContactsController', {
                     if (result.toUpperCase() == "SUCCESS") {
                         Ext.example.msg('编辑成功', '编辑通讯录成功!');
                     } else {
-                        Ext.example.msg('编辑失败', '编辑通讯录失败!');
+                        Ext.MessageBox.alert('编辑失败', '编辑通讯录失败!');
                     }
                     store.reload();
                 },
                 failure: function (response) {
                     progress.close();
-                    Ext.example.msg('编辑失败', '编辑通讯录失败!');
+                    Ext.MessageBox.alert('编辑失败', '编辑通讯录失败!');
                 }
             });
         }
@@ -322,7 +324,7 @@ Ext.define('NewsPaper.controller.ContactsController', {
                 failure: function (form, action) {
                     //Ext.Msg.alert('Failed', action.result.msg);
                     progress.close();
-                    Ext.example.msg('增加失败', '增加通讯录人员失败!');
+                    Ext.MessageBox.alert('增加失败', '增加通讯录人员失败!');
                     window.close();
                     store.reload();
                 }
