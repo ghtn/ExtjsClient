@@ -38,11 +38,20 @@ Ext.define('NewsPaper.controller.ContactsController', {
             '#removeContacts': {
                 click: this.removeContactsClick
             },
+            '#importContacts': {
+                click: this.importContactsClick
+            },
             '#formReset': {
                 click: this.formReset
             },
             '#formSubmit': {
                 click: this.formSubmit
+            },
+            '#uploadFile': {
+                click: this.uploadFile
+            },
+            '#startImportContacts': {
+                click: this.startImportContacts
             }
         })
     },
@@ -257,6 +266,41 @@ Ext.define('NewsPaper.controller.ContactsController', {
             ]
         });
         menu.showAt(e.getXY());
+    },
+    importContactsClick: function () {
+        var tree = Ext.getCmp('contactsTypeTreeView');
+        var node = tree.getSelectionModel().getSelection()[0];
+        if (node) {
+            if (node.data.leaf == true) {
+                Ext.create('NewsPaper.view.ContactsImportWindowView').show();
+            } else {
+                Ext.MessageBox.alert('错误', '请选择一个具体的通讯录类别!');
+            }
+        } else {
+            Ext.MessageBox.alert('错误', '请选择一个通讯录类别!');
+        }
+    },
+    uploadFile: function () {
+        // var window = Ext.getCmp('contactsImportWindowView');
+        var form = Ext.getCmp('contactsImportForm').getForm();
+        if (form.isValid()) {
+            form.submit({
+                waitMsg: '上传数据文件中...',
+                success: function (form, action) {
+                    //Ext.Msg.alert('Success', action.result.msg);
+                    Ext.example.msg('上传成功', action.result.msg);
+                    var button = Ext.getCmp('startImportContacts');
+                    button.setDisabled(false);
+                },
+                failure: function (form, action) {
+                    //Ext.Msg.alert('Failed', action.result.msg);
+                    Ext.MessageBox.alert('上传失败', action.result.msg);
+                }
+            });
+        }
+    },
+    startImportContacts: function () {
+
     }
 });
 
