@@ -300,7 +300,37 @@ Ext.define('NewsPaper.controller.ContactsController', {
         }
     },
     startImportContacts: function () {
+        var tree = Ext.getCmp('contactsTypeTreeView');
+        var node = tree.getSelectionModel().getSelection()[0];
+        //在导入窗口打开之前已经进行了node的判断，此处省略
 
+        var progress = Ext.MessageBox.wait('正在导入通讯录', '导入', {
+            text: '导入中...'
+        });
+
+        Ext.Ajax.request({
+            url: '/newsPaper/contacts/batchImportContacts',
+            method: 'post',
+            params: {
+                id: node.data.id
+            },
+            success: function (response) {
+                progress.close();
+                Ext.getCmp('contactsImportWindowView').close();
+                if (response.responseText == "success") {
+                    Ext.example.msg('导入成功', '导入通讯录成功！');
+                    var gridStore = Ext.getCmp('contactsGridView').getStore();
+                    gridStore.reload();
+                } else {
+                    Ext.MessageBox.alert('导入失败', '导入通讯录失败！')
+                }
+            },
+            failure: function (response) {
+                progress.close();
+                Ext.getCmp('contactsImportWindowView').close();
+                Ext.MessageBox.alert('导入失败', '导入通讯录失败！')
+            }
+        });
     }
 });
 
