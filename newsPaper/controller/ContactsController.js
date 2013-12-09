@@ -52,6 +52,9 @@ Ext.define('NewsPaper.controller.ContactsController', {
             },
             '#startImportContacts': {
                 click: this.startImportContacts
+            },
+            '#downloadTemplate': {
+                click: this.downloadTemplate
             }
         })
     },
@@ -331,6 +334,9 @@ Ext.define('NewsPaper.controller.ContactsController', {
                 Ext.MessageBox.alert('导入失败', '导入通讯录失败！')
             }
         });
+    },
+    downloadTemplate: function () {
+        window.open('/newsPaper/contacts/downloadTemplate?fileName=通讯录模板.xls');
     }
 });
 

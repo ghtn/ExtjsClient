@@ -1,23 +1,23 @@
 /*
-This file is part of Ext JS 4.2
+ This file is part of Ext JS 4.2
 
-Copyright (c) 2011-2013 Sencha Inc
+ Copyright (c) 2011-2013 Sencha Inc
 
-Contact:  http://www.sencha.com/contact
+ Contact:  http://www.sencha.com/contact
 
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
+ GNU General Public License Usage
+ This file may be used under the terms of the GNU General Public License version 3.0 as
+ published by the Free Software Foundation and appearing in the file LICENSE included in the
+ packaging of this file.
 
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
+ Please review the following information to ensure the GNU General Public License version 3.0
+ requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
+ If you are unsure which license is appropriate for your use, please contact the sales department
+ at http://www.sencha.com/contact.
 
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
+ Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
+ */
 /**
  * Simplified Chinese translation
  * By DavidHu
@@ -26,7 +26,7 @@ Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
  * update by andy_ghg
  * 2009-10-22 15:00:57
  */
-Ext.onReady(function() {
+Ext.onReady(function () {
     var parseCodes;
 
     if (Ext.Date) {
@@ -83,7 +83,7 @@ Ext.define("Ext.locale.zh_CN.form.field.Base", {
 // changing the msg text below will affect the LoadMask
 Ext.define("Ext.locale.zh_CN.view.AbstractView", {
     override: "Ext.view.AbstractView",
-    loadingText: "讀取中..."
+    loadingText: "读取中..."
 });
 
 Ext.define("Ext.locale.zh_CN.picker.Date", {
@@ -163,7 +163,7 @@ Ext.define("Ext.locale.zh_CN.form.field.Date", {
 Ext.define("Ext.locale.zh_CN.form.field.ComboBox", {
     override: "Ext.form.field.ComboBox",
     valueNotFoundText: undefined
-}, function() {
+}, function () {
     Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
         loadingText: "加载中..."
     });
@@ -181,7 +181,7 @@ Ext.define("Ext.locale.zh_CN.form.field.VTypes", {
 Ext.define("Ext.locale.zh_CN.form.field.HtmlEditor", {
     override: "Ext.form.field.HtmlEditor",
     createLinkText: '添加超级链接:'
-}, function() {
+}, function () {
     Ext.apply(Ext.form.field.HtmlEditor.prototype, {
         buttonTips: {
             bold: {
@@ -285,11 +285,11 @@ Ext.define("Ext.locale.zh_CN.window.MessageBox", {
         cancel: "取消",
         yes: "是",
         no: "否"
-    }    
+    }
 });
 
 // This is needed until we can refactor all of the locales into individual files
-Ext.define("Ext.locale.zh_CN.Component", {	
+Ext.define("Ext.locale.zh_CN.Component", {
     override: "Ext.Component"
 });
 

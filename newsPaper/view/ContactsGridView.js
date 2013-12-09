@@ -61,7 +61,9 @@ Ext.define('NewsPaper.view.ContactsGridView', {
     tbar: [
         { itemId: 'addContacts', xtype: 'button', text: '增加', iconCls: 'Add' },
         { itemId: 'removeContacts', xtype: 'button', text: '删除', iconCls: 'Delete' },
-        { itemId: 'importContacts', xtype: 'button', text: '导入', iconCls: 'Pageexcel' }
+        { itemId: 'importContacts', xtype: 'button', text: '导入', iconCls: 'Pageexcel' },
+        '->',
+        {itemId: 'downloadTemplate', xtype: 'button', text: '下载导入模板', iconCls: 'Packagedown'}
     ],
     selType: 'cellmodel',
     plugins: [
