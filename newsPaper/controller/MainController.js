@@ -28,6 +28,7 @@ Ext.define('NewsPaper.controller.MainController', {
         if (rec.data.leaf == true) {
             var mainTabPanel = Ext.getCmp('mainTabpanelView');
             var tab = Ext.getCmp(rec.data.id);
+            // console.log(rec.data.url);
             if (!tab) {
                 tab = mainTabPanel.add({
                     id: rec.data.id,
@@ -40,8 +41,28 @@ Ext.define('NewsPaper.controller.MainController', {
             mainTabPanel.setActiveTab(tab);
 
             var store;
+            if (rec.data.id == 5) {
+                store = Ext.data.StoreManager.lookup('MaterialTextGridStore');
+
+                store.load({
+                    params: {
+                        start: 0,
+                        limit: 20
+                    }
+                });
+
+                store = Ext.data.StoreManager.lookup('MaterialImageGridStore');
+
+                store.load({
+                    params: {
+                        start: 0,
+                        limit: 20
+                    }
+                });
+            }
             if (rec.data.id == 10) {
                 store = Ext.data.StoreManager.lookup('ContactsGridStore');
+
                 store.load({
                     params: {
                         start: 0,

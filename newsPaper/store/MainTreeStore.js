@@ -13,7 +13,7 @@ Ext.define('NewsPaper.store.MainTreeStore', {
     proxy: {
         type: 'ajax',
         url: './data/mainTree.json',
-        reader: 'json',
-        autoLoad: true
-    }
+        reader: 'json'
+    },
+    autoLoad: true
 });

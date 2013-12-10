@@ -5,22 +5,21 @@
  * Time: 下午4:17
  * To change this template use File | Settings | File Templates.
  */
-Ext.define('NewsPaper.store.ContactsTypeTreeStore', {
+Ext.define('NewsPaper.store.MaterialTypeTreeStore', {
     extend: 'Ext.data.TreeStore',
-    id: 'contactsTypeTreeStore',
-    defaultRoodId: 'root',
+    id: 'materialTypeTreeStore',
     root: {
         id: '-1',
         expanded: false,
-        text: '通讯录类别'
+        text: '素材类别'
     },
 
-    model: 'NewsPaper.model.ContactsTypeTreeModel',
+    model: 'NewsPaper.model.MaterialTypeTreeModel',
     proxy: {
         type: 'ajax',
         reader: 'json',
-        url: '/newsPaper/contactsType/getContactsTypeTree'
+        url: '/newsPaper/materialType/listMaterialType'
     }
-    // autoLoad: true
+    //autoLoad: true
     //autoSync: true
 });

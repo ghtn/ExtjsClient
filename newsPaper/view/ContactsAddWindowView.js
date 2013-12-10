@@ -1,9 +1,9 @@
 /**
  * Created by Administrator on 13-12-5.
  */
-Ext.define('NewsPaper.view.ContactsWindowView', {
+Ext.define('NewsPaper.view.ContactsAddWindowView', {
     extend: 'Ext.window.Window',
-    id: 'contactsWindowView',
+    id: 'contactsAddWindowView',
     title: '增加通讯录人员',
     modal: true,
     width: 350,
@@ -11,7 +11,7 @@ Ext.define('NewsPaper.view.ContactsWindowView', {
     layout: 'fit',
     items: {
         xtype: 'form',
-        id: 'contactsForm',
+        id: 'contactsAddForm',
         bodyPadding: 5,
         url: '/newsPaper/contacts/addContacts',
 
@@ -44,13 +44,13 @@ Ext.define('NewsPaper.view.ContactsWindowView', {
         ],
         buttons: [
             {
-                itemId: 'formSubmit',
+                itemId: 'contactsAddFormSubmit',
                 text: '提交',
                 formBind: true,
                 disabled: true
             },
             {
-                itemId: 'formReset',
+                itemId: 'contactsAddFormReset',
                 text: '重置'
             }
         ]

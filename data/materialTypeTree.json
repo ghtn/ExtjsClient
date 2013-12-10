@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "text": "广告促销",
+        "leaf": true
+    },
+    {
+        "id": 2,
+        "text": "节日祝福",
+        "leaf": true
+    },
+    {
+        "id": 3,
+        "text": "安全生产",
+        "leaf": true
+    }
+]

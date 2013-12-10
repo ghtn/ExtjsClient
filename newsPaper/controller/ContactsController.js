@@ -8,8 +8,7 @@
 
 Ext.define('NewsPaper.controller.ContactsController', {
     extend: 'Ext.app.Controller',
-    views: ['ContactsBaseContainer', 'ContactsTypeContainer', 'ContactsTypeTreeView',
-        'ContactsContainer', 'ContactsGridView'],
+    views: ['ContactsBaseContainer', 'ContactsContainer', 'ContactsTypeTreeView', 'ContactsGridView'],
     stores: ['ContactsTypeTreeStore', 'ContactsGridStore'],
     models: ['ContactsTypeTreeModel', 'ContactsGridModel'],
 
@@ -41,11 +40,11 @@ Ext.define('NewsPaper.controller.ContactsController', {
             '#importContacts': {
                 click: this.importContactsClick
             },
-            '#formReset': {
-                click: this.formReset
+            '#contactsAddFormReset': {
+                click: this.contactsAddFormReset
             },
-            '#formSubmit': {
-                click: this.formSubmit
+            '#contactsAddFormSubmit': {
+                click: this.contactsAddFormSubmit
             },
             '#uploadFile': {
                 click: this.uploadFile
@@ -83,19 +82,20 @@ Ext.define('NewsPaper.controller.ContactsController', {
                     id: id,
                     name: newValue
                 },
-                success: function (response, opts) {
+                success: function (response) {
                     progress.close();
-                    var result = response.responseText;
-                    if (result.toUpperCase() == "SUCCESS") {
-                        Ext.example.msg('编辑成功', '编辑通讯录类别成功!');
+                    var result = Ext.JSON.decode(response.responseText);
+                    if (result.success) {
+                        Ext.example.msg('编辑成功', result.msg);
                     } else {
-                        Ext.MessageBox.alert('编辑失败', '编辑通讯录类别失败!');
+                        Ext.MessageBox.alert('编辑失败', result.msg);
                     }
                     treeRefresh(store, tree);
                 },
-                failure: function (response, opts) {
+                failure: function (response) {
                     progress.close();
-                    Ext.MessageBox.alert('编辑失败', '编辑通讯录类别失败!');
+                    var result = Ext.JSON.decode(response.responseText);
+                    Ext.MessageBox.alert('编辑失败', result.msg);
                     treeRefresh(store, tree);
                 }
             });
@@ -140,7 +140,7 @@ Ext.define('NewsPaper.controller.ContactsController', {
         var node = tree.getSelectionModel().getSelection()[0];
         if (node) {
             if (node.data.leaf == true) {
-                Ext.create('NewsPaper.view.ContactsWindowView').show();
+                Ext.create('NewsPaper.view.ContactsAddWindowView').show();
             } else {
                 Ext.MessageBox.alert('错误', '请选择一个具体的通讯录类别!');
             }
@@ -177,53 +177,44 @@ Ext.define('NewsPaper.controller.ContactsController', {
                 },
                 success: function (response) {
                     progress.close();
-                    var result = response.responseText;
-                    if (result.toUpperCase() == "SUCCESS") {
-                        Ext.example.msg('编辑成功', '编辑通讯录成功!');
+                    var result = Ext.JSON.decode(response.responseText);
+                    if (result.success) {
+                        Ext.example.msg('编辑成功', result.msg);
                     } else {
-                        Ext.MessageBox.alert('编辑失败', '编辑通讯录失败!');
+                        Ext.MessageBox.alert('编辑失败', result.msg);
                     }
                     store.reload();
                 },
                 failure: function (response) {
                     progress.close();
-                    Ext.MessageBox.alert('编辑失败', '编辑通讯录失败!');
+                    var result = Ext.JSON.decode(response.responseText);
+                    Ext.MessageBox.alert('编辑失败', result.msg);
                 }
             });
         }
     },
-    formReset: function () {
-        Ext.getCmp('contactsForm').getForm().reset();
+    contactsAddFormReset: function () {
+        Ext.getCmp('contactsAddForm').getForm().reset();
     },
-    formSubmit: function () {
-        var window = Ext.getCmp('contactsWindowView');
-        var tree = Ext.getCmp('contactsTypeTreeView');
-        var node = tree.getSelectionModel().getSelection()[0];
-        var id = node.data.id;
-        var grid = Ext.getCmp('contactsGridView');
-        var store = grid.getStore();
-        var form = Ext.getCmp('contactsForm').getForm();
+    contactsAddFormSubmit: function () {
+        var form = Ext.getCmp('contactsAddForm').getForm();
         if (form.isValid()) {
-            var progress = Ext.MessageBox.wait('正在添加通讯录', '添加', {
-                text: '添加中...'
-            });
+            var window = Ext.getCmp('contactsAddWindowView');
+            var id = Ext.getCmp('contactsTypeTreeView').getSelectionModel().getSelection()[0].get('id');
+            var store = Ext.getCmp('contactsGridView').getStore();
             form.submit({
                 params: {
                     'contactsType.id': id
                 },
+                waitMsg: '正在添加通讯录...',
                 success: function (form, action) {
-                    //Ext.Msg.alert('Success', action.result.msg);
-                    progress.close();
-                    Ext.example.msg('增加成功', '增加通讯录人员成功!');
+                    Ext.example.msg('增加成功', action.result.msg);
                     window.close();
                     store.reload();
                 },
                 failure: function (form, action) {
-                    //Ext.Msg.alert('Failed', action.result.msg);
-                    progress.close();
-                    Ext.MessageBox.alert('增加失败', '增加通讯录人员失败!');
+                    Ext.MessageBox.alert('增加失败', action.result.msg);
                     window.close();
-                    store.reload();
                 }
             });
         }
@@ -290,13 +281,11 @@ Ext.define('NewsPaper.controller.ContactsController', {
             form.submit({
                 waitMsg: '上传数据文件中...',
                 success: function (form, action) {
-                    //Ext.Msg.alert('Success', action.result.msg);
                     Ext.example.msg('上传成功', action.result.msg);
                     var button = Ext.getCmp('startImportContacts');
                     button.setDisabled(false);
                 },
                 failure: function (form, action) {
-                    //Ext.Msg.alert('Failed', action.result.msg);
                     Ext.MessageBox.alert('上传失败', action.result.msg);
                 }
             });
@@ -320,18 +309,20 @@ Ext.define('NewsPaper.controller.ContactsController', {
             success: function (response) {
                 progress.close();
                 Ext.getCmp('contactsImportWindowView').close();
-                if (response.responseText == "success") {
-                    Ext.example.msg('导入成功', '导入通讯录成功！');
+                var result = Ext.JSON.decode(response.responseText);
+                if (result.success) {
+                    Ext.example.msg('导入成功', result.msg);
                     var gridStore = Ext.getCmp('contactsGridView').getStore();
                     gridStore.reload();
                 } else {
-                    Ext.MessageBox.alert('导入失败', '导入通讯录失败！')
+                    Ext.MessageBox.alert('导入失败', result.msg)
                 }
             },
             failure: function (response) {
                 progress.close();
                 Ext.getCmp('contactsImportWindowView').close();
-                Ext.MessageBox.alert('导入失败', '导入通讯录失败！')
+                var result = Ext.JSON.decode(response.responseText);
+                Ext.MessageBox.alert('导入失败', result.msg)
             }
         });
     },
@@ -367,24 +358,20 @@ function addContactsType() {
                 id: node.data.id,
                 text: '新添加'
             },
-            success: function (response, opts) {
+            success: function (response) {
                 progress.close();
-                var result = response.responseText;
-                if (result.toUpperCase() == "SUCCESS") {
-                    Ext.example.msg('添加成功', '添加通讯录类别成功!');
+                var result = Ext.JSON.decode(response.responseText);
+                if (result.success) {
+                    Ext.example.msg('添加成功', result.msg);
                     treeRefresh(store, tree);
-                } else if (result.toUpperCase() == "EXISTS") {
-                    Ext.MessageBox.alert('添加失败', '添加通讯录类别失败!<br><br>' +
-                        '错误信息 : 此通讯录类别下存在通讯录人员!');
                 } else {
-                    Ext.MessageBox.alert('添加失败', '添加通讯录类别失败!<br><br>' +
-                        '错误信息 : 服务器端发生错误!');
+                    Ext.MessageBox.alert('添加失败', result.msg);
                 }
             },
-            failure: function (response, opts) {
+            failure: function (response) {
                 progress.close();
-                Ext.MessageBox.alert('添加失败', '添加通讯录类别失败!<br><br>' +
-                    '错误信息 : 服务器端发生错误!');
+                var result = Ext.JSON.decode(response.responseText);
+                Ext.MessageBox.alert('添加失败', result.msg);
             }
         });
     } else {
@@ -414,13 +401,13 @@ function removeContactsType() {
                     params: {
                         id: node.data.id
                     },
-                    success: function (response, opts) {
+                    success: function (response) {
                         progress.close();
-                        var result = response.responseText;
-                        if (result.toUpperCase() == "SUCCESS") {
-                            Ext.example.msg('删除成功', '删除通讯录类别成功!');
+                        var result = Ext.JSON.decode(response.responseText);
+                        if (result.success) {
+                            Ext.example.msg('删除成功', result.msg);
                         } else {
-                            Ext.MessageBox.alert('删除失败', '删除通讯录类别失败!');
+                            Ext.MessageBox.alert('删除失败', result.msg);
                         }
 
                         // 删除后刷新contactsType树,选中根节点,加载contacts
@@ -428,9 +415,10 @@ function removeContactsType() {
                         tree.getSelectionModel().select(tree.getRootNode());
                         gridStore.loadPage(1);
                     },
-                    failure: function (response, opts) {
+                    failure: function (response) {
                         progress.close();
-                        Ext.MessageBox.alert('删除失败', '删除通讯录类别失败!');
+                        var result = Ext.JSON.decode(response.responseText);
+                        Ext.MessageBox.alert('删除失败', result.msg);
                     }
                 });
             }
@@ -458,17 +446,18 @@ function removeContacts() {
                     },
                     success: function (response) {
                         progress.close();
-                        var result = response.responseText;
-                        if (result.toUpperCase() == "SUCCESS") {
-                            Ext.example.msg('删除成功', '删除通讯录成功!');
+                        var result = Ext.JSON.decode(response.responseText);
+                        if (result.success) {
+                            Ext.example.msg('删除成功', result.msg);
+                            store.loadPage(1);
                         } else {
-                            Ext.MessageBox.alert('删除失败', '删除通讯录失败!');
+                            Ext.MessageBox.alert('删除失败', result.msg);
                         }
-                        store.reload();
                     },
-                    failure: function () {
+                    failure: function (response) {
                         progress.close();
-                        Ext.MessageBox.alert('删除失败', '删除通讯录失败!');
+                        var result = Ext.JSON.decode(response.responseText);
+                        Ext.MessageBox.alert('删除失败', result.msg);
                     }
                 });
             }

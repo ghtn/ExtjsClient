@@ -5,14 +5,14 @@
  * Time: 下午4:09
  * To change this template use File | Settings | File Templates.
  */
-Ext.define('NewsPaper.view.ContactsBaseContainer', {
+Ext.define('NewsPaper.view.MaterialBaseContainer', {
     extend: 'Ext.container.Container',
-    alias: 'widget.contactsBaseContainer',
+    alias: 'widget.materialBaseContainer',
     layout: 'border',
     items: [
         {
             region: 'west',
-            title: '通讯录类别',
+            title: '素材类别',
             animCollapse: true,
             width: 150,
             minWidth: 120,
@@ -22,24 +22,22 @@ Ext.define('NewsPaper.view.ContactsBaseContainer', {
             autoScroll: true,
             items: [
                 {
-                    xtype: 'contactsTypeTreeView'
+                    xtype: 'materialTypeTreeView'
                 }
             ]
         },
         {
             region: 'center',
-            title: '通讯录列表',
-            autoScroll: true,
+            title: '素材列表',
+            layout: 'accordion',
             items: [
                 {
-                    xtype: 'contactsContainer'
+                    xtype: 'materialTextGridView'
+                },
+                {
+                    xtype: 'materialImageGridView'
                 }
             ]
         }
     ]
-    /*border: 5,
-     style: {
-     borderColor: 'red',
-     borderStyle: 'solid'
-     }*/
 });
