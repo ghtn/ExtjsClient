@@ -4,6 +4,7 @@
 Ext.define('NewsPaper.view.ContactsImportWindowView', {
     extend: 'Ext.window.Window',
     id: 'contactsImportWindowView',
+    alias: 'widget.contactsImportWindowView',
     title: '导入通讯录人员',
     modal: true,
     width: 400,
@@ -12,7 +13,7 @@ Ext.define('NewsPaper.view.ContactsImportWindowView', {
     layout: 'fit',
     items: {
         xtype: 'form',
-        id: 'contactsImportForm',
+        itemId: 'contactsImportForm',
         bodyPadding: 5,
         url: '/newsPaper/contacts/uploadFile',
 
@@ -35,7 +36,7 @@ Ext.define('NewsPaper.view.ContactsImportWindowView', {
                 disabled: true
             },
             {
-                id: 'startImportContacts',
+                itemId: 'startImportContacts',
                 text: '导入',
                 disabled: true
             }

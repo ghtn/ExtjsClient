@@ -12,9 +12,9 @@ Ext.define('NewsPaper.view.MaterialTextAddWindowView', {
     layout: 'fit',
     items: {
         xtype: 'form',
-        id: 'materialTextAddForm',
+        itemId: 'materialTextAddForm',
         bodyPadding: 5,
-        url: '/newsPaper/material/addMaterial',
+        url: '/newsPaper/material/addMaterialText',
 
         defaultType: 'textfield',
         items: [

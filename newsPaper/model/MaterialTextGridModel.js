@@ -10,7 +10,9 @@ Ext.define('NewsPaper.model.MaterialTextGridModel', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'title', type: 'string'},
-        {name: 'text', type: 'string'}
+        {name: 'type', type: 'string'},
+        {name: 'text', type: 'string'},
+        {name: 'childCount', type: 'int'}
     ]
 
 });

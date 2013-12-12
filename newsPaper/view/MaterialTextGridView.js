@@ -35,6 +35,11 @@ Ext.define('NewsPaper.view.MaterialTextGridView', {
                 allowBlank: false,
                 blankText: '文本内容不能为空!'
             }
+        },
+        {
+            text: '图片个数',
+            dataIndex: 'childCount',
+            flex: 1
         }
     ],
     bbar: [

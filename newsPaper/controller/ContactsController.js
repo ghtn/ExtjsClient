@@ -194,10 +194,10 @@ Ext.define('NewsPaper.controller.ContactsController', {
         }
     },
     contactsAddFormReset: function () {
-        Ext.getCmp('contactsAddForm').getForm().reset();
+        Ext.getCmp('contactsAddWindowView').down('#contactsAddForm').getForm().reset();
     },
     contactsAddFormSubmit: function () {
-        var form = Ext.getCmp('contactsAddForm').getForm();
+        var form = Ext.getCmp('contactsAddWindowView').down('#contactsAddForm').getForm();
         if (form.isValid()) {
             var window = Ext.getCmp('contactsAddWindowView');
             var id = Ext.getCmp('contactsTypeTreeView').getSelectionModel().getSelection()[0].get('id');
@@ -276,13 +276,14 @@ Ext.define('NewsPaper.controller.ContactsController', {
     },
     uploadFile: function () {
         // var window = Ext.getCmp('contactsImportWindowView');
-        var form = Ext.getCmp('contactsImportForm').getForm();
+        var form = Ext.getCmp('contactsImportWindowView').down('#contactsImportForm').getForm();
         if (form.isValid()) {
             form.submit({
                 waitMsg: '上传数据文件中...',
                 success: function (form, action) {
                     Ext.example.msg('上传成功', action.result.msg);
-                    var button = Ext.getCmp('startImportContacts');
+
+                    var button = Ext.getCmp('contactsImportWindowView').down('#startImportContacts');
                     button.setDisabled(false);
                 },
                 failure: function (form, action) {

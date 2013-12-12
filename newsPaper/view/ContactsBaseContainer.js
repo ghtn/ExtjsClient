@@ -37,9 +37,4 @@ Ext.define('NewsPaper.view.ContactsBaseContainer', {
             ]
         }
     ]
-    /*border: 5,
-     style: {
-     borderColor: 'red',
-     borderStyle: 'solid'
-     }*/
 });

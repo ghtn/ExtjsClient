@@ -11,7 +11,7 @@ Ext.define('NewsPaper.view.ContactsAddWindowView', {
     layout: 'fit',
     items: {
         xtype: 'form',
-        id: 'contactsAddForm',
+        itemId: 'contactsAddForm',
         bodyPadding: 5,
         url: '/newsPaper/contacts/addContacts',
 

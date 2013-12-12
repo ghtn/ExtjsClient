@@ -35,6 +35,11 @@ Ext.define('NewsPaper.view.MaterialImageGridView', {
                 allowBlank: false,
                 blankText: '图片路径不能为空!'
             }
+        },
+        {
+            text: '文本素材标题',
+            dataIndex: 'parentTitle',
+            flex: 2
         }
     ],
     bbar: [

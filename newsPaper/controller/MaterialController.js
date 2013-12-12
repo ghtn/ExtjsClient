@@ -22,7 +22,7 @@ Ext.define('NewsPaper.controller.MaterialController', {
             },
             'materialTextGridView': {
                 render: this.materialTextGridRender,
-                itemcontextmenu: this.showGridMenu,
+                itemcontextmenu: this.showTextGridMenu,
                 itemdblclick: this.showMaterialTextEditWindow
             },
             'materialImageGridView': {
@@ -51,6 +51,15 @@ Ext.define('NewsPaper.controller.MaterialController', {
             },
             '#materialTextEditFormReset': {
                 click: this.materialTextEditFormReset
+            },
+            '#materialImageAddFormSubmit': {
+                click: this.materialImageAddFormSubmit
+            },
+            '#materialImageAddFormReset': {
+                click: this.materialImageAddFormReset
+            },
+            '#imageUpload': {
+                change: this.imageUpload
             }
         })
     },
@@ -122,7 +131,7 @@ Ext.define('NewsPaper.controller.MaterialController', {
         });
         menu.showAt(e.getXY());
     },
-    showGridMenu: function (view, record, item, index, e) {
+    showTextGridMenu: function (view, record, item, index, e) {
         // 这两个很重要，否则点击鼠标右键还是会出现浏览器的选项
         e.preventDefault();
         e.stopEvent();
@@ -133,7 +142,7 @@ Ext.define('NewsPaper.controller.MaterialController', {
                     text: '删除',
                     iconCls: 'Delete',
                     handler: function () {
-                        removeMaterial();
+                        removeMaterial('文本');
                     }
                 }
             ]
@@ -196,16 +205,26 @@ Ext.define('NewsPaper.controller.MaterialController', {
         }
     },
     removeMaterialTextClick: function () {
-        removeMaterial();
+        removeMaterial('文本');
     },
     addMaterialImageClick: function () {
-        alert('addImage');
+        var tree = Ext.getCmp('materialTypeTreeView');
+        var node = tree.getSelectionModel().getSelection()[0];
+        if (node) {
+            if (node.data.leaf == true) {
+                Ext.create('NewsPaper.view.MaterialImageAddWindowView').show();
+            } else {
+                Ext.MessageBox.alert('错误', '请选择一个具体的素材类别!');
+            }
+        } else {
+            Ext.MessageBox.alert('错误', '请选择一个素材类别!');
+        }
     },
     removeMaterialImageClick: function () {
-        alert('removeImage');
+        removeMaterial('图片');
     },
     materialTextAddFormSubmit: function () {
-        var form = Ext.getCmp('materialTextAddForm').getForm();
+        var form = Ext.getCmp('materialTextAddWindowView').down('#materialTextAddForm').getForm();
         if (form.isValid()) {
             var window = Ext.getCmp('materialTextAddWindowView');
             var id = Ext.getCmp('materialTypeTreeView').getSelectionModel().getSelection()[0].get('id');
@@ -229,7 +248,7 @@ Ext.define('NewsPaper.controller.MaterialController', {
         }
     },
     materialTextAddFormReset: function () {
-        Ext.getCmp('materialTextAddForm').getForm().reset();
+        Ext.getCmp('materialTextAddWindowView').down('#materialTextAddForm').getForm().reset();
     },
     showMaterialTextEditWindow: function (view, record, item, index, e, eOpts) {
         var window = Ext.create('NewsPaper.view.MaterialTextEditWindowView').show();
@@ -237,7 +256,7 @@ Ext.define('NewsPaper.controller.MaterialController', {
     },
     materialTextEditFormSubmit: function () {
         var record = Ext.getCmp('materialTextGridView').getSelectionModel().getSelection()[0];
-        var form = Ext.getCmp('materialTextEditForm').getForm();
+        var form = Ext.getCmp('materialTextEditWindowView').down('#materialTextEditForm').getForm();
         if (form.isValid()) {
             var window = Ext.getCmp('materialTextEditWindowView');
             form.submit({
@@ -259,7 +278,59 @@ Ext.define('NewsPaper.controller.MaterialController', {
         }
     },
     materialTextEditFormReset: function () {
-        Ext.getCmp('materialTextEditForm').getForm().reset();
+        Ext.getCmp('materialTextEditWindowView').down('#materialTextEditForm').getForm().reset();
+    },
+    materialImageAddFormSubmit: function () {
+        var window = Ext.getCmp('materialImageAddWindowView')
+        var form = window.down('#materialImageAddForm').getForm();
+        if (form.isValid()) {
+            var window = Ext.getCmp('materialImageAddWindowView');
+            var id = Ext.getCmp('materialTypeTreeView').getSelectionModel().getSelection()[0].get('id');
+            form.submit({
+                params: {
+                    'materialType.id': id,
+                    'type': '图片'
+                },
+                waitMsg: '添加图片素材中...',
+                success: function (form, action) {
+                    Ext.example.msg('添加成功', action.result.msg);
+                    window.close();
+                    var imageStore = Ext.getCmp('materialImageGridView').getStore();
+                    imageStore.reload();
+                    var textStore = Ext.getCmp('materialTextGridView').getStore();
+                    textStore.reload();
+                },
+                failure: function (form, action) {
+                    Ext.MessageBox.alert('添加失败', action.result.msg);
+                    window.close();
+                }
+            });
+        }
+    },
+    materialImageAddFormReset: function () {
+        Ext.getCmp('materialImageAddWindowView').down('#materialImageAddForm').getForm().reset();
+    },
+    imageUpload: function (field, value) {
+        var window = Ext.getCmp('materialImageAddWindowView');
+        var form = window.down('#imageForm').getForm();
+        if (form.isValid()) {
+            form.submit({
+                waitMsg: '上传图片素材中...',
+                success: function (form, action) {
+                    Ext.example.msg('上传成功', action.result.msg);
+
+                    // 显示图片预览
+                    window.down('#imageView').setSrc(action.result.imagePath);
+
+                    // 图片上传之后,filefield中的值会被清空,需要重新设置
+                    // 否则不能通过空值验证
+                    field.setRawValue(value);
+                },
+                failure: function (form, action) {
+                    Ext.MessageBox.alert('上传失败', action.result.msg);
+                }
+            });
+        }
     }
 })
 
@@ -340,17 +411,43 @@ function removeMaterialType() {
     }
 }
 
-function removeMaterial() {
-    var grid = Ext.getCmp('materialTextGridView');
-    var record = grid.getSelectionModel().getSelection()[0];
+function removeMaterial(type) {
+    var textGrid = Ext.getCmp('materialTextGridView')
+    var imageGrid = Ext.getCmp('materialImageGridView')
+    var record;
+    if (type == '文本') {
+        record = textGrid.getSelectionModel().getSelection()[0];
+    } else if (type == '图片') {
+        record = imageGrid.getSelectionModel().getSelection()[0];
+    } else {
+        Ext.MessageBox.alert('错误', '参数错误!');
+        return;
+    }
+
+    if (record.get('type') != type) {
+        Ext.MessageBox.alert('错误', '素材类型和传入的参数不匹配!!素材类型为 : ' + record.get('type')
+            + ",传入的参数为 : " + type);
+        return;
+    }
+
     if (record) {
-        Ext.MessageBox.confirm('确认删除', '确定删除此文本素材?', function (btn) {
+        Ext.MessageBox.confirm('确认删除', '确定删除此素材?', function (btn) {
             if (btn == 'yes') {
-                var progress = Ext.MessageBox.wait('正在删除文本素材', '删除', {
+                var progress = Ext.MessageBox.wait('正在删除素材', '删除', {
                     text: '删除中...'
                 });
+                var url;
+                if (type == '文本') {
+                    url = '/newsPaper/material/removeMaterialText'
+                } else if (type == '图片') {
+                    url = '/newsPaper/material/removeMaterialImage'
+                } else {
+                    Ext.MessageBox.alert('错误',
+                        '素材类型错误,素材类型必须为"文本"或"图片",当前素材类型为 : ' + record.get('type'))
+                    return;
+                }
                 Ext.Ajax.request({
-                    url: '/newsPaper/material/removeMaterial',
+                    url: url,
                     method: 'post',
                     params: {
                         id: record.get('id')  // 或者record.data.id
@@ -360,9 +457,8 @@ function removeMaterial() {
                         var result = Ext.JSON.decode(response.responseText);
                         if (result.success) {
                             Ext.example.msg('删除成功', result.msg);
-                            var store = grid.getStore();
-                            store.loadPage(1);
-                            Ext.getCmp('materialImageGridView').getStore().reload();
+                            textGrid.getStore().loadPage(1);
+                            imageGrid.getStore().loadPage(1);
                         } else {
                             Ext.MessageBox.alert('删除失败', result.msg);
                         }
