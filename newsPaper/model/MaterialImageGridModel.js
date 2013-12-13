@@ -12,6 +12,7 @@ Ext.define('NewsPaper.model.MaterialImageGridModel', {
         {name: 'title', type: 'string'},
         {name: 'type', type: 'string'},
         {name: 'image', type: 'string'},
+        {name: 'parentId', type: 'int'},
         {name: 'parentTitle', type: 'string'}
     ]
 

@@ -52,13 +52,5 @@ Ext.define('NewsPaper.view.MaterialImageGridView', {
     tbar: [
         { itemId: 'addMaterialImage', xtype: 'button', text: '增加', iconCls: 'Add' },
         { itemId: 'removeMaterialImage', xtype: 'button', text: '删除', iconCls: 'Delete' }
-    ],
-    selType: 'cellmodel',
-    plugins: [
-        {
-            pluginId: 'rowPlugin',
-            ptype: 'rowediting',
-            clicksToEdit: 2
-        }
     ]
 });

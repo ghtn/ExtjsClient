@@ -1,9 +1,9 @@
 /**
  * Created by Administrator on 13-12-5.
  */
-Ext.define('NewsPaper.view.MaterialImageAddWindowView', {
+Ext.define('NewsPaper.view.MaterialImageEditWindowView', {
     extend: 'Ext.window.Window',
-    id: 'materialImageAddWindowView',
+    id: 'materialImageEditWindowView',
     title: '增加图片素材',
     modal: true,
     width: 450,
@@ -12,15 +12,15 @@ Ext.define('NewsPaper.view.MaterialImageAddWindowView', {
     layout: 'fit',
     items: {
         xtype: 'form',
-        itemId: 'materialImageAddForm',
+        itemId: 'materialImageEditForm',
         bodyPadding: 5,
-        url: '/newsPaper/material/addMaterialImage',
+        url: '/newsPaper/material/updateMaterialImage',
 
         items: [
             {
                 xtype: 'combo',
                 fieldLabel: '所属文本素材',
-                name: 'parent.id',
+                name: 'parentId',
                 store: 'MaterialTextGridStore',
                 editable: false,
                 valueField: 'id',
@@ -39,13 +39,13 @@ Ext.define('NewsPaper.view.MaterialImageAddWindowView', {
             },
             {
                 xtype: 'form',
-                itemId: 'addImageForm',
+                itemId: 'editImageForm',
                 border: false,
-                url: '/newsPaper/material/uploadImageAdd',
+                url: '/newsPaper/material/uploadImageEdit',
                 items: [
                     {
                         xtype: 'filefield',
-                        itemId: 'addImageUpload',
+                        itemId: 'editImageUpload',
                         fieldLabel: '上传图片',
                         anchor: '100%',
                         name: 'imageFile',
@@ -69,13 +69,13 @@ Ext.define('NewsPaper.view.MaterialImageAddWindowView', {
         ],
         buttons: [
             {
-                itemId: 'materialImageAddFormSubmit',
+                itemId: 'materialImageEditFormSubmit',
                 text: '提交',
                 formBind: true,
                 disabled: true
             },
             {
-                itemId: 'materialImageAddFormReset',
+                itemId: 'materialImageEditFormReset',
                 text: '重置'
             }
         ]
