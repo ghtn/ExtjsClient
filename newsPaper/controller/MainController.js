@@ -41,6 +41,7 @@ Ext.define('NewsPaper.controller.MainController', {
             mainTabPanel.setActiveTab(tab);
 
             var store;
+            // 加载素材数据
             if (rec.data.id == 5) {
                 store = Ext.data.StoreManager.lookup('MaterialTextGridStore');
 
@@ -60,6 +61,8 @@ Ext.define('NewsPaper.controller.MainController', {
                     }
                 });
             }
+
+            // 加载通讯录数据
             if (rec.data.id == 10) {
                 store = Ext.data.StoreManager.lookup('ContactsGridStore');
 

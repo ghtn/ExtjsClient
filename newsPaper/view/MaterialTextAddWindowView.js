@@ -6,7 +6,7 @@ Ext.define('NewsPaper.view.MaterialTextAddWindowView', {
     id: 'materialTextAddWindowView',
     title: '增加文本素材',
     modal: true,
-    width: 450,
+    width: 600,
     height: 500,
     closable: true,
     layout: 'fit',
@@ -28,10 +28,16 @@ Ext.define('NewsPaper.view.MaterialTextAddWindowView', {
             {
                 xtype: 'textareafield',
                 fieldLabel: '文本内容',
-                anchor: '100% 90%',
+                anchor: '100% 70%',
                 name: 'text',
                 allowBlank: false,
                 blankText: '文本内容不能为空!'
+            },
+            {
+                xtype: 'checkboxgroup',
+                itemId: 'textTagCheckGroup',
+                fieldLabel: '标签',
+                columns: 3
             }
         ],
         buttons: [

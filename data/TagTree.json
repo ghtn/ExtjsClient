@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "text": "标签1",
+        "leaf": true
+    },
+    {
+        "id": 2,
+        "text": "标签2",
+        "leaf": true
+    },
+    {
+        "id": 3,
+        "text": "标签3",
+        "leaf": true
+    }
+]

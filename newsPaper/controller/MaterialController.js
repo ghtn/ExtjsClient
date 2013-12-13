@@ -71,6 +71,9 @@ Ext.define('NewsPaper.controller.MaterialController', {
             },
             '#editImageUpload': {
                 change: this.editImageUpload
+            },
+            '#textTagCheckGroup': {
+                render: this.textTagCheckGroupRender
             }
         })
     },
@@ -332,7 +335,7 @@ Ext.define('NewsPaper.controller.MaterialController', {
             var id = Ext.getCmp('materialTypeTreeView').getSelectionModel().getSelection()[0].get('id');
             form.submit({
                 params: {
-                    'materialType.id': id,
+                    'materialTypeId': id,
                     'type': '文本'
                 },
                 waitMsg: '正在添加文本素材...',
@@ -551,6 +554,31 @@ Ext.define('NewsPaper.controller.MaterialController', {
      */
     materialImageEditFormReset: function () {
         Ext.getCmp('materialImageEditWindowView').down('#materialImageEditForm').getForm().reset();
+    },
+
+    textTagCheckGroupRender: function (checkGroup) {
+        // 从服务器取得标签数据
+        Ext.Ajax.request({
+            url: '/newsPaper/tag/listTag',
+            method: 'post',
+            success: function (response) {
+                var result = Ext.JSON.decode(response.responseText);
+                if (result && result.length > 0) {
+                    var items = [];
+                    for (var i = 0; i < result.length; i++) {
+                        var item = {name: 'tagIds', boxLabel: result[i].text, inputValue: result[i].id};
+                        items.push(item);
+                    }
+                    checkGroup.add(items);
+                } else {
+                    Ext.MessageBox.alert('获取数据失败', '获取标签数据失败!!');
+                }
+            },
+            failure: function (response) {
+                var result = Ext.JSON.decode(response.responseText);
+                Ext.MessageBox.alert('获取数据失败', result.msg);
+            }
+        });
     }
 })
 

@@ -30,18 +30,6 @@
                 "text": "我的素材",
                 "url": "materialBaseContainer",
                 "leaf": true
-            },
-            {
-                "id": 6,
-                "text": "制作文本素材",
-                "url": "http://www.pconline.com.cn",
-                "leaf": true
-            },
-            {
-                "id": 7,
-                "text": "制作图片素材",
-                "url": "http://www.pconline.com.cn",
-                "leaf": true
             }
         ]
     },
@@ -66,7 +54,7 @@
             {
                 "id": 11,
                 "text": "我的标签",
-                "url": "http://www.pconline.com.cn",
+                "url": "tagBaseContainer",
                 "leaf": true
             }
         ]
