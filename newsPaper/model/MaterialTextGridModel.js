@@ -12,7 +12,9 @@ Ext.define('NewsPaper.model.MaterialTextGridModel', {
         {name: 'title', type: 'string'},
         {name: 'type', type: 'string'},
         {name: 'text', type: 'string'},
-        {name: 'childCount', type: 'int'}
+        {name: 'childCount', type: 'int'},
+        {name: 'tagNameStr', type: 'string'},
+        {name: 'tagIds', type: 'auto'}
     ]
 
 });

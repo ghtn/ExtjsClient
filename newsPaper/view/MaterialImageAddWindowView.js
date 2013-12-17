@@ -6,10 +6,10 @@ Ext.define('NewsPaper.view.MaterialImageAddWindowView', {
     id: 'materialImageAddWindowView',
     title: '增加图片素材',
     modal: true,
-    width: 450,
+    width: 600,
     height: 500,
+    autoScroll: true,
     closable: true,
-    layout: 'fit',
     items: {
         xtype: 'form',
         itemId: 'materialImageAddForm',
@@ -20,7 +20,7 @@ Ext.define('NewsPaper.view.MaterialImageAddWindowView', {
             {
                 xtype: 'combo',
                 fieldLabel: '所属文本素材',
-                name: 'parent.id',
+                name: 'parentId',
                 store: 'MaterialTextGridStore',
                 editable: false,
                 valueField: 'id',
@@ -65,6 +65,13 @@ Ext.define('NewsPaper.view.MaterialImageAddWindowView', {
                     'display': 'block',
                     margin: 'auto'
                 }
+            },
+            ,
+            {
+                xtype: 'checkboxgroup',
+                itemId: 'imageTagCheckGroup',
+                fieldLabel: '标签',
+                columns: 3
             }
         ],
         buttons: [

@@ -40,6 +40,11 @@ Ext.define('NewsPaper.view.MaterialImageGridView', {
             text: '文本素材标题',
             dataIndex: 'parentTitle',
             flex: 2
+        },
+        {
+            text: '标签',
+            dataIndex: 'tagNameStr',
+            flex: 2
         }
     ],
     bbar: [

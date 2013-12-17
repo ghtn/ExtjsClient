@@ -6,10 +6,10 @@ Ext.define('NewsPaper.view.MaterialTextEditWindowView', {
     id: 'materialTextEditWindowView',
     title: '编辑文本素材',
     modal: true,
-    width: 450,
+    width: 600,
     height: 500,
+    autoScroll: true,
     closable: true,
-    layout: 'fit',
     items: {
         xtype: 'form',
         itemId: 'materialTextEditForm',
@@ -28,10 +28,17 @@ Ext.define('NewsPaper.view.MaterialTextEditWindowView', {
             {
                 xtype: 'textareafield',
                 fieldLabel: '文本内容',
-                anchor: '100% 90%',
+                anchor: '100%',
+                height: 350,
                 name: 'text',
                 allowBlank: false,
                 blankText: '文本内容不能为空!'
+            },
+            {
+                xtype: 'checkboxgroup',
+                itemId: 'textTagCheckGroup',
+                fieldLabel: '标签',
+                columns: 3
             }
         ],
         buttons: [

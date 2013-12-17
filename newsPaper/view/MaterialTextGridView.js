@@ -19,12 +19,7 @@ Ext.define('NewsPaper.view.MaterialTextGridView', {
         {
             text: '标题',
             dataIndex: 'title',
-            flex: 2,
-            editor: {
-                xtype: 'textfield',
-                allowBlank: false,
-                blankText: '标题不能为空!'
-            }
+            flex: 2
         },
         {
             text: '文本内容',
@@ -40,6 +35,11 @@ Ext.define('NewsPaper.view.MaterialTextGridView', {
             text: '图片个数',
             dataIndex: 'childCount',
             flex: 1
+        },
+        {
+            text: '标签',
+            dataIndex: 'tagNameStr',
+            flex: 2
         }
     ],
     bbar: [

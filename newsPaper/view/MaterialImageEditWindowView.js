@@ -6,10 +6,10 @@ Ext.define('NewsPaper.view.MaterialImageEditWindowView', {
     id: 'materialImageEditWindowView',
     title: '增加图片素材',
     modal: true,
-    width: 450,
+    width: 600,
     height: 500,
+    autoScroll: true,
     closable: true,
-    layout: 'fit',
     items: {
         xtype: 'form',
         itemId: 'materialImageEditForm',
@@ -65,6 +65,12 @@ Ext.define('NewsPaper.view.MaterialImageEditWindowView', {
                     'display': 'block',
                     margin: 'auto'
                 }
+            },
+            {
+                xtype: 'checkboxgroup',
+                itemId: 'imageTagCheckGroup',
+                fieldLabel: '标签',
+                columns: 3
             }
         ],
         buttons: [

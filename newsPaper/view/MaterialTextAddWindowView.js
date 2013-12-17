@@ -8,8 +8,8 @@ Ext.define('NewsPaper.view.MaterialTextAddWindowView', {
     modal: true,
     width: 600,
     height: 500,
+    autoScroll: true,
     closable: true,
-    layout: 'fit',
     items: {
         xtype: 'form',
         itemId: 'materialTextAddForm',
@@ -28,7 +28,8 @@ Ext.define('NewsPaper.view.MaterialTextAddWindowView', {
             {
                 xtype: 'textareafield',
                 fieldLabel: '文本内容',
-                anchor: '100% 70%',
+                anchor: '100%',
+                height: 350,
                 name: 'text',
                 allowBlank: false,
                 blankText: '文本内容不能为空!'
@@ -37,6 +38,7 @@ Ext.define('NewsPaper.view.MaterialTextAddWindowView', {
                 xtype: 'checkboxgroup',
                 itemId: 'textTagCheckGroup',
                 fieldLabel: '标签',
+                anchor: '100% 10%',
                 columns: 3
             }
         ],
