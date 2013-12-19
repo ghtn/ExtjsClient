@@ -4,7 +4,7 @@
 Ext.define('NewsPaper.controller.MaterialController', {
         extend: 'Ext.app.Controller',
         views: ['MaterialBaseContainer', 'MaterialTypeTreeView', 'MaterialTextGridView', 'MaterialImageGridView'],
-        stores: ['MaterialTypeTreeStore', 'MaterialTextGridStore', 'MaterialImageGridStore'],
+        stores: ['MaterialTypeTreeStore', 'MaterialTextGridStore', 'MaterialImageGridStore', 'MaterialTypeStore'],
         models: ['MaterialTypeTreeModel', 'MaterialTextGridModel', 'MaterialImageGridModel'],
 
         init: function () {
@@ -118,6 +118,10 @@ Ext.define('NewsPaper.controller.MaterialController', {
                         if (result.success) {
                             Ext.example.msg('编辑成功', result.msg);
                             store.reload();
+
+                            // 加载素材类别, 用于在增加和编辑文本素材时取得素材类别的下拉框数据
+                            store = Ext.data.StoreManager.lookup('MaterialTypeStore');
+                            store.load();
                         } else {
                             Ext.MessageBox.alert('编辑失败', result.msg);
                         }
@@ -284,6 +288,9 @@ Ext.define('NewsPaper.controller.MaterialController', {
                 if (node.data.leaf == true) {
                     var window = Ext.create('NewsPaper.view.MaterialTextAddWindowView').show();
 
+                    var combo = window.down('combo');
+                    combo.setValue(node.get('id'));
+
                     // 初始化标签的checkgroup
                     var checkGroup = window.down('#textTagCheckGroup');
 
@@ -381,10 +388,10 @@ Ext.define('NewsPaper.controller.MaterialController', {
             var form = Ext.getCmp('materialTextAddWindowView').down('#materialTextAddForm').getForm();
             if (form.isValid()) {
                 var window = Ext.getCmp('materialTextAddWindowView');
-                var id = Ext.getCmp('materialTypeTreeView').getSelectionModel().getSelection()[0].get('id');
+                //var id = Ext.getCmp('materialTypeTreeView').getSelectionModel().getSelection()[0].get('id');
                 form.submit({
                     params: {
-                        'materialTypeId': id,
+                        // 'materialTypeId': id,
                         'type': '文本'
                     },
                     waitMsg: '正在添加文本素材...',
@@ -494,10 +501,8 @@ Ext.define('NewsPaper.controller.MaterialController', {
             var window = Ext.getCmp('materialImageAddWindowView')
             var form = window.down('#materialImageAddForm').getForm();
             if (form.isValid()) {
-                var id = Ext.getCmp('materialTypeTreeView').getSelectionModel().getSelection()[0].get('id');
                 form.submit({
                     params: {
-                        'materialTypeId': id,
                         'type': '图片'
                     },
                     waitMsg: '添加图片素材中...',
@@ -692,6 +697,10 @@ function addMaterialType() {
                 Ext.example.msg('添加成功', result.msg);
                 var store = Ext.data.StoreManager.lookup('MaterialTypeTreeStore');
                 store.reload();
+
+                // 加载素材类别, 用于在增加和编辑文本素材时取得素材类别的下拉框数据
+                store = Ext.data.StoreManager.lookup('MaterialTypeStore');
+                store.load();
             } else {
                 Ext.MessageBox.alert('添加失败', result.msg);
             }
@@ -735,6 +744,10 @@ function removeMaterialType() {
                             Ext.example.msg('删除成功', result.msg);
                             var store = Ext.data.StoreManager.lookup('MaterialTypeTreeStore');
                             store.reload();
+
+                            // 加载素材类别, 用于在增加和编辑文本素材时取得素材类别的下拉框数据
+                            store = Ext.data.StoreManager.lookup('MaterialTypeStore');
+                            store.load();
 
                             tree.getSelectionModel().select(tree.getRootNode());
                             var textGridStore = Ext.getCmp('materialTextGridView').getStore();

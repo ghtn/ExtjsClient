@@ -1,9 +1,9 @@
 /**
  * Created by Administrator on 13-12-5.
  */
-Ext.define('NewsPaper.view.MaterialTextAddWindowView', {
+Ext.define('NewsPaper.view.TagMaterialTextAddWindowView', {
     extend: 'Ext.window.Window',
-    id: 'materialTextAddWindowView',
+    id: 'tagMaterialTextAddWindowView',
     title: '增加文本素材',
     modal: true,
     width: 600,
@@ -56,13 +56,13 @@ Ext.define('NewsPaper.view.MaterialTextAddWindowView', {
         ],
         buttons: [
             {
-                itemId: 'materialTextAddFormSubmit',
+                itemId: 'tagMaterialTextAddFormSubmit',
                 text: '提交',
                 formBind: true,
                 disabled: true
             },
             {
-                itemId: 'materialTextAddFormReset',
+                itemId: 'tagMaterialTextAddFormReset',
                 text: '重置'
             }
         ]

@@ -29,7 +29,15 @@ Ext.define('NewsPaper.view.TagBaseContainer', {
         {
             region: 'center',
             title: '内容列表',
-            layout: 'accordion'
+            layout: 'accordion',
+            items: [
+                {
+                    xtype: 'tagMaterialTextGridView'
+                },
+                {
+                    xtype: 'tagMaterialImageGridView'
+                }
+            ]
         }
     ]
 });

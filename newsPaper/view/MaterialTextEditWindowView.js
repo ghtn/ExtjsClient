@@ -7,7 +7,7 @@ Ext.define('NewsPaper.view.MaterialTextEditWindowView', {
     title: '编辑文本素材',
     modal: true,
     width: 600,
-    height: 500,
+    height: 520,
     autoScroll: true,
     closable: true,
     items: {
@@ -18,6 +18,18 @@ Ext.define('NewsPaper.view.MaterialTextEditWindowView', {
 
         defaultType: 'textfield',
         items: [
+            {
+                xtype: 'combo',
+                fieldLabel: '素材类别',
+                name: 'materialTypeId',
+                store: 'MaterialTypeStore',
+                editable: false,
+                valueField: 'id',
+                displayField: 'text',
+                anchor: '100%',
+                allowBlank: false,
+                blankText: '必须选择素材类别!'
+            },
             {
                 fieldLabel: '标题',
                 name: 'title',

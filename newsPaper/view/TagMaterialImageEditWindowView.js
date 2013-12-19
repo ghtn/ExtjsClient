@@ -1,9 +1,9 @@
 /**
  * Created by Administrator on 13-12-5.
  */
-Ext.define('NewsPaper.view.MaterialImageEditWindowView', {
+Ext.define('NewsPaper.view.TagMaterialImageEditWindowView', {
     extend: 'Ext.window.Window',
-    id: 'materialImageEditWindowView',
+    id: 'tagMaterialImageEditWindowView',
     title: '增加图片素材',
     modal: true,
     width: 600,
@@ -21,7 +21,7 @@ Ext.define('NewsPaper.view.MaterialImageEditWindowView', {
                 xtype: 'combo',
                 fieldLabel: '所属文本素材',
                 name: 'parentId',
-                store: 'MaterialTextGridStore',
+                store: 'TagMaterialTextGridStore',
                 editable: false,
                 valueField: 'id',
                 displayField: 'title',
@@ -75,13 +75,13 @@ Ext.define('NewsPaper.view.MaterialImageEditWindowView', {
         ],
         buttons: [
             {
-                itemId: 'materialImageEditFormSubmit',
+                itemId: 'tagMaterialImageEditFormSubmit',
                 text: '提交',
                 formBind: true,
                 disabled: true
             },
             {
-                itemId: 'materialImageEditFormReset',
+                itemId: 'tagMaterialImageEditFormReset',
                 text: '重置'
             }
         ]

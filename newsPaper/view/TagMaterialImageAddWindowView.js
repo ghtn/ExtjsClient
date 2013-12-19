@@ -1,9 +1,9 @@
 /**
  * Created by Administrator on 13-12-5.
  */
-Ext.define('NewsPaper.view.MaterialImageEditWindowView', {
+Ext.define('NewsPaper.view.TagMaterialImageAddWindowView', {
     extend: 'Ext.window.Window',
-    id: 'materialImageEditWindowView',
+    id: 'tagMaterialImageAddWindowView',
     title: '增加图片素材',
     modal: true,
     width: 600,
@@ -12,16 +12,16 @@ Ext.define('NewsPaper.view.MaterialImageEditWindowView', {
     closable: true,
     items: {
         xtype: 'form',
-        itemId: 'materialImageEditForm',
+        itemId: 'materialImageAddForm',
         bodyPadding: 5,
-        url: '/newsPaper/material/updateMaterialImage',
+        url: '/newsPaper/material/addMaterialImage',
 
         items: [
             {
                 xtype: 'combo',
                 fieldLabel: '所属文本素材',
                 name: 'parentId',
-                store: 'MaterialTextGridStore',
+                store: 'TagMaterialTextGridStore',
                 editable: false,
                 valueField: 'id',
                 displayField: 'title',
@@ -39,13 +39,13 @@ Ext.define('NewsPaper.view.MaterialImageEditWindowView', {
             },
             {
                 xtype: 'form',
-                itemId: 'editImageForm',
+                itemId: 'addImageForm',
                 border: false,
-                url: '/newsPaper/material/uploadImageEdit',
+                url: '/newsPaper/material/uploadImageAdd',
                 items: [
                     {
                         xtype: 'filefield',
-                        itemId: 'editImageUpload',
+                        itemId: 'addTagImageUpload',
                         fieldLabel: '上传图片',
                         anchor: '100%',
                         name: 'imageFile',
@@ -66,6 +66,7 @@ Ext.define('NewsPaper.view.MaterialImageEditWindowView', {
                     margin: 'auto'
                 }
             },
+            ,
             {
                 xtype: 'checkboxgroup',
                 itemId: 'imageTagCheckGroup',
@@ -75,13 +76,13 @@ Ext.define('NewsPaper.view.MaterialImageEditWindowView', {
         ],
         buttons: [
             {
-                itemId: 'materialImageEditFormSubmit',
+                itemId: 'tagMaterialImageAddFormSubmit',
                 text: '提交',
                 formBind: true,
                 disabled: true
             },
             {
-                itemId: 'materialImageEditFormReset',
+                itemId: 'tagMaterialImageAddFormReset',
                 text: '重置'
             }
         ]

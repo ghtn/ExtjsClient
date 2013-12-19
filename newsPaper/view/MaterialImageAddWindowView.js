@@ -7,7 +7,7 @@ Ext.define('NewsPaper.view.MaterialImageAddWindowView', {
     title: '增加图片素材',
     modal: true,
     width: 600,
-    height: 500,
+    height: 520,
     autoScroll: true,
     closable: true,
     items: {

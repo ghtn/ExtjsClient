@@ -1,10 +1,10 @@
 /**
  * Created by Administrator on 13-12-5.
  */
-Ext.define('NewsPaper.view.MaterialTextAddWindowView', {
+Ext.define('NewsPaper.view.TagMaterialTextEditWindowView', {
     extend: 'Ext.window.Window',
-    id: 'materialTextAddWindowView',
-    title: '增加文本素材',
+    id: 'tagMaterialTextEditWindowView',
+    title: '编辑文本素材',
     modal: true,
     width: 600,
     height: 520,
@@ -12,9 +12,9 @@ Ext.define('NewsPaper.view.MaterialTextAddWindowView', {
     closable: true,
     items: {
         xtype: 'form',
-        itemId: 'materialTextAddForm',
+        itemId: 'materialTextEditForm',
         bodyPadding: 5,
-        url: '/newsPaper/material/addMaterialText',
+        url: '/newsPaper/material/updateMaterialText',
 
         defaultType: 'textfield',
         items: [
@@ -50,19 +50,18 @@ Ext.define('NewsPaper.view.MaterialTextAddWindowView', {
                 xtype: 'checkboxgroup',
                 itemId: 'textTagCheckGroup',
                 fieldLabel: '标签',
-                anchor: '100% 10%',
                 columns: 3
             }
         ],
         buttons: [
             {
-                itemId: 'materialTextAddFormSubmit',
+                itemId: 'tagMaterialTextEditFormSubmit',
                 text: '提交',
                 formBind: true,
                 disabled: true
             },
             {
-                itemId: 'materialTextAddFormReset',
+                itemId: 'tagMaterialTextEditFormReset',
                 text: '重置'
             }
         ]

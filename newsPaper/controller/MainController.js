@@ -60,6 +60,10 @@ Ext.define('NewsPaper.controller.MainController', {
                         limit: 20
                     }
                 });
+
+                // 加载素材类别, 用于在增加和编辑文本素材时取得素材类别的下拉框数据
+                store = Ext.data.StoreManager.lookup('MaterialTypeStore');
+                store.load();
             }
 
             // 加载通讯录数据
@@ -72,6 +76,33 @@ Ext.define('NewsPaper.controller.MainController', {
                         limit: 20
                     }
                 });
+            }
+
+            // 加载标签下的素材数据
+            if (rec.data.id == 11) {
+                // 加载文本素材
+                store = Ext.data.StoreManager.lookup('TagMaterialTextGridStore');
+
+                store.load({
+                    params: {
+                        start: 0,
+                        limit: 20
+                    }
+                });
+
+                // 加载图片素材
+                store = Ext.data.StoreManager.lookup('TagMaterialImageGridStore');
+
+                store.load({
+                    params: {
+                        start: 0,
+                        limit: 20
+                    }
+                });
+
+                // 加载素材类别, 用于在增加和编辑文本素材时取得素材类别的下拉框数据
+                store = Ext.data.StoreManager.lookup('MaterialTypeStore');
+                store.load();
             }
 
         }

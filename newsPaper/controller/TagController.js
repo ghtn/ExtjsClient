@@ -3,8 +3,8 @@
  */
 Ext.define('NewsPaper.controller.TagController', {
     extend: 'Ext.app.Controller',
-    views: ['TagBaseContainer', 'TagTreeView'],
-    stores: ['TagTreeStore'],
+    views: ['TagBaseContainer', 'TagTreeView', 'TagMaterialTextGridView', 'TagMaterialImageGridView'],
+    stores: ['TagTreeStore', 'TagMaterialTextGridStore', 'TagMaterialImageGridStore'],
     models: ['TagTreeModel'],
 
     init: function () {
@@ -17,8 +17,57 @@ Ext.define('NewsPaper.controller.TagController', {
             },
             'tagTreeView': {
                 edit: this.editTag,
-                itemcontextmenu: this.showTreeMenu
-//                itemclick: this.showMaterial
+                itemcontextmenu: this.showTreeMenu,
+                itemclick: this.showMaterial
+            },
+            'tagMaterialTextGridView': {
+                render: this.tagMaterialTextGridRender,
+                itemcontextmenu: this.showTextGridMenu,
+                itemdblclick: this.showTagMaterialTextEditWindow
+            },
+            'tagMaterialImageGridView': {
+                render: this.tagMaterialImageGridRender,
+                itemcontextmenu: this.showImageGridMenu,
+                itemdblclick: this.showTagMaterialImageEditWindow
+            },
+            '#addTagMaterialText': {
+                click: this.addTagMaterialTextClick
+            },
+            '#tagMaterialTextAddFormSubmit': {
+                click: this.tagMaterialTextAddFormSubmit
+            },
+            '#tagMaterialTextEditFormSubmit': {
+                click: this.tagMaterialTextEditFormSubmit
+            },
+            '#removeTagMaterialText': {
+                click: this.removeTagMaterialTextClick
+            },
+            '#addTagMaterialImage': {
+                click: this.addTagMaterialImageClick
+            },
+            '#removeTagMaterialImage': {
+                click: this.removeTagMaterialImageClick
+            },
+            '#tagMaterialImageAddFormSubmit': {
+                click: this.tagMaterialImageAddFormSubmit
+            },
+            '#addTagImageUpload': {
+                change: this.addTagImageUpload
+            },
+            '#tagMaterialImageEditFormSubmit': {
+                click: this.tagMaterialImageEditFormSubmit
+            },
+            '#tagMaterialTextAddFormReset': {
+                click: this.tagMaterialTextAddFormReset
+            },
+            '#tagMaterialTextEditFormReset': {
+                click: this.tagMaterialTextEditFormReset
+            },
+            '#tagMaterialImageAddFormReset': {
+                click: this.tagMaterialImageAddFormReset
+            },
+            '#tagMaterialImageEditFormReset': {
+                click: this.tagMaterialImageEditFormReset
             }
         });
     },
@@ -96,6 +145,386 @@ Ext.define('NewsPaper.controller.TagController', {
             ]
         });
         menu.showAt(e.getXY());
+    },
+    showMaterial: function () {
+        var textStore = Ext.data.StoreManager.lookup('TagMaterialTextGridStore');
+        var imageStore = Ext.data.StoreManager.lookup('TagMaterialImageGridStore');
+        textStore.loadPage(1);
+        imageStore.loadPage(1);
+    },
+    tagMaterialTextGridRender: function (grid) {
+        var store = grid.getStore();
+        store.on('beforeload', function () {
+            var params;
+            var tree = Ext.getCmp('tagTreeView');
+            var node = tree.getSelectionModel().getSelection()[0];
+            if (node) {
+                var id = node.data.id;
+                if (id == -1) {
+                    id = 0;
+                }
+                params = {id: id, type: '文本'};
+            } else {
+                params = {type: '文本'};
+            }
+            Ext.apply(store.proxy.extraParams, params);
+        })
+    },
+    tagMaterialImageGridRender: function (grid) {
+        var store = grid.getStore();
+        store.on('beforeload', function () {
+            var params;
+            var tree = Ext.getCmp('tagTreeView');
+            var node = tree.getSelectionModel().getSelection()[0];
+            if (node) {
+                var id = node.data.id;
+                if (id == -1) {
+                    id = 0;
+                }
+                params = {id: id, type: '图片'};
+            } else {
+                params = {type: '图片'};
+            }
+            Ext.apply(store.proxy.extraParams, params);
+        })
+    },
+    addTagMaterialTextClick: function () {
+        var window = Ext.create('NewsPaper.view.TagMaterialTextAddWindowView').show();
+
+        var tree = Ext.getCmp('tagTreeView');
+        var node = tree.getSelectionModel().getSelection()[0];
+        var checkGroup = window.down('#textTagCheckGroup');
+
+        // 从服务器取得标签数据
+        Ext.Ajax.request({
+            url: '/newsPaper/tag/listTag',
+            method: 'post',
+            success: function (response) {
+                var result = Ext.JSON.decode(response.responseText);
+                if (result && result.length > 0) {
+                    var items = [];
+                    var item;
+                    // 如果选中一个具体的标签, 在初始化checkGroup时自动勾选对应的标签
+                    if (node && node.get('leaf')) {
+                        for (var i = 0; i < result.length; i++) {
+                            if (result[i].id == node.get('id')) {
+                                item = {name: 'tagIds', boxLabel: result[i].text, inputValue: result[i].id, checked: true};
+                            } else {
+                                item = {name: 'tagIds', boxLabel: result[i].text, inputValue: result[i].id};
+                            }
+                            items.push(item);
+                        }
+                    } else {
+                        for (var i = 0; i < result.length; i++) {
+                            item = {name: 'tagIds', boxLabel: result[i].text, inputValue: result[i].id};
+                            items.push(item);
+                        }
+                    }
+
+                    checkGroup.add(items);
+                } else {
+                    Ext.MessageBox.alert('获取数据失败', '获取标签数据失败!!');
+                }
+            },
+            failure: function (response) {
+                var result = Ext.JSON.decode(response.responseText);
+                Ext.MessageBox.alert('获取数据失败', result.msg);
+            }
+        });
+    },
+    tagMaterialTextAddFormSubmit: function () {
+        var window = Ext.getCmp('tagMaterialTextAddWindowView');
+        var form = window.down('#materialTextAddForm').getForm();
+        if (form.isValid()) {
+            form.submit({
+                params: {
+                    'type': '文本'
+                },
+                waitMsg: '正在添加文本素材...',
+                success: function (form, action) {
+                    Ext.example.msg('添加成功', action.result.msg);
+                    window.close();
+                    var store = Ext.getCmp('tagMaterialTextGridView').getStore();
+                    store.reload();
+                },
+                failure: function (form, action) {
+                    Ext.MessageBox.alert('添加失败', action.result.msg);
+                    window.close();
+                }
+            });
+        }
+    },
+    showTagMaterialTextEditWindow: function (view, record) {
+        var window = Ext.create('NewsPaper.view.TagMaterialTextEditWindowView').show();
+        window.down('form').loadRecord(record);
+        var checkGroup = window.down('#textTagCheckGroup');
+
+        // 从服务器取得标签数据
+        Ext.Ajax.request({
+            url: '/newsPaper/tag/listTag',
+            method: 'post',
+            success: function (response) {
+                var result = Ext.JSON.decode(response.responseText);
+                if (result && result.length > 0) {
+                    var items = [];
+                    var tagIds = record.get('tagIds');
+                    for (var i = 0; i < result.length; i++) {
+                        var item;
+                        if (tagIds && tagIds.length > 0 && tagIds.indexOf(result[i].id) >= 0) {
+                            item = {name: 'tagIds', boxLabel: result[i].text, inputValue: result[i].id, checked: true};
+                        } else {
+                            item = {name: 'tagIds', boxLabel: result[i].text, inputValue: result[i].id};
+                        }
+
+                        items.push(item);
+                    }
+                    checkGroup.add(items);
+                } else {
+                    Ext.MessageBox.alert('获取数据失败', '获取标签数据失败!!');
+                }
+            },
+            failure: function (response) {
+                var result = Ext.JSON.decode(response.responseText);
+                Ext.MessageBox.alert('获取数据失败', result.msg);
+            }
+        });
+    },
+    tagMaterialTextEditFormSubmit: function () {
+        var record = Ext.getCmp('tagMaterialTextGridView').getSelectionModel().getSelection()[0];
+        var window = Ext.getCmp('tagMaterialTextEditWindowView');
+        var form = window.down('#materialTextEditForm').getForm();
+        if (form.isValid()) {
+            form.submit({
+                params: {
+                    'id': record.get('id')
+                },
+                waitMsg: '正在编辑文本素材...',
+                success: function (form, action) {
+                    Ext.example.msg('编辑成功', action.result.msg);
+                    window.close();
+                    var textStore = Ext.getCmp('tagMaterialTextGridView').getStore();
+                    textStore.loadPage(1);
+//                    var imageStore = Ext.getCmp('materialImageGridView').getStore();
+//                    imageStore.loadPage(1);
+                },
+                failure: function (form, action) {
+                    Ext.MessageBox.alert('编辑失败', action.result.msg);
+                    window.close();
+                }
+            });
+        }
+    },
+    removeTagMaterialTextClick: function () {
+        removeTagMaterial('文本');
+    },
+    showTextGridMenu: function (view, record, item, index, e) {
+        e.preventDefault();
+        e.stopEvent();
+
+        var menu = Ext.create('Ext.menu.Menu', {
+            items: [
+                {
+                    text: '删除',
+                    iconCls: 'Delete',
+                    handler: function () {
+                        removeTagMaterial('文本');
+                    }
+                }
+            ]
+        });
+        menu.showAt(e.getXY());
+    },
+    addTagMaterialImageClick: function () {
+        var window = Ext.create('NewsPaper.view.TagMaterialImageAddWindowView').show();
+
+        var tree = Ext.getCmp('tagTreeView');
+        var node = tree.getSelectionModel().getSelection()[0];
+        var checkGroup = window.down('#imageTagCheckGroup');
+
+        // 从服务器取得标签数据
+        Ext.Ajax.request({
+            url: '/newsPaper/tag/listTag',
+            method: 'post',
+            success: function (response) {
+                var result = Ext.JSON.decode(response.responseText);
+                if (result && result.length > 0) {
+                    var items = [];
+                    var item;
+                    // 如果选中一个具体的标签, 在初始化checkGroup时自动勾选对应的标签
+                    if (node && node.get('leaf')) {
+                        for (var i = 0; i < result.length; i++) {
+                            if (result[i].id == node.get('id')) {
+                                item = {name: 'tagIds', boxLabel: result[i].text, inputValue: result[i].id, checked: true};
+                            } else {
+                                item = {name: 'tagIds', boxLabel: result[i].text, inputValue: result[i].id};
+                            }
+                            items.push(item);
+                        }
+                    } else {
+                        for (var i = 0; i < result.length; i++) {
+                            item = {name: 'tagIds', boxLabel: result[i].text, inputValue: result[i].id};
+                            items.push(item);
+                        }
+                    }
+
+                    checkGroup.add(items);
+                } else {
+                    Ext.MessageBox.alert('获取数据失败', '获取标签数据失败!!');
+                }
+            },
+            failure: function (response) {
+                var result = Ext.JSON.decode(response.responseText);
+                Ext.MessageBox.alert('获取数据失败', result.msg);
+            }
+        });
+    },
+    removeTagMaterialImageClick: function () {
+        removeTagMaterial('图片');
+    },
+    tagMaterialImageAddFormSubmit: function () {
+        var window = Ext.getCmp('tagMaterialImageAddWindowView')
+        var form = window.down('#materialImageAddForm').getForm();
+        if (form.isValid()) {
+            form.submit({
+                params: {
+                    'type': '图片'
+                },
+                waitMsg: '添加图片素材中...',
+                success: function (form, action) {
+                    Ext.example.msg('添加成功', action.result.msg);
+                    window.close();
+                    var imageStore = Ext.getCmp('tagMaterialImageGridView').getStore();
+                    imageStore.reload();
+                    //imageStore.loadPage(1);
+                    var textStore = Ext.getCmp('tagMaterialTextGridView').getStore();
+                    //textStore.reload();
+                    textStore.loadPage(1);
+                },
+                failure: function (form, action) {
+                    Ext.MessageBox.alert('添加失败', action.result.msg);
+                    window.close();
+                }
+            });
+        }
+    },
+    addTagImageUpload: function (field, value) {
+        var window = Ext.getCmp('tagMaterialImageAddWindowView');
+        var form = window.down('#addImageForm').getForm();
+        if (form.isValid()) {
+            form.submit({
+                waitMsg: '上传图片素材中...',
+                success: function (form, action) {
+                    Ext.example.msg('上传成功', action.result.msg);
+
+                    // 显示图片预览
+                    window.down('#imageView').setSrc(action.result.imagePath);
+
+                    // 图片上传之后,filefield中的值会被清空,需要重新设置
+                    // 否则不能通过空值验证
+                    field.setRawValue(value);
+                },
+                failure: function (form, action) {
+                    Ext.MessageBox.alert('上传失败', action.result.msg);
+                }
+            });
+        }
+    },
+    showTagMaterialImageEditWindow: function (view, record) {
+        var window = Ext.create('NewsPaper.view.TagMaterialImageEditWindowView').show();
+        window.down('#materialImageEditForm').loadRecord(record);
+
+        // 设置图片预览
+        window.down('#imageView').setSrc(record.get('image'));
+
+        // 设置fileinput的值
+        window.down('#editImageUpload').setRawValue(record.get('image'));
+
+        // 初始化标签checkgroup,并设置他们的选中状态
+        var checkGroup = window.down('#imageTagCheckGroup');
+
+        // 从服务器取得标签数据
+        Ext.Ajax.request({
+            url: '/newsPaper/tag/listTag',
+            method: 'post',
+            success: function (response) {
+                var result = Ext.JSON.decode(response.responseText);
+                if (result && result.length > 0) {
+                    var items = [];
+                    var tagIds = record.get('tagIds');
+                    for (var i = 0; i < result.length; i++) {
+                        var item;
+                        if (tagIds && tagIds.length > 0 && tagIds.indexOf(result[i].id) >= 0) {
+                            item = {name: 'tagIds', boxLabel: result[i].text, inputValue: result[i].id, checked: true};
+                        } else {
+                            item = {name: 'tagIds', boxLabel: result[i].text, inputValue: result[i].id};
+                        }
+
+                        items.push(item);
+                    }
+                    checkGroup.add(items);
+                } else {
+                    Ext.MessageBox.alert('获取数据失败', '获取标签数据失败!!');
+                }
+            },
+            failure: function (response) {
+                var result = Ext.JSON.decode(response.responseText);
+                Ext.MessageBox.alert('获取数据失败', result.msg);
+            }
+        });
+    },
+    tagMaterialImageEditFormSubmit: function () {
+        var record = Ext.getCmp('tagMaterialImageGridView').getSelectionModel().getSelection()[0];
+        var window = Ext.getCmp('tagMaterialImageEditWindowView');
+        var form = window.down('#materialImageEditForm').getForm();
+        if (form.isValid()) {
+            form.submit({
+                params: {
+                    'id': record.get('id')
+                },
+                waitMsg: '正在编辑图片素材...',
+                success: function (form, action) {
+                    Ext.example.msg('编辑成功', action.result.msg);
+                    window.close();
+                    var imageStore = Ext.getCmp('tagMaterialImageGridView').getStore();
+                    imageStore.loadPage(1);
+                    var textStore = Ext.getCmp('tagMaterialTextGridView').getStore();
+                    textStore.loadPage(1);
+                },
+                failure: function (form, action) {
+                    Ext.MessageBox.alert('编辑失败', action.result.msg);
+                    window.close();
+                }
+            });
+        }
+    },
+    showImageGridMenu: function (view, record, item, index, e) {
+        e.preventDefault();
+        e.stopEvent();
+
+        var menu = Ext.create('Ext.menu.Menu', {
+            items: [
+                {
+                    text: '删除',
+                    iconCls: 'Delete',
+                    handler: function () {
+                        removeTagMaterial('图片');
+                    }
+                }
+            ]
+        });
+        menu.showAt(e.getXY());
+    },
+    tagMaterialTextAddFormReset: function () {
+        Ext.getCmp('tagMaterialTextAddWindowView').down('#materialTextAddForm').getForm().reset();
+    },
+    tagMaterialTextEditFormReset: function () {
+        Ext.getCmp('tagMaterialTextEditWindowView').down('#materialTextEditForm').getForm().reset();
+    },
+    tagMaterialImageAddFormReset: function () {
+        Ext.getCmp('tagMaterialImageAddWindowView').down('#materialImageAddForm').getForm().reset();
+    },
+    tagMaterialImageEditFormReset: function () {
+        Ext.getCmp('tagMaterialImageEditWindowView').down('#materialImageEditForm').getForm().reset();
     }
 });
 
@@ -176,5 +605,64 @@ function removeTag() {
         });
     } else {
         Ext.MessageBox.alert('错误', '请选择一条记录!!');
+    }
+}
+
+/**
+ * 删除素材的业务方法
+ * @param type 素材类型,'文本'或者'图片'
+ */
+function removeTagMaterial(type) {
+    var textGrid = Ext.getCmp('tagMaterialTextGridView')
+    var imageGrid = Ext.getCmp('tagMaterialImageGridView')
+    var record;
+    if (type == '文本') {
+        record = textGrid.getSelectionModel().getSelection()[0];
+    } else if (type == '图片') {
+        record = imageGrid.getSelectionModel().getSelection()[0];
+    } else {
+        Ext.MessageBox.alert('错误', '参数错误!');
+        return;
+    }
+
+    if (record) {
+        if (record.get('type') != type) {
+            Ext.MessageBox.alert('错误', '素材类型和传入的参数不匹配!!素材类型为 : ' + record.get('type')
+                + ",传入的参数为 : " + type);
+            return;
+        }
+
+        Ext.MessageBox.confirm('确认删除', '确定删除此素材?', function (btn) {
+            if (btn == 'yes') {
+                var progress = Ext.MessageBox.wait('正在删除素材', '删除', {
+                    text: '删除中...'
+                });
+                Ext.Ajax.request({
+                    url: '/newsPaper/material/removeMaterial',
+                    method: 'post',
+                    params: {
+                        id: record.get('id')  // 或者record.data.id
+                    },
+                    success: function (response) {
+                        progress.close();
+                        var result = Ext.JSON.decode(response.responseText);
+                        if (result.success) {
+                            Ext.example.msg('删除成功', result.msg);
+                            textGrid.getStore().loadPage(1);
+                            imageGrid.getStore().loadPage(1);
+                        } else {
+                            Ext.MessageBox.alert('删除失败', result.msg);
+                        }
+                    },
+                    failure: function (response) {
+                        progress.close();
+                        var result = Ext.JSON.decode(response.responseText);
+                        Ext.MessageBox.alert('删除失败', result.msg);
+                    }
+                });
+            }
+        });
+    } else {
+        Ext.MessageBox.alert('错误', '请选择一条记录！');
     }
 }
