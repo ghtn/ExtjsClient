@@ -1,4 +1,5 @@
 /**
+ * 素材controller
  * Created by Administrator on 13-12-9.
  */
 Ext.define('NewsPaper.controller.MaterialController', {

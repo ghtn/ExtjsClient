@@ -1,4 +1,5 @@
 /**
+ * 标签controller
  * Created by Administrator on 13-12-9.
  */
 Ext.define('NewsPaper.controller.TagController', {
@@ -72,12 +73,25 @@ Ext.define('NewsPaper.controller.TagController', {
         });
     },
 
+    /**
+     * 点击增加标签按钮
+     */
     addTagClick: function () {
         addTag();
     },
+
+    /**
+     * 点击删除标签按钮
+     */
     removeTagClick: function () {
         removeTag();
     },
+
+    /**
+     * 编辑标签
+     * @param editor 编辑器
+     * @param e 选中的记录
+     */
     editTag: function (editor, e) {
         var tree = Ext.getCmp('tagTreeView');
         var store = tree.store;
@@ -146,12 +160,21 @@ Ext.define('NewsPaper.controller.TagController', {
         });
         menu.showAt(e.getXY());
     },
+
+    /**
+     * 点击素材类别时, 分页展示文本素材和图片素材
+     */
     showMaterial: function () {
         var textStore = Ext.data.StoreManager.lookup('TagMaterialTextGridStore');
         var imageStore = Ext.data.StoreManager.lookup('TagMaterialImageGridStore');
         textStore.loadPage(1);
         imageStore.loadPage(1);
     },
+
+    /**
+     * 文本素材分页显示增加过滤参数
+     * @param grid 文本素材grid
+     */
     tagMaterialTextGridRender: function (grid) {
         var store = grid.getStore();
         store.on('beforeload', function () {
@@ -170,6 +193,11 @@ Ext.define('NewsPaper.controller.TagController', {
             Ext.apply(store.proxy.extraParams, params);
         })
     },
+
+    /**
+     * 图片素材分页显示增加过滤参数
+     * @param grid 图片素材grid
+     */
     tagMaterialImageGridRender: function (grid) {
         var store = grid.getStore();
         store.on('beforeload', function () {
@@ -188,6 +216,10 @@ Ext.define('NewsPaper.controller.TagController', {
             Ext.apply(store.proxy.extraParams, params);
         })
     },
+
+    /**
+     * 点击增加文本素材按钮
+     */
     addTagMaterialTextClick: function () {
         var window = Ext.create('NewsPaper.view.TagMaterialTextAddWindowView').show();
 
@@ -232,6 +264,10 @@ Ext.define('NewsPaper.controller.TagController', {
             }
         });
     },
+
+    /**
+     * 提交增加文本素材的form
+     */
     tagMaterialTextAddFormSubmit: function () {
         var window = Ext.getCmp('tagMaterialTextAddWindowView');
         var form = window.down('#materialTextAddForm').getForm();
@@ -254,6 +290,12 @@ Ext.define('NewsPaper.controller.TagController', {
             });
         }
     },
+
+    /**
+     * 显示编辑文本素材的窗口
+     * @param view
+     * @param record 选中的记录
+     */
     showTagMaterialTextEditWindow: function (view, record) {
         var window = Ext.create('NewsPaper.view.TagMaterialTextEditWindowView').show();
         window.down('form').loadRecord(record);
@@ -289,6 +331,10 @@ Ext.define('NewsPaper.controller.TagController', {
             }
         });
     },
+
+    /**
+     * 提交编辑文本素材的form
+     */
     tagMaterialTextEditFormSubmit: function () {
         var record = Ext.getCmp('tagMaterialTextGridView').getSelectionModel().getSelection()[0];
         var window = Ext.getCmp('tagMaterialTextEditWindowView');
@@ -314,9 +360,22 @@ Ext.define('NewsPaper.controller.TagController', {
             });
         }
     },
+
+    /**
+     * 点击删除文本素材的按钮
+     */
     removeTagMaterialTextClick: function () {
         removeTagMaterial('文本');
     },
+
+    /**
+     * 显示文本素材的右键菜单
+     * @param view
+     * @param record
+     * @param item
+     * @param index
+     * @param e
+     */
     showTextGridMenu: function (view, record, item, index, e) {
         e.preventDefault();
         e.stopEvent();
@@ -334,6 +393,10 @@ Ext.define('NewsPaper.controller.TagController', {
         });
         menu.showAt(e.getXY());
     },
+
+    /**
+     * 点击增加图片素材的按钮
+     */
     addTagMaterialImageClick: function () {
         var window = Ext.create('NewsPaper.view.TagMaterialImageAddWindowView').show();
 
@@ -378,9 +441,17 @@ Ext.define('NewsPaper.controller.TagController', {
             }
         });
     },
+
+    /**
+     * 点击删除图片素材的按钮
+     */
     removeTagMaterialImageClick: function () {
         removeTagMaterial('图片');
     },
+
+    /**
+     * 提交增加图片素材的form
+     */
     tagMaterialImageAddFormSubmit: function () {
         var window = Ext.getCmp('tagMaterialImageAddWindowView')
         var form = window.down('#materialImageAddForm').getForm();
@@ -407,6 +478,12 @@ Ext.define('NewsPaper.controller.TagController', {
             });
         }
     },
+
+    /**
+     * 上传图片, 用于增加图片素材
+     * @param field
+     * @param value
+     */
     addTagImageUpload: function (field, value) {
         var window = Ext.getCmp('tagMaterialImageAddWindowView');
         var form = window.down('#addImageForm').getForm();
@@ -429,6 +506,12 @@ Ext.define('NewsPaper.controller.TagController', {
             });
         }
     },
+
+    /**
+     * 显示图片素材的编辑窗口
+     * @param view
+     * @param record
+     */
     showTagMaterialImageEditWindow: function (view, record) {
         var window = Ext.create('NewsPaper.view.TagMaterialImageEditWindowView').show();
         window.down('#materialImageEditForm').loadRecord(record);
@@ -472,6 +555,10 @@ Ext.define('NewsPaper.controller.TagController', {
             }
         });
     },
+
+    /**
+     * 提交编辑图片素材的form
+     */
     tagMaterialImageEditFormSubmit: function () {
         var record = Ext.getCmp('tagMaterialImageGridView').getSelectionModel().getSelection()[0];
         var window = Ext.getCmp('tagMaterialImageEditWindowView');
@@ -497,6 +584,15 @@ Ext.define('NewsPaper.controller.TagController', {
             });
         }
     },
+
+    /**
+     * 显示图片素材的右键菜单
+     * @param view
+     * @param record
+     * @param item
+     * @param index
+     * @param e
+     */
     showImageGridMenu: function (view, record, item, index, e) {
         e.preventDefault();
         e.stopEvent();
@@ -514,20 +610,39 @@ Ext.define('NewsPaper.controller.TagController', {
         });
         menu.showAt(e.getXY());
     },
+
+    /**
+     * 重置增加文本素材的form
+     */
     tagMaterialTextAddFormReset: function () {
         Ext.getCmp('tagMaterialTextAddWindowView').down('#materialTextAddForm').getForm().reset();
     },
+
+    /**
+     * 重置编辑文本素材的form
+     */
     tagMaterialTextEditFormReset: function () {
         Ext.getCmp('tagMaterialTextEditWindowView').down('#materialTextEditForm').getForm().reset();
     },
+
+    /**
+     * 重置增加图片素材的form
+     */
     tagMaterialImageAddFormReset: function () {
         Ext.getCmp('tagMaterialImageAddWindowView').down('#materialImageAddForm').getForm().reset();
     },
+
+    /**
+     * 重置编辑图片素材的form
+     */
     tagMaterialImageEditFormReset: function () {
         Ext.getCmp('tagMaterialImageEditWindowView').down('#materialImageEditForm').getForm().reset();
     }
 });
 
+/**
+ * 增加标签的逻辑
+ */
 function addTag() {
     var progress = Ext.MessageBox.wait('正在添加标签', '添加', {
         text: '添加中...'
@@ -557,6 +672,9 @@ function addTag() {
     });
 }
 
+/**
+ * 删除标签的逻辑
+ */
 function removeTag() {
     var tree = Ext.getCmp('tagTreeView');
     var node = tree.getSelectionModel().getSelection()[0];

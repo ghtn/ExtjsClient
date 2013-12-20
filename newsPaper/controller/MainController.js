@@ -1,4 +1,5 @@
 /**
+ * 主界面controller
  * Created with IntelliJ IDEA.
  * User: Administrator
  * Date: 13-12-2
@@ -23,18 +24,20 @@ Ext.define('NewsPaper.controller.MainController', {
         });
     },
 
-    showPage: function (view, rec, item, index, e) {
-        //console.log(rec.data.text);
+    /**
+     * 点击左边的功能树, 在右边的功能区以标签页的形式展现
+     * @param view
+     * @param rec
+     */
+    showPage: function (view, rec) {
         if (rec.data.leaf == true) {
             var mainTabPanel = Ext.getCmp('mainTabpanelView');
             var tab = Ext.getCmp(rec.data.id);
-            // console.log(rec.data.url);
             if (!tab) {
                 tab = mainTabPanel.add({
                     id: rec.data.id,
                     title: rec.data.text,
                     xtype: rec.data.url,
-                    //html: rec.data.text,
                     closable: true
                 });
             }

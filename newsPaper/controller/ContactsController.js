@@ -1,4 +1,5 @@
 /**
+ * 通讯录controller
  * Created with IntelliJ IDEA.
  * User: Administrator
  * Date: 13-12-2
@@ -58,12 +59,26 @@ Ext.define('NewsPaper.controller.ContactsController', {
         })
     },
 
+    /**
+     * 点击增加通讯录类别按钮
+     */
     addContactsTypeClick: function () {
         addContactsType();
     },
+
+    /**
+     * 点击删除通讯录类别按钮
+     */
     removeContactsTypeClick: function () {
         removeContactsType();
     },
+
+    /**
+     * 编辑通讯录类别
+     * @param editor 编辑器
+     * @param e 选中的记录
+     * @param eOpts
+     */
     editContactsType: function (editor, e, eOpts) {
         var tree = Ext.getCmp('contactsTypeTreeView');
         var store = tree.store;
@@ -104,23 +119,16 @@ Ext.define('NewsPaper.controller.ContactsController', {
     },
     /**
      * 分页加载contacts
-     * @param view
-     * @param rec
-     * @param item
-     * @param index
-     * @param e
      */
-    showContacts: function (view, rec, item, index, e) {
-        //alert(rec.data.id);
+    showContacts: function () {
         var store = Ext.data.StoreManager.lookup('ContactsGridStore');
         store.loadPage(1);
     },
     /**
-     * 在分页加载之前增加id参数
-     * @param grid
-     * @param opts
+     * 在分页加载之前增加过滤条件, 按照通讯录类别进行过滤
+     * @param grid 通讯录列表grid
      */
-    contactsGridRender: function (grid, opts) {
+    contactsGridRender: function (grid) {
         var store = grid.getStore();
         store.on('beforeload', function () {
             var tree = Ext.getCmp('contactsTypeTreeView');
@@ -135,6 +143,10 @@ Ext.define('NewsPaper.controller.ContactsController', {
             }
         })
     },
+
+    /**
+     * 点击增加通讯录按钮
+     */
     addContactsClick: function () {
         var tree = Ext.getCmp('contactsTypeTreeView');
         var node = tree.getSelectionModel().getSelection()[0];
@@ -148,12 +160,22 @@ Ext.define('NewsPaper.controller.ContactsController', {
             Ext.MessageBox.alert('错误', '请选择一个通讯录类别!');
         }
     },
+
+    /**
+     * 点击删除通讯录按钮
+     */
     removeContactsClick: function () {
         removeContacts();
     },
-    editContacts: function (editor, context, eOpts) {
-        var oldValues = context.originalValues;
-        var newValues = context.newValues;
+
+    /**
+     * 编辑通讯录
+     * @param editor 编辑器
+     * @param context 正在编辑的记录的上下文
+     */
+    editContacts: function (editor, context) {
+        var oldValues = context.originalValues; // 编辑之前的值
+        var newValues = context.newValues; //编辑之后的值
         if (oldValues.name != newValues.name
             || oldValues.idCard != newValues.idCard
             || oldValues.phone != newValues.phone
@@ -193,9 +215,17 @@ Ext.define('NewsPaper.controller.ContactsController', {
             });
         }
     },
+
+    /**
+     * 重置增加通讯录的form
+     */
     contactsAddFormReset: function () {
         Ext.getCmp('contactsAddWindowView').down('#contactsAddForm').getForm().reset();
     },
+
+    /**
+     * 提交增加通讯录的form
+     */
     contactsAddFormSubmit: function () {
         var form = Ext.getCmp('contactsAddWindowView').down('#contactsAddForm').getForm();
         if (form.isValid()) {
@@ -219,6 +249,15 @@ Ext.define('NewsPaper.controller.ContactsController', {
             });
         }
     },
+
+    /**
+     * 显示通讯录类别区域的右键菜单
+     * @param view
+     * @param record
+     * @param item
+     * @param index
+     * @param e
+     */
     showTreeMenu: function (view, record, item, index, e) {
         // 这两个很重要，否则点击鼠标右键还是会出现浏览器的选项
         e.preventDefault();
@@ -244,6 +283,15 @@ Ext.define('NewsPaper.controller.ContactsController', {
         });
         menu.showAt(e.getXY());
     },
+
+    /**
+     * 显示通讯录区域的右键菜单
+     * @param view
+     * @param record
+     * @param item
+     * @param index
+     * @param e
+     */
     showGridMenu: function (view, record, item, index, e) {
         e.preventDefault();
         e.stopEvent();
@@ -261,6 +309,10 @@ Ext.define('NewsPaper.controller.ContactsController', {
         });
         menu.showAt(e.getXY());
     },
+
+    /**
+     * 点击导入通讯录按钮
+     */
     importContactsClick: function () {
         var tree = Ext.getCmp('contactsTypeTreeView');
         var node = tree.getSelectionModel().getSelection()[0];
@@ -274,6 +326,10 @@ Ext.define('NewsPaper.controller.ContactsController', {
             Ext.MessageBox.alert('错误', '请选择一个通讯录类别!');
         }
     },
+
+    /**
+     * 上传模版文件, 用于批量导入通讯录
+     */
     uploadFile: function () {
         // var window = Ext.getCmp('contactsImportWindowView');
         var form = Ext.getCmp('contactsImportWindowView').down('#contactsImportForm').getForm();
@@ -292,6 +348,10 @@ Ext.define('NewsPaper.controller.ContactsController', {
             });
         }
     },
+
+    /**
+     * 开始导入通讯录
+     */
     startImportContacts: function () {
         var tree = Ext.getCmp('contactsTypeTreeView');
         var node = tree.getSelectionModel().getSelection()[0];
@@ -327,12 +387,20 @@ Ext.define('NewsPaper.controller.ContactsController', {
             }
         });
     },
+
+    /**
+     * 下载模板文件
+     */
     downloadTemplate: function () {
         window.open('/newsPaper/contacts/downloadTemplate?fileName=通讯录模板.xls');
     }
 });
 
-
+/**
+ * 刷新通讯录类别树形结构
+ * @param store
+ * @param tree
+ */
 function treeRefresh(store, tree) {
     store.reload();
     // 刷新tree,先全部收起,再全部展开
@@ -380,6 +448,9 @@ function addContactsType() {
     }
 }
 
+/**
+ * 删除通讯录类别
+ */
 function removeContactsType() {
     var tree = Ext.getCmp('contactsTypeTreeView');
     var node = tree.getSelectionModel().getSelection()[0];
@@ -429,6 +500,9 @@ function removeContactsType() {
     }
 }
 
+/**
+ * 删除通讯录
+ */
 function removeContacts() {
     var grid = Ext.getCmp('contactsGridView');
     var record = grid.getSelectionModel().getSelection()[0];
