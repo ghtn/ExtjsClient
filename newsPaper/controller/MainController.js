@@ -108,6 +108,31 @@ Ext.define('NewsPaper.controller.MainController', {
                 store.load();
             }
 
+            // 加载题库数据
+            if (rec.data.id == 401) {
+                store = Ext.data.StoreManager.lookup('SubjectGridStore');
+                var tree = Ext.getCmp('subjectTypeTreeView');
+                var node = tree.getSelectionModel().getSelection()[0];
+                if (node) {
+                    var id = node.data.id;
+                    store.load({
+                        params: {
+                            start: 0,
+                            limit: 20,
+                            type: id
+                        }
+                    });
+                } else {
+                    store.load({
+                        params: {
+                            start: 0,
+                            limit: 20,
+                            type: -1
+                        }
+                    });
+                }
+
+            }
         }
     }
 });

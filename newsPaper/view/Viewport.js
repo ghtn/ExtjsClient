@@ -20,7 +20,7 @@ Ext.define('NewsPaper.view.Viewport', {
             xtype: 'box',
             region: 'north',
             height: 50,
-            html: '手机报系统'
+            html: '信息管理系统'
         },
         {
             region: 'center',

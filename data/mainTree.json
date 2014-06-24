@@ -58,5 +58,43 @@
                 "leaf": true
             }
         ]
+    },
+    {
+        "id": 400,
+        "text": "在线考试",
+        "leaf": false,
+        "expanded": true,
+        "children": [
+            {
+                "id": 401,
+                "text": "题库管理",
+                "url": "subjectBaseContainer",
+                "leaf": true
+            },
+            {
+                "id": 402,
+                "text": "制作试卷",
+                "url": "contactsBaseContainer",
+                "leaf": true
+            },
+            {
+                "id": 403,
+                "text": "试卷管理",
+                "url": "tagBaseContainer",
+                "leaf": true
+            },
+            {
+                "id": 404,
+                "text": "考试管理",
+                "url": "tagBaseContainer",
+                "leaf": true
+            },
+            {
+                "id": 405,
+                "text": "成绩管理",
+                "url": "tagBaseContainer",
+                "leaf": true
+            }
+        ]
     }
 ]
