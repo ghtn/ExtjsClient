@@ -35,6 +35,9 @@ Ext.define('NewsPaper.controller.SubjectController', {
             },
             '#subjectAddFormSubmit': {
                 click: this.subjectAddFormSubmit
+            },
+            '#subjectTypeRadio': {
+                change: this.subjectTypeRadioChange
             }
         })
     },
@@ -61,6 +64,13 @@ Ext.define('NewsPaper.controller.SubjectController', {
 
     addSubjectClick: function () {
         Ext.create('NewsPaper.view.SubjectAddWindowView').show();
+        // 默认选择题, 显示选择题答案, 隐藏判断题答案
+        var form = Ext.getCmp('subjectAddWindowView').getComponent('subjectAddForm');
+        var subjectChoice = form.down('#subjectChoice'); // 选择题答案
+        var judgeRadioGroup = form.down('#judgeRadioGroup'); // 判断题答案
+
+        subjectChoice.show();
+        judgeRadioGroup.hide();
     },
 
     addSubjectChoice: function () {
@@ -86,21 +96,32 @@ Ext.define('NewsPaper.controller.SubjectController', {
 
     subjectAddFormReset: function () {
         Ext.getCmp('subjectAddWindowView').down('#subjectAddForm').getForm().reset();
+
+        // 重置答案
+        var answerStore = Ext.data.StoreManager.lookup('SubjectAnswerStore');
+        answerStore.removeAll();
     },
 
     subjectAddFormSubmit: function () {
-        var form = Ext.getCmp('subjectAddWindowView').down('#subjectAddForm').getForm();
+        var window = Ext.getCmp('subjectAddWindowView');
+        var form = window.down('#subjectAddForm').getForm();
         if (form.isValid()) {
             Ext.MessageBox.confirm('确认提交', '确认提交题目?', function (btn) {
                 if (btn == 'yes') {
-                    var window = Ext.getCmp('subjectAddWindowView');
-                    var gridStore = Ext.data.StoreManager.lookup('SubjectGridStore');
+                    var typeRadio1 = window.down('#typeRadio1'); // 选择题
+
                     var paramStr = "";
+                    var gridStore = Ext.data.StoreManager.lookup('SubjectGridStore');
                     var answerStore = Ext.data.StoreManager.lookup('SubjectAnswerStore');
-                    answerStore.each(function (record) {
-                        paramStr += record.data.answerDesc + "#" + record.data.correct + "@";
-                    });
-                    paramStr = paramStr.substr(0, paramStr.length - 1); // 去掉字符串中的最后一个"@"
+
+                    if (typeRadio1.getValue()) {
+                        // 如果是选择题, 把答案信息赋值给paramStr
+                        answerStore.each(function (record) {
+                            paramStr += record.data.answerDesc + "#" + record.data.correct + "@";
+                        });
+                        paramStr = paramStr.substr(0, paramStr.length - 1); // 去掉字符串中的最后一个"@"
+                    }
+
                     form.submit({
                         params: {
                             'paramStr': paramStr
@@ -114,12 +135,37 @@ Ext.define('NewsPaper.controller.SubjectController', {
                         },
                         failure: function (form, action) {
                             Ext.MessageBox.alert('增加失败', action.result.msg);
-//                            window.close();
+                            window.close();
                         }
                     });
                 }
             });
         }
+    },
+
+    subjectTypeRadioChange: function () {
+        var form = Ext.getCmp('subjectAddWindowView').getComponent('subjectAddForm');
+        var typeRadio1 = form.down('#typeRadio1'); // 选择题
+        var typeRadio2 = form.down('#typeRadio2'); // 判断题
+
+        var subjectChoice = form.down('#subjectChoice'); // 选择题答案
+        var judgeRadioGroup = form.down('#judgeRadioGroup'); // 判断题答案
+//        alert(radio1.getValue());
+//        var grid = Ext.getCmp('subjectAddWindowView').getComponent('subjectAddForm').getComponent('subjectChoice');
+//
+//        grid.hide();
+
+        if (typeRadio1.getValue()) {
+//            alert("选择题");
+            // 如果是选择题,显示选择题答案,  隐藏判断题答案
+            subjectChoice.show();
+            judgeRadioGroup.hide();
+        } else {
+            // 如果是判断题, 显示判断题答案, 隐藏选择题答案
+            subjectChoice.hide();
+            judgeRadioGroup.show();
+        }
+
     }
 });
 
