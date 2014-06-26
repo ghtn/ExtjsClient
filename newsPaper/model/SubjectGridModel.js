@@ -15,6 +15,7 @@ Ext.define('NewsPaper.model.SubjectGridModel', {
         {name: 'mark', type: 'int'},
         {name: 'type', type: 'int'},
         {name: 'typeDesc', type: 'string'},
+        {name: 'correct', type: 'int'},
         {name: 'creator', type: 'string'},
         {name: 'creatTime', type: 'string'}
     ]

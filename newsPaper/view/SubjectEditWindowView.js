@@ -1,10 +1,10 @@
 /**
  * Created by Administrator on 13-12-5.
  */
-Ext.define('NewsPaper.view.SubjectAddWindowView', {
+Ext.define('NewsPaper.view.SubjectEditWindowView', {
     extend: 'Ext.window.Window',
-    id: 'subjectAddWindowView',
-    title: '增加试题',
+    id: 'subjectEditWindowView',
+    title: '编辑试题',
     modal: true,
     width: 600,
     height: 550,
@@ -13,16 +13,21 @@ Ext.define('NewsPaper.view.SubjectAddWindowView', {
     layout: 'fit',
     items: {
         xtype: 'form',
-        itemId: 'subjectAddForm',
+        itemId: 'subjectEditForm',
         bodyPadding: 5,
-        url: '/InformationSystemService/subject/add',
+        url: '/InformationSystemService/subject/update',
 
         defaultType: 'textfield',
         items: [
             {
+                name: 'id',
+                hidden: true
+            },
+            {
                 xtype: 'combo',
                 fieldLabel: '部门',
                 name: 'deptId',
+                itemId: 'subjectEditDept',
                 store: 'DepartmentStore',
                 editable: false,
                 valueField: 'id',
@@ -38,19 +43,19 @@ Ext.define('NewsPaper.view.SubjectAddWindowView', {
                 defaults: {
                     flex: 1
                 },
-                itemId: 'subjectTypeRadio',
+                itemId: 'subjectEditTypeRadio',
                 layout: 'hbox',
                 items: [
                     {
                         boxLabel: '选择题',
-                        itemId: 'typeRadio1',
+                        itemId: 'editTypeRadio1',
                         name: 'type',
                         inputValue: 0,
                         checked: true
                     },
                     {
                         boxLabel: '判断题',
-                        itemId: 'typeRadio2',
+                        itemId: 'editTypeRadio2',
                         name: 'type',
                         inputValue: 1
                     }
@@ -75,7 +80,7 @@ Ext.define('NewsPaper.view.SubjectAddWindowView', {
             },
             {
                 xtype: 'grid',
-                itemId: 'subjectChoice',
+                itemId: 'subjectEditChoice',
                 title: '答案',
                 height: 230,
                 name: 'choice',
@@ -103,14 +108,14 @@ Ext.define('NewsPaper.view.SubjectAddWindowView', {
                     })
                 ],
                 tbar: [
-                    { itemId: 'addSubjectChoice', xtype: 'button', text: '增加', iconCls: 'Add' },
-                    { itemId: 'removeSubjectChoice', xtype: 'button', text: '删除', iconCls: 'Delete' }
+                    { itemId: 'addSubjectEditChoice', xtype: 'button', text: '增加', iconCls: 'Add' },
+                    { itemId: 'removeSubjectEditChoice', xtype: 'button', text: '删除', iconCls: 'Delete' }
                 ]
             },
             {
                 xtype: 'radiogroup',
                 fieldLabel: '判断结果',
-                itemId: 'judgeRadioGroup',
+                itemId: 'editJudgeRadioGroup',
                 defaultType: 'radiofield',
                 defaults: {
                     flex: 1
@@ -118,14 +123,14 @@ Ext.define('NewsPaper.view.SubjectAddWindowView', {
                 layout: 'hbox',
                 items: [
                     {
-                        itemId: 'judgeTrue',
+                        itemId: 'editJudgeTrue',
                         boxLabel: '正确',
                         name: 'correct',
                         inputValue: 1,
                         checked: true
                     },
                     {
-                        itemId: 'judgeFalse',
+                        itemId: 'editJudgeFalse',
                         boxLabel: '错误',
                         name: 'correct',
                         inputValue: 0
@@ -135,13 +140,13 @@ Ext.define('NewsPaper.view.SubjectAddWindowView', {
         ],
         buttons: [
             {
-                itemId: 'subjectAddFormSubmit',
+                itemId: 'subjectEditFormSubmit',
                 text: '提交',
                 formBind: true,
                 disabled: true
             },
             {
-                itemId: 'subjectAddFormReset',
+                itemId: 'subjectEditFormReset',
                 text: '重置'
             }
         ]

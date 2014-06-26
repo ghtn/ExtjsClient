@@ -13,8 +13,8 @@ Ext.define('NewsPaper.store.DepartmentStore', {
     proxy: {
         type: 'ajax',
         reader: 'json',
-        url: 'http://localhost:8080/InformationSystemService/department'
-    }
-    //autoLoad: true
+        url: '/InformationSystemService/department'
+    },
+    autoLoad: true
     //autoSync: true
 });

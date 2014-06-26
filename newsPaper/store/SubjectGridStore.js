@@ -11,7 +11,7 @@ Ext.define('NewsPaper.store.SubjectGridStore', {
     pageSize: 20,
     proxy: {
         type: 'ajax',
-        url: 'http://localhost:8080/InformationSystemService/subject/listSubjectByPage',
+        url: '/InformationSystemService/subject/listSubjectByPage',
         reader: {
             type: 'json',
             root: 'items',
