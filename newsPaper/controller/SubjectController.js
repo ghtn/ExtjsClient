@@ -54,6 +54,9 @@ Ext.define('NewsPaper.controller.SubjectController', {
             },
             '#subjectEditTypeRadio': {
                 change: this.subjectEditTypeRadioChange
+            },
+            '#downloadSubjectTemplate': {
+                click: this.downloadSubjectTemplate
             }
         })
     },
@@ -344,6 +347,10 @@ Ext.define('NewsPaper.controller.SubjectController', {
             subjectChoice.hide();
             judgeRadioGroup.show();
         }
+    },
+
+    downloadSubjectTemplate: function () {
+        window.open('/InformationSystemService/subject/downloadTemplate?fileName=题库模板.xlsx');
     }
 });
 

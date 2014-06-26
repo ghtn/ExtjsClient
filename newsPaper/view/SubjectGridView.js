@@ -58,6 +58,6 @@ Ext.define('NewsPaper.view.SubjectGridView', {
         { itemId: 'removeSubject', xtype: 'button', text: '删除', iconCls: 'Delete' },
         { itemId: 'importSubject', xtype: 'button', text: '导入', iconCls: 'Pageexcel' },
         '->',
-        {itemId: 'downloadTemplate', xtype: 'button', text: '下载导入模板', iconCls: 'Packagedown'}
+        {itemId: 'downloadSubjectTemplate', xtype: 'button', text: '下载导入模板', iconCls: 'Packagedown'}
     ]
 });
