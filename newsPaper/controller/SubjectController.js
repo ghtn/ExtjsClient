@@ -57,6 +57,15 @@ Ext.define('NewsPaper.controller.SubjectController', {
             },
             '#downloadSubjectTemplate': {
                 click: this.downloadSubjectTemplate
+            },
+            '#importSubject': {
+                click: this.importSubjectClick
+            },
+            '#fileField': {
+                change: this.fileFieldChange
+            },
+            '#startImportSubjects': {
+                click: this.startImportSubjects
             }
         })
     },
@@ -351,6 +360,85 @@ Ext.define('NewsPaper.controller.SubjectController', {
 
     downloadSubjectTemplate: function () {
         window.open('/InformationSystemService/subject/downloadTemplate?fileName=题库模板.xlsx');
+    },
+
+    importSubjectClick: function () {
+        Ext.create('NewsPaper.view.SubjectImportWindowView').show();
+    },
+
+    fileFieldChange: function (field, value) {
+        if (value == '' || value == undefined || value == 'null' || value == null) {
+            Ext.MessageBox.alert('错误', '请选择模板文件！');
+            return;
+        }
+
+        // 文件扩展名
+        var fileExtension = value.substr(value.lastIndexOf('.') + 1);
+
+        if (fileExtension.toLowerCase() != "xls" && fileExtension.toLowerCase() != "xlsx") {
+            Ext.MessageBox.alert('错误', '文件格式不正确, 必须为excel文件！');
+            return;
+        }
+
+        var form = Ext.getCmp('subjectImportWindowView').down('#subjectImportForm').getForm();
+
+        var deptCombo = Ext.getCmp('subjectImportWindowView').down('#deptCombo');
+        deptCombo.setValue("1");
+
+        form.submit({
+            waitMsg: '上传数据文件中...',
+            success: function (form, action) {
+                deptCombo.clearValue();
+                Ext.example.msg('上传成功', action.result.msg);
+
+                var button = Ext.getCmp('subjectImportWindowView').down('#startImportSubjects');
+                button.setDisabled(false);
+            },
+            failure: function (form, action) {
+                deptCombo.clearValue();
+                Ext.MessageBox.alert('上传失败', action.result.msg);
+            }
+        });
+    },
+
+    startImportSubjects: function () {
+        var window = Ext.getCmp('subjectImportWindowView');
+        var deptId = window.down('#deptCombo').getValue();
+
+        if (deptId <= 0 || deptId == '' || deptId == 'null' || deptId == undefined || deptId == null) {
+            Ext.MessageBox.alert('错误', '请选择部门!');
+            return;
+        }
+
+        var progress = Ext.MessageBox.wait('正在导入题库', '导入', {
+            text: '导入中...'
+        });
+
+        Ext.Ajax.request({
+            url: '/InformationSystemService/subject/importSubjects',
+            method: 'post',
+            params: {
+                deptId: deptId
+            },
+            success: function (response) {
+                progress.close();
+                window.close();
+                var result = Ext.JSON.decode(response.responseText);
+                if (result.success) {
+                    Ext.example.msg('导入成功', result.msg);
+                    var gridStore = Ext.data.StoreManager.lookup('SubjectGridStore');
+                    gridStore.reload();
+                } else {
+                    Ext.MessageBox.alert('导入失败', result.msg)
+                }
+            },
+            failure: function (response) {
+                progress.close();
+                window.close();
+                var result = Ext.JSON.decode(response.responseText);
+                Ext.MessageBox.alert('导入失败', result.msg)
+            }
+        });
     }
 });
 

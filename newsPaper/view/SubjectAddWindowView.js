@@ -28,7 +28,7 @@ Ext.define('NewsPaper.view.SubjectAddWindowView', {
                 valueField: 'id',
                 displayField: 'name',
                 anchor: '100%',
-                allowBlank: true,
+                allowBlank: false,
                 blankText: '必须选择部门!'
             },
             {
