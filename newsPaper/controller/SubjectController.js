@@ -383,19 +383,32 @@ Ext.define('NewsPaper.controller.SubjectController', {
         var form = Ext.getCmp('subjectImportWindowView').down('#subjectImportForm').getForm();
 
         var deptCombo = Ext.getCmp('subjectImportWindowView').down('#deptCombo');
-        deptCombo.setValue("1");
+        if (deptCombo.getValue() <= 0
+            || deptCombo.getValue() == ''
+            || deptCombo.getValue() == 'null'
+            || deptCombo.getValue() == undefined
+            || deptCombo.getValue() == null) {
+
+            deptCombo.setValue("-1");
+        }
+
 
         form.submit({
             waitMsg: '上传数据文件中...',
             success: function (form, action) {
-                deptCombo.clearValue();
+                if (deptCombo.getValue() == "-1") {
+                    deptCombo.clearValue();
+                }
+
                 Ext.example.msg('上传成功', action.result.msg);
 
                 var button = Ext.getCmp('subjectImportWindowView').down('#startImportSubjects');
                 button.setDisabled(false);
             },
             failure: function (form, action) {
-                deptCombo.clearValue();
+                if (deptCombo.getValue() == "-1") {
+                    deptCombo.clearValue();
+                }
                 Ext.MessageBox.alert('上传失败', action.result.msg);
             }
         });
