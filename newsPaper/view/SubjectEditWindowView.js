@@ -144,10 +144,6 @@ Ext.define('NewsPaper.view.SubjectEditWindowView', {
                 text: '提交',
                 formBind: true,
                 disabled: true
-            },
-            {
-                itemId: 'subjectEditFormReset',
-                text: '重置'
             }
         ]
     }

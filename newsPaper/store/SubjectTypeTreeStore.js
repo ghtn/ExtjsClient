@@ -12,7 +12,7 @@ Ext.define('NewsPaper.store.SubjectTypeTreeStore', {
     root: {
         id: '-1',
         expanded: true,
-        text: '试题类别'
+        text: '试题类型'
     },
 
     model: 'NewsPaper.model.SubjectTypeTreeModel',

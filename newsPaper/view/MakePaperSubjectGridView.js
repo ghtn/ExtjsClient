@@ -5,11 +5,15 @@
  * Time: 下午4:40
  * To change this template use File | Settings | File Templates.
  */
-Ext.define('NewsPaper.view.SubjectGridView', {
+Ext.define('NewsPaper.view.MakePaperSubjectGridView', {
     extend: 'Ext.grid.Panel',
-    alias: 'widget.subjectGridView',
-    id: 'subjectGridView',
-    store: 'SubjectGridStore',
+    alias: 'widget.makePaperSubjectGridView',
+    id: 'makePaperSubjectGridView',
+    store: 'MakePaperSubjectGridStore',
+    selModel: {
+        selType: 'checkboxmodel',
+        mode: 'SIMPLE'
+    },
     columns: [
         {xtype: 'rownumberer'},
         {
@@ -46,18 +50,11 @@ Ext.define('NewsPaper.view.SubjectGridView', {
             flex: 3
         }
     ],
-    bbar: [
-        {
-            xtype: 'pagingtoolbar',
-            store: 'SubjectGridStore',
-            displayInfo: true
-        }
-    ],
     tbar: [
-        { itemId: 'addSubject', xtype: 'button', text: '增加', iconCls: 'Add' },
-        { itemId: 'removeSubject', xtype: 'button', text: '删除', iconCls: 'Delete' },
-        { itemId: 'importSubject', xtype: 'button', text: '导入', iconCls: 'Pageexcel' },
+        { itemId: 'addPaper', xtype: 'button', text: '生成试卷', iconCls: 'Pageadd' },
+        { itemId: 'genPaper', xtype: 'button', text: '自动生成试卷', iconCls: 'Pagerefresh' },
+        { itemId: 'importPaper', xtype: 'button', text: '导入试卷', iconCls: 'Pageexcel' },
         '->',
-        {itemId: 'downloadSubjectTemplate', xtype: 'button', text: '下载导入模板', iconCls: 'Packagedown'}
+        {itemId: 'downloadPaperTemplate', xtype: 'button', text: '下载导入模板', iconCls: 'Packagedown'}
     ]
 });

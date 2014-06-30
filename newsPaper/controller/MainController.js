@@ -133,6 +133,18 @@ Ext.define('NewsPaper.controller.MainController', {
                 }
 
             }
+
+            // 制作试卷, 加载题库数据
+            if (rec.data.id == 402) {
+                store = Ext.data.StoreManager.lookup('MakePaperSubjectGridStore');
+                store.load({
+                    params: {
+                        startDate: "",
+                        endDate: ""
+                    }
+                });
+
+            }
         }
     }
 });

@@ -69,7 +69,7 @@ Ext.define('NewsPaper.view.SubjectAddWindowView', {
                 fieldLabel: '题目描述',
                 name: 'description',
                 height: 150,
-                allowBlank: true,
+                allowBlank: false,
                 blankText: '题目描述不能为空!',
                 anchor: '100%'
             },
