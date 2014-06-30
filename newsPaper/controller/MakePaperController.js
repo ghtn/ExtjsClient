@@ -29,6 +29,9 @@ Ext.define('NewsPaper.controller.MakePaperController', {
             },
             '#makePaperGenFormSubmit': {
                 click: this.makePaperGenFormSubmit
+            },
+            '#filterSubject': {
+                click: this.filterSubject
             }
         })
     },
@@ -106,6 +109,23 @@ Ext.define('NewsPaper.controller.MakePaperController', {
                 }
             });
         }
+    },
+
+    filterSubject: function () {
+        var startDate = Ext.getCmp('makePaperSubjectGridView').down('#startDate').getValue();
+        var endDate = Ext.getCmp('makePaperSubjectGridView').down('#endDate').getValue();
+        startDate = Ext.util.Format.date(startDate, 'Y-m-d');
+        endDate = Ext.util.Format.date(endDate, 'Y-m-d');
+
+//        alert("startDate = " + startDate + ", endDate = " + endDate);
+
+        var store = Ext.data.StoreManager.lookup('MakePaperSubjectGridStore');
+        store.load({
+            params: {
+                startDate: startDate,
+                endDate: endDate
+            }
+        });
     }
 });
 
