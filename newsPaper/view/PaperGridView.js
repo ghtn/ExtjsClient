@@ -73,7 +73,7 @@ Ext.define('NewsPaper.view.PaperGridView', {
         {
             xtype: 'datefield',
             itemId: 'startDate',
-            fieldLabel: '&nbsp题库日期',
+            fieldLabel: '&nbsp创建日期',
             labelWidth: 60,
             format: 'Y-m-d',
             editable: false
@@ -85,15 +85,35 @@ Ext.define('NewsPaper.view.PaperGridView', {
             format: 'Y-m-d',
             editable: false
         },
+        '-',
         {
-            itemId: 'filterSubject', xtype: 'button', text: '过滤', iconCls: 'Arrowrefresh'
+            xtype: 'combo',
+            itemId: 'deptCombo',
+            fieldLabel: '部门',
+            labelWidth: 30,
+            store: 'DepartmentStore',
+            editable: false,
+            valueField: 'id',
+            displayField: 'name'
+        },
+        {
+            xtype: 'combo',
+            itemId: 'statusCombo',
+            fieldLabel: '状态',
+            labelWidth: 30,
+            width: 110,
+            store: 'PaperStatusStore',
+            editable: false,
+            valueField: 'value',
+            displayField: 'text'
+        },
+        {
+            itemId: 'filterPaper', xtype: 'button', text: '过滤', iconCls: 'Arrowrefresh'
         },
         '-',
-        { itemId: 'addPaper', xtype: 'button', text: '生成试卷', iconCls: 'Pageadd' },
-        { itemId: 'genPaper', xtype: 'button', text: '自动生成试卷', iconCls: 'Pagerefresh' },
-        { itemId: 'importPaper', xtype: 'button', text: '导入试卷', iconCls: 'Pageexcel' },
-        '->',
-        {itemId: 'downloadPaperTemplate', xtype: 'button', text: '下载导入模板', iconCls: 'Packagedown'}
+        { itemId: 'publishPaper', xtype: 'button', text: '发布', iconCls: 'Packageadd' },
+        { itemId: 'revokePaper', xtype: 'button', text: '撤销', iconCls: 'Packagedelete' },
+        { itemId: 'removePaper', xtype: 'button', text: '删除', iconCls: 'Delete' }
     ]
 
 });
