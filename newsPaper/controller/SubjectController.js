@@ -359,7 +359,7 @@ Ext.define('NewsPaper.controller.SubjectController', {
     },
 
     downloadSubjectTemplate: function () {
-        window.open('/InformationSystemService/subject/downloadTemplate?fileName=题库模板.xlsx');
+        window.open('/InformationSystemService/subject/downloadTemplate?fileName=题库模板.xls');
     },
 
     importSubjectClick: function () {

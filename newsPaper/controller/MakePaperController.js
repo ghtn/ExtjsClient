@@ -38,6 +38,9 @@ Ext.define('NewsPaper.controller.MakePaperController', {
             },
             '#startImportPaper': {
                 click: this.startImportPaper
+            },
+            '#downloadPaperTemplate': {
+                click: this.downloadPaperTemplate
             }
         })
     },
@@ -217,6 +220,10 @@ Ext.define('NewsPaper.controller.MakePaperController', {
                 Ext.MessageBox.alert('导入失败', result.msg)
             }
         });
+    },
+
+    downloadPaperTemplate: function () {
+        window.open('/InformationSystemService/paper/downloadTemplate?fileName=试卷模板.xls');
     }
 });
 
