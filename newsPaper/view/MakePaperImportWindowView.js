@@ -1,11 +1,11 @@
 /**
  * Created by Administrator on 13-12-5.
  */
-Ext.define('NewsPaper.view.SubjectImportWindowView', {
+Ext.define('NewsPaper.view.MakePaperImportWindowView', {
     extend: 'Ext.window.Window',
-    id: 'subjectImportWindowView',
-    alias: 'widget.subjectImportWindowView',
-    title: '导入试题',
+    id: 'makePaperImportWindowView',
+    alias: 'widget.makePaperImportWindowView',
+    title: '导入试卷',
     modal: true,
     width: 300,
     bodyPadding: 10,
@@ -13,9 +13,9 @@ Ext.define('NewsPaper.view.SubjectImportWindowView', {
 //    layout: 'fit',
     items: {
         xtype: 'form',
-        itemId: 'subjectImportForm',
+        itemId: 'makePaperImportForm',
         bodyPadding: 5,
-        url: '/InformationSystemService/subject/uploadFile',
+        url: '/InformationSystemService/paper/uploadFile',
 
         items: [
             {
@@ -35,7 +35,7 @@ Ext.define('NewsPaper.view.SubjectImportWindowView', {
             {
                 xtype: 'filefield',
                 name: 'file',
-                itemId: 'fileField',
+                itemId: 'paperFileField',
                 fieldLabel: '上传',
                 labelWidth: 70,
                 anchor: '100%',
@@ -46,7 +46,7 @@ Ext.define('NewsPaper.view.SubjectImportWindowView', {
         ],
         buttons: [
             {
-                itemId: 'startImportSubjects',
+                itemId: 'startImportPaper',
                 text: '导入',
                 disabled: true
             }

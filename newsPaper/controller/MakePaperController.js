@@ -32,6 +32,12 @@ Ext.define('NewsPaper.controller.MakePaperController', {
             },
             '#filterSubject': {
                 click: this.filterSubject
+            },
+            '#paperFileField': {
+                change: this.paperFileFieldChange
+            },
+            '#startImportPaper': {
+                click: this.startImportPaper
             }
         })
     },
@@ -51,7 +57,7 @@ Ext.define('NewsPaper.controller.MakePaperController', {
     },
 
     importPaper: function () {
-        alert("import paper");
+        Ext.create('NewsPaper.view.MakePaperImportWindowView').show();
     },
 
     makePaperAddFormSubmit: function () {
@@ -124,6 +130,91 @@ Ext.define('NewsPaper.controller.MakePaperController', {
             params: {
                 startDate: startDate,
                 endDate: endDate
+            }
+        });
+    },
+
+    paperFileFieldChange: function (field, value) {
+        if (value == '' || value == undefined || value == 'null' || value == null) {
+            Ext.MessageBox.alert('错误', '请选择模板文件！');
+            return;
+        }
+
+        // 文件扩展名
+        var fileExtension = value.substr(value.lastIndexOf('.') + 1);
+
+        if (fileExtension.toLowerCase() != "xls" && fileExtension.toLowerCase() != "xlsx") {
+            Ext.MessageBox.alert('错误', '文件格式不正确, 必须为excel文件！');
+            return;
+        }
+
+        var form = Ext.getCmp('makePaperImportWindowView').down('#makePaperImportForm').getForm();
+
+        var deptCombo = Ext.getCmp('makePaperImportWindowView').down('#deptCombo');
+        if (deptCombo.getValue() <= 0
+            || deptCombo.getValue() == ''
+            || deptCombo.getValue() == 'null'
+            || deptCombo.getValue() == undefined
+            || deptCombo.getValue() == null) {
+
+            deptCombo.setValue("-1");
+        }
+
+        form.submit({
+            waitMsg: '上传数据文件中...',
+            success: function (form, action) {
+                if (deptCombo.getValue() == "-1") {
+                    deptCombo.clearValue();
+                }
+
+                Ext.example.msg('上传成功', action.result.msg);
+
+                var button = Ext.getCmp('makePaperImportWindowView').down('#startImportPaper');
+                button.setDisabled(false);
+            },
+            failure: function (form, action) {
+                if (deptCombo.getValue() == "-1") {
+                    deptCombo.clearValue();
+                }
+                Ext.MessageBox.alert('上传失败', action.result.msg);
+            }
+        });
+    },
+
+    startImportPaper: function () {
+        var window = Ext.getCmp('makePaperImportWindowView');
+        var deptId = window.down('#deptCombo').getValue();
+
+        if (deptId <= 0 || deptId == '' || deptId == 'null' || deptId == undefined || deptId == null) {
+            Ext.MessageBox.alert('错误', '请选择部门!');
+            return;
+        }
+
+        var progress = Ext.MessageBox.wait('正在导入试卷', '导入', {
+            text: '导入中...'
+        });
+
+        Ext.Ajax.request({
+            url: '/InformationSystemService/paper/import',
+            method: 'post',
+            params: {
+                deptId: deptId
+            },
+            success: function (response) {
+                progress.close();
+                window.close();
+                var result = Ext.JSON.decode(response.responseText);
+                if (result.success) {
+                    Ext.example.msg('导入成功', result.msg);
+                } else {
+                    Ext.MessageBox.alert('导入失败', result.msg)
+                }
+            },
+            failure: function (response) {
+                progress.close();
+                window.close();
+                var result = Ext.JSON.decode(response.responseText);
+                Ext.MessageBox.alert('导入失败', result.msg)
             }
         });
     }
