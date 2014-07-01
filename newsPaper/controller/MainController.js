@@ -145,6 +145,20 @@ Ext.define('NewsPaper.controller.MainController', {
                 });
 
             }
+
+            // 试卷管理, 加载试卷数据
+            if (rec.data.id == 403) {
+                store = Ext.data.StoreManager.lookup('PaperGridStore');
+                store.load({
+                    params: {
+                        startDate: "",
+                        endDate: "",
+                        deptId: -1,
+                        status: -1
+                    }
+                });
+
+            }
         }
     }
 });
