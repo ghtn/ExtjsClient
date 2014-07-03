@@ -57,6 +57,41 @@
                 "url": "tagBaseContainer",
                 "leaf": true
             }
+            
+            
+             {
+        "id": 500,
+        "text": "人事管理",
+        "leaf": false,
+        "expanded": true,
+        "children": [
+            {
+                "id": 501,
+                "text": "人事信息",
+                "url": "http://www.pconline.com.cn",
+                "leaf": true
+            },
+            {
+                "id": 502,
+                "text": "人员调动",
+                "url": "contactsBaseContainer",
+                "leaf": true
+            },
+             {
+                "id": 503,
+                "text": "人员离职",
+                "url": "contactsBaseContainer",
+                "leaf": true
+            },
+            {
+                "id": 504,
+                "text": "人员复职",
+                "url": "tagBaseContainer",
+                "leaf": true
+            }
+          
+          
+            
         ]
     }
 ]
