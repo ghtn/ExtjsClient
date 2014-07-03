@@ -76,41 +76,4 @@ Ext.define('NewsPaper.view.MakePaperSubjectGridView', {
         '->',
         {itemId: 'downloadPaperTemplate', xtype: 'button', text: '下载导入模板', iconCls: 'Packagedown'}
     ]
-    /*tbar: {
-     xtype: 'container',
-     border: false,
-     items: [
-     {
-     xtype: 'toolbar',
-     border: false,
-     items: [
-     {
-     xtype: 'datefield',
-     fieldLabel: ' 题库日期',
-     labelWidth: 60,
-     name: 'startDate',
-     format: 'Y-m-d'
-     },
-     '到',
-     {
-     xtype: 'datefield',
-     name: 'endDate',
-     maxValue: new Date(),
-     format: 'Y-m-d'
-     }
-     ]
-     },
-     {
-     xtype: 'toolbar',
-     border: false,
-     items: [
-     { itemId: 'addPaper', xtype: 'button', text: '生成试卷', iconCls: 'Pageadd' },
-     { itemId: 'genPaper', xtype: 'button', text: '自动生成试卷', iconCls: 'Pagerefresh' },
-     { itemId: 'importPaper', xtype: 'button', text: '导入试卷', iconCls: 'Pageexcel' },
-     '->',
-     {itemId: 'downloadPaperTemplate', xtype: 'button', text: '下载导入模板', iconCls: 'Packagedown'}
-     ]
-     }
-     ]
-     }*/
 });
