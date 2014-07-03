@@ -285,44 +285,44 @@ Ext.define('NewsPaper.controller.MaterialController', {
         addMaterialTextClick: function () {
             var tree = Ext.getCmp('materialTypeTreeView');
             var node = tree.getSelectionModel().getSelection()[0];
-            if (node) {
-                if (node.data.leaf == true) {
-                    var window = Ext.create('NewsPaper.view.MaterialTextAddWindowView').show();
+//            if (node) {
+//                if (node.data.leaf == true) {
+            var window = Ext.create('NewsPaper.view.MaterialTextAddWindowView').show();
 
-                    var combo = window.down('combo');
-                    combo.setValue(node.get('id'));
+            var combo = window.down('combo');
+            combo.setValue(node.get('id'));
 
-                    // 初始化标签的checkgroup
-                    var checkGroup = window.down('#textTagCheckGroup');
+            // 初始化标签的checkgroup
+            var checkGroup = window.down('#textTagCheckGroup');
 
-                    // 从服务器取得标签数据
-                    Ext.Ajax.request({
-                        url: '/newsPaper/tag/listTag',
-                        method: 'post',
-                        success: function (response) {
-                            var result = Ext.JSON.decode(response.responseText);
-                            if (result && result.length > 0) {
-                                var items = [];
-                                for (var i = 0; i < result.length; i++) {
-                                    var item = {name: 'tagIds', boxLabel: result[i].text, inputValue: result[i].id};
-                                    items.push(item);
-                                }
-                                checkGroup.add(items);
-                            } else {
-                                Ext.MessageBox.alert('获取数据失败', '获取标签数据失败!!');
-                            }
-                        },
-                        failure: function (response) {
-                            var result = Ext.JSON.decode(response.responseText);
-                            Ext.MessageBox.alert('获取数据失败', result.msg);
+            // 从服务器取得标签数据
+            Ext.Ajax.request({
+                url: '/newsPaper/tag/listTag',
+                method: 'post',
+                success: function (response) {
+                    var result = Ext.JSON.decode(response.responseText);
+                    if (result && result.length > 0) {
+                        var items = [];
+                        for (var i = 0; i < result.length; i++) {
+                            var item = {name: 'tagIds', boxLabel: result[i].text, inputValue: result[i].id};
+                            items.push(item);
                         }
-                    });
-                } else {
-                    Ext.MessageBox.alert('错误', '请选择一个具体的素材类别!');
+                        checkGroup.add(items);
+                    } else {
+                        Ext.MessageBox.alert('获取数据失败', '获取标签数据失败!!');
+                    }
+                },
+                failure: function (response) {
+                    var result = Ext.JSON.decode(response.responseText);
+                    Ext.MessageBox.alert('获取数据失败', result.msg);
                 }
-            } else {
-                Ext.MessageBox.alert('错误', '请选择一个素材类别!');
-            }
+            });
+//                } else {
+//                    Ext.MessageBox.alert('错误', '请选择一个具体的素材类别!');
+//                }
+//            } else {
+//                Ext.MessageBox.alert('错误', '请选择一个素材类别!');
+//            }
         },
 
         /**

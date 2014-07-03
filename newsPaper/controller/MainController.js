@@ -108,6 +108,57 @@ Ext.define('NewsPaper.controller.MainController', {
                 store.load();
             }
 
+            // 加载题库数据
+            if (rec.data.id == 401) {
+                store = Ext.data.StoreManager.lookup('SubjectGridStore');
+                var tree = Ext.getCmp('subjectTypeTreeView');
+                var node = tree.getSelectionModel().getSelection()[0];
+                if (node) {
+                    var id = node.data.id;
+                    store.load({
+                        params: {
+                            start: 0,
+                            limit: 20,
+                            type: id
+                        }
+                    });
+                } else {
+                    store.load({
+                        params: {
+                            start: 0,
+                            limit: 20,
+                            type: -1
+                        }
+                    });
+                }
+
+            }
+
+            // 制作试卷, 加载题库数据
+            if (rec.data.id == 402) {
+                store = Ext.data.StoreManager.lookup('MakePaperSubjectGridStore');
+                store.load({
+                    params: {
+                        startDate: "",
+                        endDate: ""
+                    }
+                });
+
+            }
+
+            // 试卷管理, 加载试卷数据
+            if (rec.data.id == 403) {
+                store = Ext.data.StoreManager.lookup('PaperGridStore');
+                store.load({
+                    params: {
+                        startDate: "",
+                        endDate: "",
+                        deptId: -1,
+                        status: -1
+                    }
+                });
+
+            }
         }
     }
 });
