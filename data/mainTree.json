@@ -57,9 +57,9 @@
                 "url": "tagBaseContainer",
                 "leaf": true
             }
-            
-            
-             {
+        ]
+    },
+    {
         "id": 500,
         "text": "人事管理",
         "leaf": false,
@@ -77,7 +77,7 @@
                 "url": "contactsBaseContainer",
                 "leaf": true
             },
-             {
+            {
                 "id": 503,
                 "text": "人员离职",
                 "url": "contactsBaseContainer",
@@ -89,9 +89,6 @@
                 "url": "tagBaseContainer",
                 "leaf": true
             }
-          
-          
-            
         ]
     },
     {
