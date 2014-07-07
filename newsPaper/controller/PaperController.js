@@ -52,11 +52,6 @@ Ext.define('NewsPaper.controller.PaperController', {
         startDate = Ext.util.Format.date(startDate, 'Y-m-d');
         endDate = Ext.util.Format.date(endDate, 'Y-m-d');
 
-        var deptId = grid.down('#deptCombo').getValue();
-        if (deptId == null || deptId == "null" || deptId == "" || deptId == undefined) {
-            deptId = -1;
-        }
-
         var status = grid.down('#statusCombo').getValue();
         if (status == null) {
             status = -1;
@@ -67,7 +62,6 @@ Ext.define('NewsPaper.controller.PaperController', {
             params: {
                 startDate: startDate,
                 endDate: endDate,
-                deptId: deptId,
                 status: status
             }
         });
@@ -98,6 +92,7 @@ Ext.define('NewsPaper.controller.PaperController', {
                                 } else {
                                     Ext.MessageBox.alert('发布失败', result.msg);
                                 }
+                                grid.getSelectionModel().clearSelections();
                                 gridStore.reload();
                             },
                             failure: function (response) {
@@ -142,6 +137,7 @@ Ext.define('NewsPaper.controller.PaperController', {
                                 } else {
                                     Ext.MessageBox.alert('撤销失败', result.msg);
                                 }
+                                grid.getSelectionModel().clearSelections();
                                 gridStore.reload();
                             },
                             failure: function (response) {
@@ -163,8 +159,14 @@ Ext.define('NewsPaper.controller.PaperController', {
 
     removePaper: function () {
         var grid = Ext.getCmp('paperGridView');
+
         var record = grid.getSelectionModel().getSelection()[0];
+
         if (record) {
+            if (record.data.status == 1) {
+                Ext.MessageBox.alert('错误', '已经发布的试卷不能删除！');
+                return;
+            }
             Ext.MessageBox.confirm('确认删除', '确认删除所选择的试卷?', function (btn) {
                 if (btn == 'yes') {
                     var gridStore = Ext.data.StoreManager.lookup('PaperGridStore');
@@ -211,56 +213,6 @@ Ext.define('NewsPaper.controller.PaperController', {
                 paperId: record.data.id
             }
         });
-
-        /*var subjectChoice = window.down('#subjectEditChoice'); // 选择题答案
-         var judgeRadioGroup = window.down('#editJudgeRadioGroup'); // 判断题答案
-
-         if (record.data.type == 0) {
-         // 选择题, 显示选择题答案, 隐藏判断题答案
-         subjectChoice.show();
-         judgeRadioGroup.hide();
-
-         // 从服务器获取所选题目的答案列表
-         var progress = Ext.MessageBox.wait('正在获取所选择题目的答案列表', '获取', {
-         text: '获取中...'
-         });
-         Ext.Ajax.request({
-         url: '/InformationSystemService/subjectAnswer/getAnswers',
-         method: 'post',
-         params: {
-         id: record.data.id
-         },
-         success: function (response) {
-         progress.close();
-         var result = Ext.JSON.decode(response.responseText);
-         if (result && result.length > 0) {
-         var gridStore = Ext.data.StoreManager.lookup('SubjectAnswerStore');
-         gridStore.removeAll();
-         for (var i = 0; i < result.length; i++) {
-         var choice = Ext.create('NewsPaper.model.SubjectAnswerModel', {
-         id: result[i].id,
-         subjectId: result[i].subjectId,
-         answerDesc: result[i].description,
-         correct: result[i].correct
-         });
-         gridStore.add(choice);
-         }
-         }
-         },
-         failure: function (response) {
-         progress.close();
-         var result = Ext.JSON.decode(response.responseText);
-         Ext.MessageBox.alert('获取答案列表失败', result.msg);
-         }
-         });
-         } else if (record.data.type == 1) {
-         // 判断题, 显示判断题答案, 隐藏选择题答案
-         judgeRadioGroup.show();
-         subjectChoice.hide();
-         } else {
-         window.close();
-         Ext.MessageBox.alert('错误', '试题类型错误！试题类型必须为\"选择题\"或\"判断题\"!');
-         }*/
     },
 
     addPaperSubjectFromBankClick: function () {

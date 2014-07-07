@@ -5,22 +5,22 @@
  * Time: 下午4:18
  * To change this template use File | Settings | File Templates.
  */
-Ext.define('NewsPaper.model.PaperGridModel', {
+Ext.define('NewsPaper.model.ExamGridModel', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
-        {name: 'name', type: 'string'},
-        {name: 'fullScore', type: 'int'},
-        {name: 'passScore', type: 'int'},
         {name: 'deptId', type: 'int'},
         {name: 'deptName', type: 'string'},
-        {name: 'examTime', type: 'int'},
+        {name: 'paperId', type: 'int'},
+        {name: 'paperName', type: 'string'},
+        {name: 'name', type: 'string'},
+        {name: 'place', type: 'string'},
+        {name: 'examTime', type: 'string'},
         {name: 'creator', type: 'int'},
         {name: 'creatorName', type: 'string'},
         {name: 'createTime', type: 'string'},
-        {name: 'subNum', type: 'int'},
-        {name: 'status', type: 'int'},
-        {name: 'statusDesc', type: 'string'}
+        {name: 'editor', type: 'int'},
+        {name: 'editorName', type: 'string'},
+        {name: 'editTime', type: 'string'}
     ]
-
 });

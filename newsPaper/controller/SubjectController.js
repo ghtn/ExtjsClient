@@ -382,33 +382,15 @@ Ext.define('NewsPaper.controller.SubjectController', {
 
         var form = Ext.getCmp('subjectImportWindowView').down('#subjectImportForm').getForm();
 
-        var deptCombo = Ext.getCmp('subjectImportWindowView').down('#deptCombo');
-        if (deptCombo.getValue() <= 0
-            || deptCombo.getValue() == ''
-            || deptCombo.getValue() == 'null'
-            || deptCombo.getValue() == undefined
-            || deptCombo.getValue() == null) {
-
-            deptCombo.setValue("-1");
-        }
-
-
         form.submit({
             waitMsg: '上传数据文件中...',
             success: function (form, action) {
-                if (deptCombo.getValue() == "-1") {
-                    deptCombo.clearValue();
-                }
-
                 Ext.example.msg('上传成功', action.result.msg);
 
                 var button = Ext.getCmp('subjectImportWindowView').down('#startImportSubjects');
                 button.setDisabled(false);
             },
             failure: function (form, action) {
-                if (deptCombo.getValue() == "-1") {
-                    deptCombo.clearValue();
-                }
                 Ext.MessageBox.alert('上传失败', action.result.msg);
             }
         });
@@ -416,12 +398,6 @@ Ext.define('NewsPaper.controller.SubjectController', {
 
     startImportSubjects: function () {
         var window = Ext.getCmp('subjectImportWindowView');
-        var deptId = window.down('#deptCombo').getValue();
-
-        if (deptId <= 0 || deptId == '' || deptId == 'null' || deptId == undefined || deptId == null) {
-            Ext.MessageBox.alert('错误', '请选择部门!');
-            return;
-        }
 
         var progress = Ext.MessageBox.wait('正在导入题库', '导入', {
             text: '导入中...'
@@ -430,9 +406,6 @@ Ext.define('NewsPaper.controller.SubjectController', {
         Ext.Ajax.request({
             url: '/InformationSystemService/subject/importSubjects',
             method: 'post',
-            params: {
-                deptId: deptId
-            },
             success: function (response) {
                 progress.close();
                 window.close();

@@ -48,7 +48,7 @@ Ext.define('NewsPaper.view.PaperGridView', {
         },
         {
             text: '创建者',
-            dataIndex: 'creator',
+            dataIndex: 'creatorName',
             flex: 1
         },
         {
@@ -86,16 +86,6 @@ Ext.define('NewsPaper.view.PaperGridView', {
             editable: false
         },
         '-',
-        {
-            xtype: 'combo',
-            itemId: 'deptCombo',
-            fieldLabel: '部门',
-            labelWidth: 30,
-            store: 'DepartmentStore',
-            editable: false,
-            valueField: 'id',
-            displayField: 'name'
-        },
         {
             xtype: 'combo',
             itemId: 'statusCombo',

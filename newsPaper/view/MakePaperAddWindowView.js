@@ -19,18 +19,6 @@ Ext.define('NewsPaper.view.MakePaperAddWindowView', {
         defaultType: 'textfield',
         items: [
             {
-                xtype: 'combo',
-                fieldLabel: '部门',
-                name: 'deptId',
-                store: 'DepartmentStore',
-                editable: false,
-                valueField: 'id',
-                displayField: 'name',
-                anchor: '100%',
-                allowBlank: false,
-                blankText: '必须选择部门!'
-            },
-            {
                 fieldLabel: '试卷名称',
                 name: 'name',
                 allowBlank: false,

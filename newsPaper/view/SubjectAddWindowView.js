@@ -20,18 +20,6 @@ Ext.define('NewsPaper.view.SubjectAddWindowView', {
         defaultType: 'textfield',
         items: [
             {
-                xtype: 'combo',
-                fieldLabel: '部门',
-                name: 'deptId',
-                store: 'DepartmentStore',
-                editable: false,
-                valueField: 'id',
-                displayField: 'name',
-                anchor: '100%',
-                allowBlank: false,
-                blankText: '必须选择部门!'
-            },
-            {
                 xtype: 'radiogroup',
                 fieldLabel: '试题类型',
                 defaultType: 'radiofield',

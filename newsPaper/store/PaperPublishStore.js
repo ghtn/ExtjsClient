@@ -5,15 +5,15 @@
  * Time: 下午4:17
  * To change this template use File | Settings | File Templates.
  */
-Ext.define('NewsPaper.store.DepartmentStore', {
+Ext.define('NewsPaper.store.PaperPublishStore', {
     extend: 'Ext.data.Store',
-    id: 'departmentStore',
+    id: 'paperStore',
 
-    model: 'NewsPaper.model.DepartmentModel',
+    model: 'NewsPaper.model.PaperGridModel',
     proxy: {
         type: 'ajax',
         reader: 'json',
-        url: '/InformationSystemService/department'
+        url: '/InformationSystemService/paper/getPublish'
     }
 //    autoLoad: true
     //autoSync: true

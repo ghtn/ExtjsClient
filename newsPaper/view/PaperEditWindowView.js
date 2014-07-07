@@ -28,7 +28,7 @@ Ext.define('NewsPaper.view.PaperEditWindowView', {
                         fieldLabel: '试卷名称',
                         labelWidth: 60,
                         name: 'name',
-                        width: 400,
+                        width: 410,
                         allowBlank: false,
                         blankText: '试卷名称不能为空!',
                         anchor: '100%'
@@ -57,29 +57,6 @@ Ext.define('NewsPaper.view.PaperEditWindowView', {
                 layout: 'hbox',
                 items: [
                     {
-                        xtype: 'combo',
-                        fieldLabel: '部门',
-                        labelWidth: 60,
-                        name: 'deptId',
-                        itemId: 'paperEditDept',
-                        store: 'DepartmentStore',
-                        editable: false,
-                        valueField: 'id',
-                        displayField: 'name',
-                        anchor: '100%',
-                        allowBlank: false,
-                        blankText: '必须选择部门!'
-                    },
-                    {
-                        xtype: 'splitter'
-                    },
-                    {
-                        xtype: 'splitter'
-                    },
-                    {
-                        xtype: 'splitter'
-                    },
-                    {
                         xtype: 'textfield',
                         fieldLabel: '考试时长(分钟)',
                         labelWidth: 90,
@@ -88,17 +65,20 @@ Ext.define('NewsPaper.view.PaperEditWindowView', {
                         blankText: '考试时长不能为空!',
                         regex: /^[1-9][0-9]*$/,
                         regexText: '考试时长必须为正整数!'
-                    }
-                ]
-            },
-            {
-                xtype: 'fieldcontainer',
-                layout: 'hbox',
-                items: [
+                    },
+                    {
+                        xtype: 'splitter'
+                    },
+                    {
+                        xtype: 'splitter'
+                    },
+                    {
+                        xtype: 'splitter'
+                    },
                     {
                         xtype: 'textfield',
                         fieldLabel: '满分',
-                        labelWidth: 60,
+                        labelWidth: 40,
                         name: 'fullScore',
                         allowBlank: false,
                         blankText: '分值不能为空!',
@@ -117,7 +97,7 @@ Ext.define('NewsPaper.view.PaperEditWindowView', {
                     {
                         xtype: 'textfield',
                         fieldLabel: '及格分',
-                        labelWidth: 90,
+                        labelWidth: 50,
                         name: 'passScore',
                         allowBlank: false,
                         blankText: '分值不能为空!',

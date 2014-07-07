@@ -24,19 +24,6 @@ Ext.define('NewsPaper.view.SubjectEditWindowView', {
                 hidden: true
             },
             {
-                xtype: 'combo',
-                fieldLabel: '部门',
-                name: 'deptId',
-                itemId: 'subjectEditDept',
-                store: 'DepartmentStore',
-                editable: false,
-                valueField: 'id',
-                displayField: 'name',
-                anchor: '100%',
-                allowBlank: false,
-                blankText: '必须选择部门!'
-            },
-            {
                 xtype: 'radiogroup',
                 fieldLabel: '试题类型',
                 defaultType: 'radiofield',

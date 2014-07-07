@@ -153,8 +153,19 @@ Ext.define('NewsPaper.controller.MainController', {
                     params: {
                         startDate: "",
                         endDate: "",
-                        deptId: -1,
                         status: -1
+                    }
+                });
+
+            }
+
+            // 考试管理, 加载考试数据
+            if (rec.data.id == 404) {
+                store = Ext.data.StoreManager.lookup('ExamGridStore');
+                store.load({
+                    params: {
+                        startDate: "",
+                        endDate: ""
                     }
                 });
 

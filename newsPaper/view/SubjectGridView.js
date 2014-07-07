@@ -37,7 +37,7 @@ Ext.define('NewsPaper.view.SubjectGridView', {
         },
         {
             text: '创建者',
-            dataIndex: 'creator',
+            dataIndex: 'creatorName',
             flex: 2
         },
         {
