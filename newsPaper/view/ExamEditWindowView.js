@@ -1,10 +1,10 @@
 /**
  * Created by Administrator on 13-12-5.
  */
-Ext.define('NewsPaper.view.ExamAddWindowView', {
+Ext.define('NewsPaper.view.ExamEditWindowView', {
     extend: 'Ext.window.Window',
-    id: 'examAddWindowView',
-    title: '增加考试',
+    id: 'examEditWindowView',
+    title: '编辑考试',
     modal: true,
     width: 600,
     bodyPadding: 10,
@@ -12,12 +12,16 @@ Ext.define('NewsPaper.view.ExamAddWindowView', {
     layout: 'fit',
     items: {
         xtype: 'form',
-        itemId: 'examAddForm',
+        itemId: 'examEditForm',
         bodyPadding: 5,
-        url: '/InformationSystemService/exam/add',
+        url: '/InformationSystemService/exam/update',
 
         defaultType: 'textfield',
         items: [
+            {
+                name: 'id',
+                hidden: true
+            },
             {
                 fieldLabel: '考试名称',
                 name: 'name',
@@ -121,14 +125,14 @@ Ext.define('NewsPaper.view.ExamAddWindowView', {
                         labelWidth: 40
                     },
                     {
-                        itemId: 'filterExamEmp', xtype: 'button', text: '过滤', iconCls: 'Arrowrefresh'
+                        itemId: 'editFilterExamEmp', xtype: 'button', text: '过滤', iconCls: 'Arrowrefresh'
                     }
                 ]
             }
         ],
         buttons: [
             {
-                itemId: 'examAddFormSubmit',
+                itemId: 'examEditFormSubmit',
                 text: '提交',
                 formBind: true,
                 disabled: true
