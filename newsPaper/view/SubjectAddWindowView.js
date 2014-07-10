@@ -30,11 +30,17 @@ Ext.define('NewsPaper.view.SubjectAddWindowView', {
                 layout: 'hbox',
                 items: [
                     {
-                        boxLabel: '选择题',
+                        boxLabel: '单选题',
                         itemId: 'typeRadio1',
                         name: 'type',
                         inputValue: 0,
                         checked: true
+                    },
+                    {
+                        boxLabel: '多选题',
+                        itemId: 'typeRadio3',
+                        name: 'type',
+                        inputValue: 2
                     },
                     {
                         boxLabel: '判断题',
@@ -70,8 +76,8 @@ Ext.define('NewsPaper.view.SubjectAddWindowView', {
                 store: 'SubjectAnswerStore',
                 columns: [
                     {
-                        header: '描述',
-                        dataIndex: 'answerDesc',
+                        header: '标记',
+                        dataIndex: 'mark',
                         editor: {
                             xtype: 'textfield',
                             allowBlank: false
@@ -79,9 +85,19 @@ Ext.define('NewsPaper.view.SubjectAddWindowView', {
                         flex: 1
                     },
                     {
+                        header: '描述',
+                        dataIndex: 'answerDesc',
+                        editor: {
+                            xtype: 'textfield',
+                            allowBlank: false
+                        },
+                        flex: 10
+                    },
+                    {
                         xtype: 'checkcolumn',
                         dataIndex: 'correct',
-                        text: '正确答案'
+                        text: '正确',
+                        flex: 1
                     }
                 ],
                 selType: 'cellmodel',

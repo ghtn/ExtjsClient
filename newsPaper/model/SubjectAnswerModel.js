@@ -11,7 +11,8 @@ Ext.define('NewsPaper.model.SubjectAnswerModel', {
         {name: 'id', type: 'int'},
         {name: 'subjectId', type: 'int'},
         {name: 'answerDesc', type: 'string'},
-        {name: 'correct', type: 'bool'}
+        {name: 'correct', type: 'bool'},
+        {name: 'mark', type: 'string'}
     ]
 
 });

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+
+    <!-- css -->
+    <link href="css/jquery.mobile-1.4.0.min.css" rel="stylesheet" type="text/css"/>
+    <link href="css/my.css" rel="stylesheet" type="text/css"/>
+    <link href="css/jquery.toastmessage.css" rel="stylesheet" type="text/css">
+
+    <!-- js -->
+    <script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script src="js/jquery.mobile-1.4.0.min.js" type="text/javascript"></script>
+    <script src="js/jquery.toastmessage.js" type="text/javascript"></script>
+    <script src="js/login.js" type="text/javascript"></script>
+
+</head>
+<body>
+<div data-role="page" id="login">
+    <div data-role="header" data-theme="b">
+        <div align="center"><h1 style="font-size: large">在线考试系统</h1></div>
+    </div>
+    <div data-role="content">
+        <div id="loginForm">
+            <label for="idCard">身份证号：</label>
+            <input type="text" id="idCard" placeholder="请输入身份证号">
+
+            <a class="ui-shadow ui-btn"
+               onclick="login()">登录</a>
+        </div>
+
+
+        <div id="loginInfo" style="display: none">
+            <label for="idCardInfo">身份证号：</label>
+            <input type="text" id="idCardInfo" readonly="true">
+
+            <label for="nameInfo">姓名：</label>
+            <input type="text" id="nameInfo" readonly="true">
+
+            <label for="deptInfo">部门：</label>
+            <input type="text" id="deptInfo" readonly="true">
+
+            <a class="ui-shadow ui-btn ui-corner-all ui-btn-inline"
+               onclick="loginSuccess()">正确</a>
+
+            <a class="ui-shadow ui-btn ui-corner-all ui-btn-inline"
+               onclick="loginError()">错误</a>
+        </div>
+    </div>
+</div>
+
+<div data-role="page" id="select">
+    <div data-role="header" data-theme="b">
+        <div align="center"><h1 style="font-size: large">在线考试系统</h1></div>
+    </div>
+    <div data-role="content">
+        <label for="examSelect">选择考试：</label>
+        <select id="examSelect"></select>
+
+        <a class="ui-shadow ui-btn ui-corner-all"
+           onclick="startExam()">开始考试</a>
+    </div>
+</div>
+</body>
+</html>
