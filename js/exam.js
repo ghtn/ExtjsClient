@@ -183,6 +183,7 @@ function finishExam() {
                         position: 'middle-center',
                         type: 'success'
                     });
+                    localStorage.clear();
                 } else {
                     $().toastmessage('showToast', {
                         text: '提交答题信息失败！' + data.msg,
