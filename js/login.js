@@ -127,6 +127,43 @@ function loginError() {
 
 function startExam() {
     var selectVal = $("#examSelect").val();
-    sessionStorage.setItem("examId", selectVal);
-    window.location.href = "exam.html";
+    var idCardInfo = sessionStorage.getItem("idCardInfo");
+    if (loading == false) {
+        $.mobile.loading("show", {text: "正在获取考试人员信息...", textVisible: true});
+        loading = true;
+
+        $.ajax({
+            url: "/InformationSystemService/exam/checkExamEmp",
+            data: "examId=" + selectVal + "&idCard=" + idCardInfo,
+            dataType: "json",
+            type: "post",
+            timeout: 10000,
+            success: function (data) {
+                if (data != undefined && data != null && data.code == 1) {
+                    sessionStorage.setItem("examId", selectVal);
+                    window.location.href = "exam.html";
+                } else {
+                    $().toastmessage('showToast', {
+                        text: '没有匹配的考试人员信息！',
+                        sticky: false,
+                        position: 'middle-center',
+                        type: 'error'
+                    });
+                }
+                $.mobile.loading("hide");
+                loading = false;
+            },
+            error: function () {
+                $().toastmessage('showToast', {
+                    text: '访问服务器错误！',
+                    sticky: false,
+                    position: 'middle-center',
+                    type: 'error'
+                });
+                $.mobile.loading("hide");
+                loading = false;
+            }
+        });
+    }
+
 }

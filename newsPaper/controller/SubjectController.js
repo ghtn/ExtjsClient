@@ -99,6 +99,13 @@ Ext.define('NewsPaper.controller.SubjectController', {
 
         subjectChoice.show();
         judgeRadioGroup.hide();
+
+        // 清空SubjectAnswerStore中的记录
+        var store = Ext.data.StoreManager.lookup('SubjectAnswerStore');
+        if (store.getCount() > 0) {
+            store.removeAll();
+        }
+
     },
 
     addSubjectChoice: function () {
