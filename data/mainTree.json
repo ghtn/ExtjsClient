@@ -124,7 +124,7 @@
             {
                 "id": 405,
                 "text": "成绩管理",
-                "url": "tagBaseContainer",
+                "url": "scoreBaseContainer",
                 "leaf": true
             }
         ]

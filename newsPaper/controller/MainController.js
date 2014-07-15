@@ -170,6 +170,23 @@ Ext.define('NewsPaper.controller.MainController', {
                 });
 
             }
+
+            // 成绩管理, 加载考试成绩数据
+            if (rec.data.id == 405) {
+                store = Ext.data.StoreManager.lookup('ScoreGridStore');
+                store.load({
+                    params: {
+                        idCard: "",
+                        name: "",
+                        empNumber: "",
+                        examId: -1,
+                        examScore: -1,
+                        pass: -1,
+                        errorCount: -1
+                    }
+                });
+
+            }
         }
     }
 });
