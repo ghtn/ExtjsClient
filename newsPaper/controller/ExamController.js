@@ -35,6 +35,9 @@ Ext.define('NewsPaper.controller.ExamController', {
             },
             '#examEditFormSubmit': {
                 click: this.examEditFormSubmit
+            },
+            '#filterExam': {
+                click: this.filterExam
             }
         })
     },
@@ -251,6 +254,22 @@ Ext.define('NewsPaper.controller.ExamController', {
                 }
             });
         }
+    },
+
+    filterExam: function () {
+        var grid = Ext.getCmp('examGridView');
+        var startDate = grid.down('#startDate').getValue();
+        var endDate = grid.down('#endDate').getValue();
+        startDate = Ext.util.Format.date(startDate, 'Y-m-d');
+        endDate = Ext.util.Format.date(endDate, 'Y-m-d');
+
+        var store = Ext.data.StoreManager.lookup('ExamGridStore');
+        store.load({
+            params: {
+                startDate: startDate,
+                endDate: endDate
+            }
+        });
     }
 });
 
