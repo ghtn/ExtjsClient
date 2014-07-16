@@ -28,7 +28,8 @@ Ext.define('NewsPaper.controller.ExamController', {
                 click: this.filterExamEmp
             },
             'examGridView': {
-                itemdblclick: this.showExamEditWindow
+                itemdblclick: this.showExamEditWindow,
+                render: this.examGridRender
             },
             '#editFilterExamEmp': {
                 click: this.editFilterExamEmp
@@ -270,6 +271,23 @@ Ext.define('NewsPaper.controller.ExamController', {
                 endDate: endDate
             }
         });
+    },
+
+    examGridRender: function (grid) {
+        var store = grid.getStore();
+
+        store.on('beforeload', function () {
+            var startDate = grid.down('#startDate').getValue();
+            var endDate = grid.down('#endDate').getValue();
+            startDate = Ext.util.Format.date(startDate, 'Y-m-d');
+            endDate = Ext.util.Format.date(endDate, 'Y-m-d');
+
+            var typeParam = {
+                startDate: startDate,
+                endDate: endDate
+            };
+            Ext.apply(store.proxy.extraParams, typeParam);
+        })
     }
 });
 

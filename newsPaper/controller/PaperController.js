@@ -28,7 +28,8 @@ Ext.define('NewsPaper.controller.PaperController', {
                 click: this.removePaper
             },
             'paperGridView': {
-                itemdblclick: this.showPaperEditWindow
+                itemdblclick: this.showPaperEditWindow,
+                render: this.paperGridRender
             },
             '#addPaperSubjectFromBank': {
                 click: this.addPaperSubjectFromBankClick
@@ -346,6 +347,29 @@ Ext.define('NewsPaper.controller.PaperController', {
                 }
             });
         }
+    },
+
+    paperGridRender: function (grid) {
+        var store = grid.getStore();
+
+        store.on('beforeload', function () {
+            var startDate = grid.down('#startDate').getValue();
+            var endDate = grid.down('#endDate').getValue();
+            startDate = Ext.util.Format.date(startDate, 'Y-m-d');
+            endDate = Ext.util.Format.date(endDate, 'Y-m-d');
+
+            var status = grid.down('#statusCombo').getValue();
+            if (status == null) {
+                status = -1;
+            }
+
+            var typeParam = {
+                startDate: startDate,
+                endDate: endDate,
+                status: status
+            };
+            Ext.apply(store.proxy.extraParams, typeParam);
+        })
     }
 });
 

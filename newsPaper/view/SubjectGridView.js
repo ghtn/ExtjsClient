@@ -54,10 +54,50 @@ Ext.define('NewsPaper.view.SubjectGridView', {
         }
     ],
     tbar: [
+        {
+            xtype: 'datefield',
+            itemId: 'startDate',
+            fieldLabel: '&nbsp创建日期',
+            labelWidth: 60,
+            format: 'Y-m-d',
+            editable: false
+        },
+        '至',
+        {
+            xtype: 'datefield',
+            itemId: 'endDate',
+            format: 'Y-m-d',
+            editable: false
+        },
+        '-',
+        {
+            xtype: 'combo',
+            itemId: 'subjectTypeCombo',
+            fieldLabel: '类型',
+            labelWidth: 30,
+            width: 110,
+            store: 'SubjectTypeStore',
+            editable: false,
+            valueField: 'value',
+            displayField: 'text'
+        },
+        {
+            xtype: 'textfield',
+            itemId: 'mark',
+            fieldLabel: '分值',
+            labelWidth: 30,
+            width: 70,
+            regex: /^[1-9][0-9]*$/,
+            regexText: '分值必须为正整数!'
+        },
+        {
+            itemId: 'filterSubject2', xtype: 'button', text: '过滤', iconCls: 'Arrowrefresh'
+        },
+        '-',
         { itemId: 'addSubject', xtype: 'button', text: '增加', iconCls: 'Add' },
         { itemId: 'removeSubject', xtype: 'button', text: '删除', iconCls: 'Delete' },
         { itemId: 'importSubject', xtype: 'button', text: '导入', iconCls: 'Pageexcel' },
-        '->',
+        '-',
         {itemId: 'downloadSubjectTemplate', xtype: 'button', text: '下载导入模板', iconCls: 'Packagedown'}
     ]
 });

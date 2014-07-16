@@ -73,7 +73,7 @@ Ext.define('NewsPaper.view.MakePaperSubjectGridView', {
         { itemId: 'addPaper', xtype: 'button', text: '生成试卷', iconCls: 'Pageadd' },
         { itemId: 'genPaper', xtype: 'button', text: '自动生成试卷', iconCls: 'Pagerefresh' },
         { itemId: 'importPaper', xtype: 'button', text: '导入试卷', iconCls: 'Pageexcel' },
-        '->',
+        '-',
         {itemId: 'downloadPaperTemplate', xtype: 'button', text: '下载导入模板', iconCls: 'Packagedown'}
     ]
 });

@@ -42,17 +42,16 @@ Ext.define('NewsPaper.view.Viewport', {
                     xtype: 'mainTreeView'
                 }
             ]
-        },
-        {
-            region: 'east',
-            width: 100,
-            title: '说明',
-            animCollapse: true,
-            width: 200,
-            minWidth: 150,
-            maxWidth: 400,
-            split: true,
-            collapsible: true
         }
+        /*{
+         region: 'east',
+         width: 100,
+         title: '说明',
+         animCollapse: true,
+         minWidth: 150,
+         maxWidth: 400,
+         split: true,
+         collapsible: true
+         }*/
     ]
 });

@@ -41,6 +41,9 @@ Ext.define('NewsPaper.controller.MakePaperController', {
             },
             '#downloadPaperTemplate': {
                 click: this.downloadPaperTemplate
+            },
+            '#makePaperSubjectGridView': {
+                render: this.makePaperSubjectGridRender
             }
         })
     },
@@ -198,6 +201,23 @@ Ext.define('NewsPaper.controller.MakePaperController', {
 
     downloadPaperTemplate: function () {
         window.open('/InformationSystemService/paper/downloadTemplate?fileName=试卷模板.xls');
+    },
+
+    makePaperSubjectGridRender: function (grid) {
+        var store = grid.getStore();
+
+        store.on('beforeload', function () {
+            var startDate = grid.down('#startDate').getValue();
+            var endDate = grid.down('#endDate').getValue();
+            startDate = Ext.util.Format.date(startDate, 'Y-m-d');
+            endDate = Ext.util.Format.date(endDate, 'Y-m-d');
+
+            var typeParam = {
+                startDate: startDate,
+                endDate: endDate
+            };
+            Ext.apply(store.proxy.extraParams, typeParam);
+        })
     }
 });
 

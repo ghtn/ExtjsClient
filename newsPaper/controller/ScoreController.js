@@ -20,6 +20,9 @@ Ext.define('NewsPaper.controller.ScoreController', {
             },
             '#exportScore': {
                 click: this.exportScore
+            },
+            '#scoreGridView': {
+                render: this.scoreGridRender
             }
         })
     },
@@ -70,37 +73,35 @@ Ext.define('NewsPaper.controller.ScoreController', {
 
         window.open('/InformationSystemService/score/exportScore?idCard=' + idCard + "&name=" + name
             + "&empNumber=" + empNumber + "&examId=" + examId + "&examScore=-1&pass=" + pass + "&errorCount=-1");
+    },
 
-        /* var progress = Ext.MessageBox.wait('正在导出考试成绩数据', '导出', {
-         text: '导出中...'
-         });
-         Ext.Ajax.request({
-         url: '/InformationSystemService/score/exportScore',
-         method: 'post',
-         params: {
-         idCard: idCard,
-         name: name,
-         empNumber: empNumber,
-         examId: examId,
-         examScore: -1,
-         pass: pass,
-         errorCount: -1
-         },
-         success: function (response) {
-         progress.close();
-         var result = Ext.JSON.decode(response.responseText);
-         if (result.success) {
-         Ext.example.msg('删除成功', result.msg);
-         } else {
-         Ext.MessageBox.alert('删除失败', result.msg);
-         }
-         },
-         failure: function (response) {
-         progress.close();
-         var result = Ext.JSON.decode(response.responseText);
-         Ext.MessageBox.alert('删除失败', result.msg);
-         }
-         });*/
+    scoreGridRender: function (grid) {
+        var store = grid.getStore();
+
+        store.on('beforeload', function () {
+            var idCard = grid.down('#idCard').getValue();
+            var name = grid.down('#name').getValue();
+            var empNumber = grid.down('#empNumber').getValue();
+            var examId = grid.down('#examCombo').getValue();
+            if (examId == null) {
+                examId = -1;
+            }
+            var pass = grid.down('#passCombo').getValue();
+            if (pass == null) {
+                pass = -1;
+            }
+
+            var typeParam = {
+                idCard: idCard,
+                name: name,
+                empNumber: empNumber,
+                examId: examId,
+                examScore: -1,
+                pass: pass,
+                errorCount: -1
+            };
+            Ext.apply(store.proxy.extraParams, typeParam);
+        })
     }
 });
 

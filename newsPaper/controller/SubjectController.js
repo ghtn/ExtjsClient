@@ -10,8 +10,8 @@
 Ext.define('NewsPaper.controller.SubjectController', {
     extend: 'Ext.app.Controller',
     views: ['SubjectBaseContainer', 'SubjectGridContainer', 'SubjectTypeTreeView', 'SubjectGridView'],
-    stores: ['SubjectTypeTreeStore', 'SubjectGridStore', 'DepartmentStore', 'SubjectAnswerStore'],
-    models: ['SubjectTypeTreeModel', 'SubjectGridModel', 'DepartmentModel', 'SubjectAnswerModel'],
+    stores: ['SubjectTypeTreeStore', 'SubjectGridStore', 'DepartmentStore', 'SubjectAnswerStore', 'SubjectTypeStore'],
+    models: ['SubjectTypeTreeModel', 'SubjectGridModel', 'DepartmentModel', 'SubjectAnswerModel', 'SubjectTypeModel'],
 
     init: function () {
         this.control({
@@ -66,6 +66,9 @@ Ext.define('NewsPaper.controller.SubjectController', {
             },
             '#startImportSubjects': {
                 click: this.startImportSubjects
+            },
+            '#filterSubject2': {
+                click: this.filterSubject2
             }
         })
     },
@@ -76,16 +79,29 @@ Ext.define('NewsPaper.controller.SubjectController', {
 
     subjectGridRender: function (grid) {
         var store = grid.getStore();
+
         store.on('beforeload', function () {
-            var tree = Ext.getCmp('subjectTypeTreeView');
-            var node = tree.getSelectionModel().getSelection()[0];
-            var typeParam;
-            if (node) {
-                var id = node.data.id;
-                typeParam = {type: id};
-            } else {
-                typeParam = {type: -1};
+            var startDate = grid.down('#startDate').getValue();
+            var endDate = grid.down('#endDate').getValue();
+            startDate = Ext.util.Format.date(startDate, 'Y-m-d');
+            endDate = Ext.util.Format.date(endDate, 'Y-m-d');
+
+            var subjectType = grid.down('#subjectTypeCombo').getValue();
+            if (subjectType == null) {
+                subjectType = -1;
             }
+
+            var mark = grid.down('#mark').getValue();
+            if (mark == null || mark == "") {
+                mark = -1;
+            }
+
+            var typeParam = {
+                startDate: startDate,
+                endDate: endDate,
+                type: subjectType,
+                mark: mark
+            };
             Ext.apply(store.proxy.extraParams, typeParam);
         })
     },
@@ -473,6 +489,34 @@ Ext.define('NewsPaper.controller.SubjectController', {
                 window.close();
                 var result = Ext.JSON.decode(response.responseText);
                 Ext.MessageBox.alert('导入失败', result.msg)
+            }
+        });
+    },
+
+    filterSubject2: function () {
+        var grid = Ext.getCmp('subjectGridView');
+        var startDate = grid.down('#startDate').getValue();
+        var endDate = grid.down('#endDate').getValue();
+        startDate = Ext.util.Format.date(startDate, 'Y-m-d');
+        endDate = Ext.util.Format.date(endDate, 'Y-m-d');
+
+        var subjectType = grid.down('#subjectTypeCombo').getValue();
+        if (subjectType == null) {
+            subjectType = -1;
+        }
+
+        var mark = grid.down('#mark').getValue();
+        if (mark == null || mark == "") {
+            mark = -1;
+        }
+
+        var store = Ext.data.StoreManager.lookup('SubjectGridStore');
+        store.load({
+            params: {
+                startDate: startDate,
+                endDate: endDate,
+                type: subjectType,
+                mark: mark
             }
         });
     }
