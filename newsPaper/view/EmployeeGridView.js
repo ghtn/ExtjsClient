@@ -10,7 +10,12 @@ Ext.define('NewsPaper.view.EmployeeGridView', {
     alias: 'widget.employeeGridView',
     id: 'employeeGridView',
     store: 'EmployeeGridStore',
+    selModel: {
+        selType: 'checkboxmodel',
+        mode: 'SIMPLE'
+    },
     columns: [
+   		{xtype: 'rownumberer'},
         {
             text: 'ID',
             dataIndex: 'id',

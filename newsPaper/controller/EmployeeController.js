@@ -21,7 +21,7 @@ Ext.define('NewsPaper.controller.EmployeeController', {
             '#addEmployee': {	// 添加
                 click: this.addEmployee
             },
-            '#removeEmployee': {	// 删除
+            '#removeEmployee': {	// 删除(支持批量删除)
                 click: this.removeEmployee
             },
             '#importEmployee': {	// 导入
@@ -81,8 +81,13 @@ Ext.define('NewsPaper.controller.EmployeeController', {
         var grid = Ext.getCmp('employeeGridView');
 
         var record = grid.getSelectionModel().getSelection()[0];
-//		alert(record.data.id);
         if (record) {	
+	        var ids = record.data.id;
+	        for(var i = 1; i < grid.getSelectionModel().getSelection().length; i++){
+		        var rec = grid.getSelectionModel().getSelection()[i];
+	        	ids += "#" + rec.data.id;
+	        }
+//			alert(ids);
             Ext.MessageBox.confirm('确认删除', '确认删除所选择的人员?', function (btn) {
                 if (btn == 'yes') {
                 	var employeeGridStore = Ext.data.StoreManager.lookup('EmployeeGridStore');
@@ -93,7 +98,7 @@ Ext.define('NewsPaper.controller.EmployeeController', {
                         url: '/InformationSystemService/employee/remove',
                         method: 'post',
                         params: {
-                            id: record.data.id
+                            ids: ids
                         },
                         success: function (response) {
                             progress.close();
