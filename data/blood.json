@@ -1,0 +1,18 @@
+[
+	{
+		"disp":"A型",
+		"value":0
+	},
+	{
+		"disp":"B型",
+		"value":1
+	},
+	{
+		"disp":"O型",
+		"value":2
+	},
+	{
+		"disp":"AB型",
+		"value":3
+	}
+]
