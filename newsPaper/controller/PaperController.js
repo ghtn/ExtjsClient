@@ -47,25 +47,8 @@ Ext.define('NewsPaper.controller.PaperController', {
     },
 
     filterPaper: function () {
-        var grid = Ext.getCmp('paperGridView');
-        var startDate = grid.down('#startDate').getValue();
-        var endDate = grid.down('#endDate').getValue();
-        startDate = Ext.util.Format.date(startDate, 'Y-m-d');
-        endDate = Ext.util.Format.date(endDate, 'Y-m-d');
-
-        var status = grid.down('#statusCombo').getValue();
-        if (status == null) {
-            status = -1;
-        }
-
         var store = Ext.data.StoreManager.lookup('PaperGridStore');
-        store.load({
-            params: {
-                startDate: startDate,
-                endDate: endDate,
-                status: status
-            }
-        });
+        store.loadPage(1);
     },
 
     publishPaper: function () {
@@ -353,12 +336,21 @@ Ext.define('NewsPaper.controller.PaperController', {
         var store = grid.getStore();
 
         store.on('beforeload', function () {
-            var startDate = grid.down('#startDate').getValue();
-            var endDate = grid.down('#endDate').getValue();
-            startDate = Ext.util.Format.date(startDate, 'Y-m-d');
-            endDate = Ext.util.Format.date(endDate, 'Y-m-d');
+            var startDate = "";
+            var endDate = "";
+            if (grid.down('#startDate')) {
+                startDate = grid.down('#startDate').getValue();
+                startDate = Ext.util.Format.date(startDate, 'Y-m-d');
+            }
+            if (grid.down('#endDate')) {
+                endDate = grid.down('#endDate').getValue();
+                endDate = Ext.util.Format.date(endDate, 'Y-m-d');
+            }
 
-            var status = grid.down('#statusCombo').getValue();
+            var status = null;
+            if (grid.down('#statusCombo')) {
+                status = grid.down('#statusCombo').getValue();
+            }
             if (status == null) {
                 status = -1;
             }

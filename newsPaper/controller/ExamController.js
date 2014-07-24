@@ -258,29 +258,24 @@ Ext.define('NewsPaper.controller.ExamController', {
     },
 
     filterExam: function () {
-        var grid = Ext.getCmp('examGridView');
-        var startDate = grid.down('#startDate').getValue();
-        var endDate = grid.down('#endDate').getValue();
-        startDate = Ext.util.Format.date(startDate, 'Y-m-d');
-        endDate = Ext.util.Format.date(endDate, 'Y-m-d');
-
         var store = Ext.data.StoreManager.lookup('ExamGridStore');
-        store.load({
-            params: {
-                startDate: startDate,
-                endDate: endDate
-            }
-        });
+        store.loadPage(1);
     },
 
     examGridRender: function (grid) {
         var store = grid.getStore();
 
         store.on('beforeload', function () {
-            var startDate = grid.down('#startDate').getValue();
-            var endDate = grid.down('#endDate').getValue();
-            startDate = Ext.util.Format.date(startDate, 'Y-m-d');
-            endDate = Ext.util.Format.date(endDate, 'Y-m-d');
+            var startDate = "";
+            var endDate = "";
+            if (grid.down('#startDate')) {
+                startDate = grid.down('#startDate').getValue();
+                startDate = Ext.util.Format.date(startDate, 'Y-m-d');
+            }
+            if (grid.down('#endDate')) {
+                endDate = grid.down('#endDate').getValue();
+                endDate = Ext.util.Format.date(endDate, 'Y-m-d');
+            }
 
             var typeParam = {
                 startDate: startDate,
