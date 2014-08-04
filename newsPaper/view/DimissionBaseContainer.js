@@ -1,9 +1,9 @@
 /**
  * Created by lihe on 14-6-23.
  */
-Ext.define('NewsPaper.view.EmployeeBaseContainer', {
+Ext.define('NewsPaper.view.DimissionBaseContainer', {
     extend: 'Ext.container.Container',
-    alias: 'widget.employeeBaseContainer',
+    alias: 'widget.dimissionBaseContainer',
     layout: 'border',
     items: [
         {
@@ -11,7 +11,7 @@ Ext.define('NewsPaper.view.EmployeeBaseContainer', {
             autoScroll: true,
             items: [
                 {
-                    xtype: 'employeeGridContainer'
+                    xtype: 'dimissionGridContainer'
                 }
             ]
         }

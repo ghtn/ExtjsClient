@@ -1,0 +1,18 @@
+[
+	{
+		"disp":"部门",
+		"value":"deptName"
+	},
+	{
+		"disp":"姓名",
+		"value":"name"
+	},
+	{
+		"disp":"员工号",
+		"value":"empNumber"
+	},
+	{
+		"disp":"身份证",
+		"value":"card"
+	}
+]

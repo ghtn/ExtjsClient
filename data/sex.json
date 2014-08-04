@@ -1,10 +1,10 @@
 [
 	{
 		"disp":"男",
-		"value":0
+		"value":"男"
 	},
 	{
 		"disp":"女",
-		"value":1
+		"value":"女"
 	}
 ]

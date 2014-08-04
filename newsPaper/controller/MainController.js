@@ -40,6 +40,9 @@ Ext.define('NewsPaper.controller.MainController', {
                     xtype: rec.data.url,
                     closable: true
                 });
+            }else{
+	            mainTabPanel.setActiveTab(tab);
+				return ;// 已经打开tab别再刷新！            
             }
             mainTabPanel.setActiveTab(tab);
 
@@ -107,8 +110,50 @@ Ext.define('NewsPaper.controller.MainController', {
                 store = Ext.data.StoreManager.lookup('MaterialTypeStore');
                 store.load();
             }
-
-            // 加载题库数据
+            
+            // 人事信息, 加载人事数据
+            if(rec.data.id == 501){
+				store = Ext.data.StoreManager.lookup('EmployeeGridStore');
+            	store.loadPage(1);
+            }
+            
+            // 人员调动, 加载人事数据
+            if(rec.data.id == 502){
+				store = Ext.data.StoreManager.lookup('TransferGridStore');
+            	store.loadPage(1);
+            }
+            
+            // 人员离职, 加载离职人员
+            if(rec.data.id == 503){
+				store = Ext.data.StoreManager.lookup('DimissionGridStore');
+            	store.loadPage(1);
+            }
+            
+            // 人员复职, 加载复职人员
+            if(rec.data.id == 504){
+				store = Ext.data.StoreManager.lookup('RestoralGridStore');
+            	store.loadPage(1);
+            }
+            
+            // 退休管理, 加载未退休人员
+            if(rec.data.id == 505){
+				store = Ext.data.StoreManager.lookup('RetireGridStore');
+//            	store.loadPage(1, {callback:function(){
+//            		if( store.getCount() == 0){
+//            				Ext.example.msg('消息', '没有即将退休的员工！', 4000);
+//            		}
+//            		for(var i = 0; i < store.getCount(); i++){
+//            			var rec = store.getAt(i);
+//            			if( rec.get("warn") != '' && rec.get('warn') != null){
+//            				Ext.example.msg('预警', rec.get('name') + rec.get('warn'), 4000);
+//            			}
+//            		}
+//            	}});
+				store.loadPage(1);
+            }
+            
+            
+			// 加载题库数据
             if (rec.data.id == 401) {
                 store = Ext.data.StoreManager.lookup('SubjectGridStore');
                 // 参数在grid渲染之后通过store的beforeload事件添加

@@ -6,11 +6,15 @@
  * To change this template use File | Settings | File Templates.
  */
  
-Ext.define('NewsPaper.view.EmployeeGridView', {
+Ext.define('NewsPaper.view.RestoralGridView', {
     extend: 'Ext.grid.Panel',
-    alias: 'widget.employeeGridView',
-    id: 'employeeGridView',
-    store: 'EmployeeGridStore',
+    alias: 'widget.restoralGridView',
+    id: 'restoralGridView',
+    store: 'RestoralGridStore',
+    selModel: {
+        selType: 'checkboxmodel',
+        mode: 'SIMPLE'
+    },
     columns: [
    		{xtype: 'rownumberer'},
         {
@@ -110,12 +114,6 @@ Ext.define('NewsPaper.view.EmployeeGridView', {
             flex: 1
         },
         {
-            text: '预警',
-            dataIndex: 'warn',
-            hidden:true,
-            flex: 1
-        },
-        {
             text: '本人籍贯',
             dataIndex: 'selfNationality',
             hidden:true,
@@ -154,6 +152,7 @@ Ext.define('NewsPaper.view.EmployeeGridView', {
         {
             text: '工种',
             dataIndex: 'jobType',
+            hidden:true,
             flex: 1
         },
         {
@@ -200,6 +199,7 @@ Ext.define('NewsPaper.view.EmployeeGridView', {
         {
             text: '岗位工资',
             dataIndex: 'postSalary',
+            hidden:true,
             flex: 1
         },
         {
@@ -216,7 +216,7 @@ Ext.define('NewsPaper.view.EmployeeGridView', {
         },
         {
             text: '学校名称',
-            dataIndex: 'schoolName',
+            dataIndex: 'birthday',
             hidden:true,
             flex: 1
         },
@@ -235,6 +235,12 @@ Ext.define('NewsPaper.view.EmployeeGridView', {
         {
             text: '毕业时间',
             dataIndex: 'graduateTime',
+            hidden:true,
+            flex: 1.2
+        },
+        {
+            text: '出身日期',
+            dataIndex: 'birthday',
             hidden:true,
             flex: 1.2
         },
@@ -265,6 +271,7 @@ Ext.define('NewsPaper.view.EmployeeGridView', {
         {
             text: '联系电话',
             dataIndex: 'telphone',
+            hidden:true,
             flex: 1.8
         },
         {
@@ -326,20 +333,38 @@ Ext.define('NewsPaper.view.EmployeeGridView', {
             dataIndex: 'comment',
             hidden:true,
             flex: 2
+        },
+        {
+            text: '预警',
+            dataIndex: 'warn',
+            flex: 2,
+            renderer:function(val){ 
+                if(val == '12个月内退休!'){
+                	return "<span style='color:#d60'>"+val+"</span>";
+                }else if(val == '6个月内退休!'){
+                	return "<span style='color:#d0d'>"+val+"</span>";
+                }else if(val == '3个月内退休!'){
+                	return "<span style='color:#f60'>"+val+"</span>";
+                }else if(val == '已过退休年龄!'){
+                	return "<span style='color:#f00'>"+val+"</span>";
+                }else{
+                	return val; 
+                }
+            } 
         }
     ],
     bbar: [
         {
             xtype: 'pagingtoolbar',
-            store: 'EmployeeGridStore',
+            store: 'RestoralGridStore',
             displayInfo: true
         }
     ],
     tbar: [
-    	' ',
+        ' ',
         {
             xtype: 'combo',
-            itemId: 'filterQueryEmployeeCondition',
+            itemId: 'filterRestoralEmployeeCondition',
             fieldLabel: '查询条件',
             labelWidth: 55,
             width: 150,
@@ -350,30 +375,22 @@ Ext.define('NewsPaper.view.EmployeeGridView', {
         },
         {
         	xtype:'textfield',
-        	itemId:'filterQueryEmployeeValue',
+        	itemId:'filterRestoralEmployeeValue',
         	fieldLabel: ' ',
         	labelWidth: 5,
             width: 130
         },
         '-',
         {
-            itemId: 'filterQueryEmployee', xtype: 'button', text: '查询', iconCls: 'Arrowrefresh'
+            itemId: 'filterRestoralEmployee', xtype: 'button', text: '查询', iconCls: 'Arrowrefresh'
         },
         '-',
         {
-            itemId: 'resetFilterQueryEmployee', xtype: 'button', text: '清空', iconCls: 'Arrowundo'
+            itemId: 'resetFilterRestoralEmployee', xtype: 'button', text: '清空', iconCls: 'Arrowundo'
         },
         '->',
-        { itemId: 'addEmployee', xtype: 'button', text: '增加', iconCls: 'Add' },
-        '-',
-        { itemId: 'removeEmployee', xtype: 'button', text: '删除', iconCls: 'Delete' },
-        '-',
-        { itemId: 'importEmployee', xtype: 'button', text: '导入', iconCls: 'Pageexcel' },
-        '-',
-        {itemId: 'downloadEmployeeTemplate', xtype: 'button', text: '下载导入模板', iconCls: 'Packagedown'},
-        '-',
-        { itemId: 'exportEmployee', xtype: 'button', text: '导出', iconCls: 'Datego' },
-        ' '	
+        { itemId: 'restoralEmployee', xtype: 'button', text: '复职', iconCls: 'Add' },
+        ' '
     ]
 
 });

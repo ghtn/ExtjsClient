@@ -1,18 +1,18 @@
 [
 	{
 		"disp":"A型",
-		"value":0
+		"value":"A型"
 	},
 	{
 		"disp":"B型",
-		"value":1
+		"value":"B型"
 	},
 	{
 		"disp":"O型",
-		"value":2
+		"value":"O型"
 	},
 	{
 		"disp":"AB型",
-		"value":3
+		"value":"AB型"
 	}
 ]

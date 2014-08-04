@@ -60,7 +60,8 @@ Ext.define('NewsPaper.model.EmployeeGridModel', {
         {name: 'cardBirthday', type: 'string'},		// 身份证出生日期
         {name: 'comment', type: 'string'},			// 备注
         {name: 'selfNationality', type: 'string'},	// 本人籍贯
-        {name: 'deptId', type: 'int'}	// 部门号
+        {name: 'deptId', type: 'string'},			// 部门号
+        {name: 'warn', type: 'string'}				// 预警
     ]
 
 });

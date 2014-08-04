@@ -5,10 +5,10 @@
  * Time: 下午4:18
  * To change this template use File | Settings | File Templates.
  */
-Ext.define('NewsPaper.model.SexModel', {
+Ext.define('NewsPaper.model.TransferModel', {
     extend: 'Ext.data.Model',
     fields: [
-        {name: 'disp', type: 'string'},
-        {name: 'value', type: 'string'}
+        {name: 'transDate', type: 'string'},
+        {name: 'detail', type: 'string'}
     ]
 });

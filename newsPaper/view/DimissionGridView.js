@@ -6,11 +6,15 @@
  * To change this template use File | Settings | File Templates.
  */
  
-Ext.define('NewsPaper.view.EmployeeGridView', {
+Ext.define('NewsPaper.view.DimissionGridView', {
     extend: 'Ext.grid.Panel',
-    alias: 'widget.employeeGridView',
-    id: 'employeeGridView',
-    store: 'EmployeeGridStore',
+    alias: 'widget.dimissionGridView',
+    id: 'dimissionGridView',
+    store: 'DimissionGridStore',
+    selModel: {
+        selType: 'checkboxmodel',
+        mode: 'SIMPLE'
+    },
     columns: [
    		{xtype: 'rownumberer'},
         {
@@ -154,6 +158,7 @@ Ext.define('NewsPaper.view.EmployeeGridView', {
         {
             text: '工种',
             dataIndex: 'jobType',
+            hidden:true,
             flex: 1
         },
         {
@@ -331,15 +336,15 @@ Ext.define('NewsPaper.view.EmployeeGridView', {
     bbar: [
         {
             xtype: 'pagingtoolbar',
-            store: 'EmployeeGridStore',
+            store: 'DimissionGridStore',
             displayInfo: true
         }
     ],
     tbar: [
-    	' ',
+        ' ',
         {
             xtype: 'combo',
-            itemId: 'filterQueryEmployeeCondition',
+            itemId: 'filterDimissionEmployeeCondition',
             fieldLabel: '查询条件',
             labelWidth: 55,
             width: 150,
@@ -350,30 +355,22 @@ Ext.define('NewsPaper.view.EmployeeGridView', {
         },
         {
         	xtype:'textfield',
-        	itemId:'filterQueryEmployeeValue',
+        	itemId:'filterDimissionEmployeeValue',
         	fieldLabel: ' ',
         	labelWidth: 5,
             width: 130
         },
         '-',
         {
-            itemId: 'filterQueryEmployee', xtype: 'button', text: '查询', iconCls: 'Arrowrefresh'
+            itemId: 'filterDimissionEmployee', xtype: 'button', text: '查询', iconCls: 'Arrowrefresh'
         },
         '-',
         {
-            itemId: 'resetFilterQueryEmployee', xtype: 'button', text: '清空', iconCls: 'Arrowundo'
+            itemId: 'resetFilterDimissionEmployee', xtype: 'button', text: '清空', iconCls: 'Arrowundo'
         },
         '->',
-        { itemId: 'addEmployee', xtype: 'button', text: '增加', iconCls: 'Add' },
-        '-',
-        { itemId: 'removeEmployee', xtype: 'button', text: '删除', iconCls: 'Delete' },
-        '-',
-        { itemId: 'importEmployee', xtype: 'button', text: '导入', iconCls: 'Pageexcel' },
-        '-',
-        {itemId: 'downloadEmployeeTemplate', xtype: 'button', text: '下载导入模板', iconCls: 'Packagedown'},
-        '-',
-        { itemId: 'exportEmployee', xtype: 'button', text: '导出', iconCls: 'Datego' },
-        ' '	
+        { itemId: 'dimissionEmployee', xtype: 'button', text: '离职', iconCls: 'Delete' },
+        ' '
     ]
 
 });

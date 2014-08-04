@@ -1,22 +1,22 @@
 [
 	{
 		"disp":"中国",
-		"value":0
+		"value":"中国"
 	},
 	{
 		"disp":"阿尔及利亚",
-		"value":1
+		"value":"阿尔及利亚"
 	},
 	{
 		"disp":"安哥拉",
-		"value":2
+		"value":"安哥拉"
 	},
 	{
 		"disp":"贝宁",
-		"value":3
+		"value":"贝宁"
 	},
 	{
 		"disp":"博茨瓦纳",
-		"value":4
+		"value":"博茨瓦纳"
 	}
 ]

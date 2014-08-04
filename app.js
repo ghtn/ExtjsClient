@@ -20,7 +20,11 @@ Ext.onReady(function () {
         //指定配置选项，设置相应的路径
         appFolder: 'newsPaper',
         //加载控制器
-        controllers: ['MainController', 'ContactsController', 'MaterialController', 'TagController', 'SubjectController', 'MakePaperController', 'PaperController', 'ExamController', 'ScoreController', 'EmployeeController'],
+        controllers: ['MainController', 'ContactsController', 'MaterialController',
+        	'TagController', 'SubjectController', 'MakePaperController',
+        	'PaperController', 'ExamController', 'ScoreController', 
+        	'EmployeeController', 'DimissionController', 'TransferController',
+        	'RestoralController', 'RetireController'],
         //自动加载和实例化Viewport文件
         autoCreateViewport: true
     });

@@ -9,6 +9,6 @@ Ext.define('NewsPaper.model.CountryModel', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'disp', type: 'string'},
-        {name: 'value', type: 'int'}
+        {name: 'value', type: 'string'}
     ]
 });
