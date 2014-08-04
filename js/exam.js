@@ -7,6 +7,10 @@ var subjectList;
 // 从sessionStorage中获取登录人员的身份证号和考试id
 var idCardInfo = sessionStorage.getItem("idCardInfo");
 var examId = sessionStorage.getItem("examId");
+var examTime;
+var second = 60;
+var iCount;
+var showTime = 0;
 
 function loadPaper() {
     if (loading == false) {
@@ -23,8 +27,20 @@ function loadPaper() {
                 if (data != undefined && data != null && data.code == 1) {
                     var paperDiv = $("#paperDiv");
                     paperDiv.html("");
+
+                    examTime = data.examTime - 1;
+                    var headerText = $("#headerText");
+                    headerText.html("");
+                    var headerStr = "";
+                    headerStr += data.paperName + "(" + data.deptName + ")<br>";
+                    headerStr += "满分 : " + data.fullScore + "分, 及格分 : " + data.passScore + "分, 考试时间 : " + data.examTime + "分钟<br>";
+                    headerStr += "倒计时 : <span id='timer'>" + examTime + " : 59</span>";
+                    headerText.html(headerStr);
+
+                    var subjectDiv = "<div id='scrollDiv' style='width:100%;z-index: 1;margin: 0px'>";
+                    subjectDiv += "<div id='spaceDiv'></div>";
                     subjectList = data.subjectList;
-                    var divStr = "";
+
                     for (var i = 0; i < subjectList.length; i++) {
                         var subject = subjectList[i];
                         var subjectDesc = "";
@@ -34,7 +50,7 @@ function loadPaper() {
                         chooseAnswer += "<legend>选择答案:</legend>";
                         if (subject.type == 0) {
                             // 单选题
-                            subjectDesc = (i + 1) + "." + subject.description;
+                            subjectDesc = (i + 1) + "." + subject.description + "(" + subject.mark + "分)";
                             for (var j = 0; j < subject.answers.length; j++) {
                                 subjectAnswer += subject.answers[j].mark + "." + subject.answers[j].description + "<br>";
                                 chooseAnswer += "<label for='answer" + subject.answers[j].id + "'>" + subject.answers[j].mark + "</label>";
@@ -43,7 +59,7 @@ function loadPaper() {
 
                         }
                         if (subject.type == 2) {
-                            subjectDesc = (i + 1) + "." + subject.description + "(多选题)";
+                            subjectDesc = (i + 1) + "." + subject.description + "(多选题, " + subject.mark + "分)";
                             // 多选题
                             for (var j = 0; j < subject.answers.length; j++) {
                                 subjectAnswer += subject.answers[j].mark + "." + subject.answers[j].description + "<br>";
@@ -53,7 +69,7 @@ function loadPaper() {
                         }
                         if (subject.type == 1) {
                             // 判断题
-                            subjectDesc = (i + 1) + "." + subject.description;
+                            subjectDesc = (i + 1) + "." + subject.description + "(" + subject.mark + "分)";
                             chooseAnswer += "<label for='radioTrue" + subject.id + "'>正确</label>";
                             chooseAnswer += "<input type='radio' name='subjectRadio" + i + "' id='radioTrue" + subject.id + "' onchange='chooseAnswer(" + subject.id + ", true, " + subject.type + ", null)'>";
                             chooseAnswer += "<label for='radioFalse" + subject.id + "'>错误</label>";
@@ -63,15 +79,22 @@ function loadPaper() {
 
                         chooseAnswer += "</fieldset>";
 
-                        divStr += "<div>" + subjectDesc + "<br>" + subjectAnswer + chooseAnswer + "<br>" + "</div><br>";
-
+                        subjectDiv += "<div>" + subjectDesc + "<br>" + subjectAnswer + chooseAnswer + "<br>" + "</div><br>";
 
                     }
-                    paperDiv.html(divStr).trigger("create");
+
+                    var buttonStr = "<div><button id='finish' class='ui-corner-all' onclick='finishExam()'>交卷</button></div><br>";
+                    subjectDiv += buttonStr + "</div>";
+
+                    paperDiv.html(subjectDiv).trigger("create");
+
+                    $("#spaceDiv").css("height", $("#header").css("height"));
 
                     for (var i = 0; i < subjectList.length; i++) {
                         loadAnswer(subjectList[i]);
                     }
+
+                    iCount = setInterval("countDown()", 1000);
 
                 } else {
                     $().toastmessage('showToast', {
@@ -97,6 +120,35 @@ function loadPaper() {
         });
     }
 
+}
+
+function countDown() {
+    second--;
+    if (second < 0) {
+        examTime--;
+        second = 59;
+    }
+    if (second < 10) {
+        $("#timer").html(examTime + " : 0" + second);
+    } else {
+        $("#timer").html(examTime + " : " + second);
+    }
+
+    if (examTime == 0) {
+        if (showTime == 0) {
+            $().toastmessage('showToast', {
+                text: '考试时间还剩一分钟! 倒计时结束时将自动交卷!',
+                sticky: true,
+                position: 'middle-center',
+                type: 'warning'
+            });
+        }
+        showTime++;
+        if (second == 0) {
+            // 提交试卷
+            finishExam();
+        }
+    }
 }
 
 function chooseAnswer(subjectId, answerId, subjectType, checkboxName) {
@@ -157,6 +209,9 @@ function loadAnswer(subject) {
 
 function finishExam() {
     if (loading == false) {
+        // 停止定时器
+        clearInterval(iCount);
+
         var paramStr = "";
         for (var i = 0; i < subjectList.length; i++) {
             var keyStr = examId + "#" + idCardInfo + "#" + subjectList[i].id;
@@ -184,6 +239,7 @@ function finishExam() {
                         type: 'success'
                     });
                     localStorage.clear();
+                    $("#finish").attr("disabled", "disabled");
                 } else {
                     $().toastmessage('showToast', {
                         text: '提交答题信息失败！' + data.msg,
@@ -191,6 +247,7 @@ function finishExam() {
                         position: 'middle-center',
                         type: 'error'
                     });
+                    $("#finish").attr("disabled", "disabled");
                 }
                 $.mobile.loading("hide");
                 loading = false;

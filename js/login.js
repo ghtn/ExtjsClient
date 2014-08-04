@@ -142,9 +142,23 @@ function startExam() {
                 if (data != undefined && data != null && data.code == 1) {
                     sessionStorage.setItem("examId", selectVal);
                     window.location.href = "exam.html";
-                } else {
+                } else if (data.code == 0) {
+                    $().toastmessage('showToast', {
+                        text: '已经存在该人的考试记录!',
+                        sticky: false,
+                        position: 'middle-center',
+                        type: 'error'
+                    });
+                } else if (data.code == -1) {
                     $().toastmessage('showToast', {
                         text: '没有匹配的考试人员信息！',
+                        sticky: false,
+                        position: 'middle-center',
+                        type: 'error'
+                    });
+                } else {
+                    $().toastmessage('showToast', {
+                        text: '操作码错误! code = ' + data.code,
                         sticky: false,
                         position: 'middle-center',
                         type: 'error'
