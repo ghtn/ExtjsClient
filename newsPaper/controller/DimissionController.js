@@ -43,6 +43,7 @@ Ext.define('NewsPaper.controller.DimissionController', {
 	    	    queryValue = queryValue.getValue();
 			}
 	        var typeParam = {
+	        	userName:Ext.util.Cookies.get("userName"),
 	            queryCondition: queryCondition,
 	            queryValue: queryValue,
 	            postState:"在职"
@@ -52,13 +53,7 @@ Ext.define('NewsPaper.controller.DimissionController', {
     },
     
     filterDimissionEmployee:function(){
-		var grid = Ext.getCmp('dimissionGridView');
-        var queryCondition = grid.down('#filterDimissionEmployeeCondition').getValue();
-        if(queryCondition == null || queryCondition+'' == ''){
-        	Ext.MessageBox.alert("提示", "请先选择查询条件！");
-        }else{
-	    	grid.getStore().loadPage(1);
-        }
+		Ext.getCmp('dimissionGridView').getStore().loadPage(1);
     },
     resetFilterDimissionEmployee:function(){
 		var grid = Ext.getCmp('dimissionGridView');
@@ -86,6 +81,7 @@ Ext.define('NewsPaper.controller.DimissionController', {
                         method: 'post',
                         params: {
                             ids: ids,
+                            userName:Ext.util.Cookies.get("userName"),
                             postState:'离职'
                         },
                         success: function (response) {

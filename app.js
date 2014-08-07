@@ -26,6 +26,33 @@ Ext.onReady(function () {
         	'EmployeeController', 'DimissionController', 'TransferController',
         	'RestoralController', 'RetireController'],
         //自动加载和实例化Viewport文件
-        autoCreateViewport: true
+//        autoCreateViewport: true
+        init:function(){
+        	var userName = Ext.util.Cookies.get("userName");
+			if( userName != null){
+				Ext.Ajax.request({
+	                url: '/InformationSystemService/user/check',
+	                method: 'post',
+	                params: {
+	                    userName:userName
+	                },
+	                success: function (response) {
+                        if (response.responseText == 'true') {
+		                	Ext.create("NewsPaper.view.Viewport");
+                        } else {
+                        	window.location.href = window.location.protocol + "//" 
+								+ window.location.host + "/InformationSystemClient";
+                        }
+	                },
+	                failure: function (response) {
+						window.location.href = window.location.protocol + "//" 
+							+ window.location.host + "/InformationSystemClient";
+	                }
+	            });
+			}else{
+				window.location.href = window.location.protocol + "//" 
+					+ window.location.host + "/InformationSystemClient";
+			}
+        }
     });
 });

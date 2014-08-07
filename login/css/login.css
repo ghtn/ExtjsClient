@@ -1,0 +1,9 @@
+BODY {
+	FONT-SIZE: 12px
+}
+.head {
+	BACKGROUND: url(../images/bg_login_head.jpg) no-repeat left 50%
+}
+.login_right {
+	BACKGROUND: url(../images/login_right.jpg) no-repeat left 50%
+}

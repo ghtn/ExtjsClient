@@ -41,7 +41,23 @@ Ext.define('NewsPaper.view.Viewport', {
                 {
                     xtype: 'mainTreeView'
                 }
-            ]
+            ],
+            tbar:[
+				{
+					itemId : 'modifyPassword',
+					xtype : 'button',
+					text : '修改密码',
+					iconCls : 'Lockedit'
+				},
+		    	'->', // 右对齐， 简写！
+				{
+					itemId : 'logout',
+					xtype : 'button',
+					text : '注销',
+					iconCls : 'Lockdelete'
+				},
+				' '
+		    ]
         }
         /*{
          region: 'east',

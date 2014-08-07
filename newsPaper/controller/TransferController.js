@@ -38,6 +38,7 @@ Ext.define('NewsPaper.controller.TransferController', {
 	    store = Ext.data.StoreManager.lookup('TransferStore');
 		// load回调函数
 	    store.load({params:{
+	    	userName:Ext.util.Cookies.get("userName"),
 	    	card:card
 	    }, callback:function(records, opts, success){
 		    // 把数据显示到form里
@@ -58,14 +59,13 @@ Ext.define('NewsPaper.controller.TransferController', {
 						xtype:'fieldset',
 				        title: 'No.' + (i+1),
 				        collapsible: true,
+						defaultType: 'displayfield',
 				        items:[
 						    {
-						        xtype: 'displayfield',
 						        fieldLabel: '调动时间',
 						        value: records[i].data.transDate
 						    }, 
 						    {
-						        xtype: 'displayfield',
 						        fieldLabel: '调动过程',
 						        value: records[i].data.detail
 					        }
@@ -95,6 +95,7 @@ Ext.define('NewsPaper.controller.TransferController', {
 	    	    queryValue = queryValue.getValue();
 			}
 	        var typeParam = {
+	        	userName:Ext.util.Cookies.get("userName"),
 	            queryCondition: queryCondition,
 	            queryValue: queryValue
 	        };
@@ -103,13 +104,7 @@ Ext.define('NewsPaper.controller.TransferController', {
     },
    
     filterTransferEmployee:function(){
-		var grid = Ext.getCmp('transferGridView');
-        var queryCondition = grid.down('#filterTransferEmployeeCondition').getValue();
-        if(queryCondition == null || queryCondition+'' == ''){
-        	Ext.MessageBox.alert("提示", "请先选择查询条件！");
-        }else{
-	    	grid.getStore().loadPage(1);
-        }
+		Ext.getCmp('transferGridView').getStore().loadPage(1);
     },
     resetFilterTransferEmployee:function(){
 		var grid = Ext.getCmp('transferGridView');

@@ -101,6 +101,7 @@ Ext.define('NewsPaper.controller.EmployeeController', {
                         url: '/InformationSystemService/employee/remove',
                         method: 'post',
                         params: {
+                        	userName:Ext.util.Cookies.get("userName"),
                             ids: ids
                         },
                         success: function (response) {
@@ -210,6 +211,9 @@ Ext.define('NewsPaper.controller.EmployeeController', {
                 	var employeeGridStore = Ext.data.StoreManager.lookup('EmployeeGridStore');
                     form.submit({
                         waitMsg: '正在添加人员...',
+                        params:{
+                        	userName:Ext.util.Cookies.get("userName")
+                        },
                         success: function (form, action) {
                             Ext.example.msg('增加成功', action.result.msg);
                             window.close();
@@ -237,6 +241,7 @@ Ext.define('NewsPaper.controller.EmployeeController', {
 	    	    queryValue = queryValue.getValue();
 			}
 	        var typeParam = {
+	        	userName:Ext.util.Cookies.get("userName"),
 	            queryCondition: queryCondition,
 	            queryValue: queryValue,
 	            postState:"在职"
@@ -313,6 +318,9 @@ Ext.define('NewsPaper.controller.EmployeeController', {
                     form.submit({
                         waitMsg: '正在修改信息...',
                         submitEmptyText:false,
+                        params:{
+                    	    userName:Ext.util.Cookies.get("userName")
+                        },
                         success: function (form, action) {
                             Ext.example.msg('修改成功', action.result.msg);
                             window.close();
@@ -350,6 +358,9 @@ Ext.define('NewsPaper.controller.EmployeeController', {
 
         form.submit({
             waitMsg: '上传数据文件中...',
+            params:{
+            	userName:Ext.util.Cookies.get("userName")
+            },
             success: function (form, action) {
                 Ext.example.msg('上传成功', action.result.msg);
                 var button = Ext.getCmp('employeeImportWindowView').down('#startImportEmployees');
@@ -371,6 +382,9 @@ Ext.define('NewsPaper.controller.EmployeeController', {
         Ext.Ajax.request({
             url: '/InformationSystemService/employee/importEmployees',
             method: 'post',
+            params:{
+            	userName:Ext.util.Cookies.get("userName")
+            },
             success: function (response) {
                 progress.close();
                 window.close();
@@ -393,17 +407,11 @@ Ext.define('NewsPaper.controller.EmployeeController', {
     },
     
     downloadEmployeeTemplate: function () {
-        window.open('/InformationSystemService/employee/downloadTemplate?fileName=员工模板.xls');
+        window.open('/InformationSystemService/employee/downloadTemplate?fileName=员工模板.xls&userName='+Ext.util.Cookies.get("userName"));
     },
     
     filterQueryEmployee:function(){
-		var grid = Ext.getCmp('employeeGridView');
-        var queryCondition = grid.down('#filterQueryEmployeeCondition').getValue();
-        if(queryCondition == null || queryCondition+'' == ''){
-        	Ext.MessageBox.alert("提示", "请先选择查询条件！");
-        }else{
-	    	grid.getStore().loadPage(1);
-        }
+		Ext.getCmp('employeeGridView').getStore().loadPage(1);
     },
     resetFilterQueryEmployee:function(){
 		var grid = Ext.getCmp('employeeGridView');
@@ -862,6 +870,22 @@ Ext.define('NewsPaper.controller.EmployeeController', {
         }
     },
     exportEmployee:function(){
+    	Ext.MessageBox.confirm('确认导出', '确认导出信息?', function (btn) {
+            if (btn == 'yes') {
+		        var grid = Ext.getCmp('employeeGridView');
+		        var store = grid.getStore();
+		        if(store.getCount() == 0){
+		        	Ext.MessageBox.alert("提示", "该页没有任何人员！");
+		        	return;
+		        }
+		        var ids = store.getAt(0).data.id;
+		        for( var i = 1; i < store.getCount(); i++){
+		        	ids += "_";
+		        	ids += store.getAt(i).data.id;
+		        }
+		        window.open('/InformationSystemService/employee/exportEmployee?ids='+ids+"&userName="+Ext.util.Cookies.get("userName"));
+            }
+		});
     }
 });
 

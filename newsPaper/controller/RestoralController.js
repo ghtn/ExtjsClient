@@ -43,6 +43,7 @@ Ext.define('NewsPaper.controller.RestoralController', {
 	    	    queryValue = queryValue.getValue();
 			}
 	        var typeParam = {
+	        	userName:Ext.util.Cookies.get("userName"),
 	            queryCondition: queryCondition,
 	            queryValue: queryValue,
 	            postState:"离职"
@@ -52,13 +53,7 @@ Ext.define('NewsPaper.controller.RestoralController', {
     },
     
     filterRestoralEmployee:function(){
-		var grid = Ext.getCmp('restoralGridView');
-        var queryCondition = grid.down('#filterRestoralEmployeeCondition').getValue();
-        if(queryCondition == null || queryCondition+'' == ''){
-        	Ext.MessageBox.alert("提示", "请先选择查询条件！");
-        }else{
-	    	grid.getStore().loadPage(1);
-        }
+		Ext.getCmp('restoralGridView').getStore().loadPage(1);
     },
     resetFilterRestoralEmployee:function(){
 		var grid = Ext.getCmp('restoralGridView');
@@ -85,6 +80,7 @@ Ext.define('NewsPaper.controller.RestoralController', {
                         url: '/InformationSystemService/employee/updateRestoralAndDimission',
                         method: 'post',
                         params: {
+                        	userName:Ext.util.Cookies.get("userName"),
                             ids: ids,
                             postState:'在职'
                         },
