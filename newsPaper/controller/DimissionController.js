@@ -42,13 +42,21 @@ Ext.define('NewsPaper.controller.DimissionController', {
 			if( queryValue != null ){
 	    	    queryValue = queryValue.getValue();
 			}
-	        var typeParam = {
-	        	userName:Ext.util.Cookies.get("userName"),
-	            queryCondition: queryCondition,
-	            queryValue: queryValue,
-	            postState:"在职"
-	        };
-	        Ext.apply(store.proxy.extraParams, typeParam);
+			var userName = Ext.util.Cookies.get("userName");
+			if( userName == null){
+				Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
+					window.location.href = window.location.protocol + "//" 
+						+ window.location.host + "/InformationSystemClient";
+				});
+			}else{
+		        var typeParam = {
+		        	userName:userName,
+		            queryCondition: queryCondition,
+		            queryValue: queryValue,
+		            postState:"在职"
+		        };
+		        Ext.apply(store.proxy.extraParams, typeParam);
+			}
         });
     },
     
@@ -72,34 +80,42 @@ Ext.define('NewsPaper.controller.DimissionController', {
 	        }
             Ext.MessageBox.confirm('确认离职', '确认离职所选择的人员?', function (btn) {
                 if (btn == 'yes') {
-                	var dimissionGridStore = Ext.data.StoreManager.lookup('DimissionGridStore');
-                    var progress = Ext.MessageBox.wait('正在离职所选择的人员', '提交', {
-                        text: '离职中...'
-                    });
-                    Ext.Ajax.request({
-                        url: '/InformationSystemService/employee/updateRestoralAndDimission',
-                        method: 'post',
-                        params: {
-                            ids: ids,
-                            userName:Ext.util.Cookies.get("userName"),
-                            postState:'离职'
-                        },
-                        success: function (response) {
-                            progress.close();
-                            var result = Ext.JSON.decode(response.responseText);
-                            if (result.success) {
-                                Ext.example.msg('离职成功', result.msg);
-                            } else {
-                                Ext.MessageBox.alert('离职失败', result.msg);
-                            }
-                            dimissionGridStore.reload();
-                        },
-                        failure: function (response) {
-                            progress.close();
-                            var result = Ext.JSON.decode(response.responseText);
-                            Ext.MessageBox.alert('离职失败', result.msg);
-                        }
-                    });
+                	var userName = Ext.util.Cookies.get("userName");
+					if( userName == null){
+						Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
+							window.location.href = window.location.protocol + "//" 
+								+ window.location.host + "/InformationSystemClient";
+						});
+					}else{
+	                	var dimissionGridStore = Ext.data.StoreManager.lookup('DimissionGridStore');
+	                    var progress = Ext.MessageBox.wait('正在离职所选择的人员', '提交', {
+	                        text: '离职中...'
+	                    });
+	                    Ext.Ajax.request({
+	                        url: '/InformationSystemService/employee/updateRestoralAndDimission',
+	                        method: 'post',
+	                        params: {
+	                            ids: ids,
+	                            userName:Ext.util.Cookies.get("userName"),
+	                            postState:'离职'
+	                        },
+	                        success: function (response) {
+	                            progress.close();
+	                            var result = Ext.JSON.decode(response.responseText);
+	                            if (result.success) {
+	                                Ext.example.msg('离职成功', result.msg);
+	                            } else {
+	                                Ext.MessageBox.alert('离职失败', result.msg);
+	                            }
+	                            dimissionGridStore.reload();
+	                        },
+	                        failure: function (response) {
+	                            progress.close();
+	                            var result = Ext.JSON.decode(response.responseText);
+	                            Ext.MessageBox.alert('离职失败', result.msg);
+	                        }
+	                    });
+					}
                 }
             })
         } else {

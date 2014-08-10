@@ -42,14 +42,22 @@ Ext.define('NewsPaper.controller.RetireController', {
 			if( queryValue != null ){
 	    	    queryValue = queryValue.getValue();
 			}
-	        var typeParam = {
-	        	userName:Ext.util.Cookies.get("userName"),
-	            queryCondition: queryCondition,
-	            queryValue: queryValue,
-	            postState:"在职",
-	            retire:"退休"
-	        };
-	        Ext.apply(store.proxy.extraParams, typeParam);
+			var userName = Ext.util.Cookies.get("userName");
+			if( userName == null){
+				Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
+					window.location.href = window.location.protocol + "//" 
+						+ window.location.host + "/InformationSystemClient";
+				});
+			}else{
+		        var typeParam = {
+		        	userName:userName,
+		            queryCondition: queryCondition,
+		            queryValue: queryValue,
+		            postState:"在职",
+		            retire:"退休"
+		        };
+		        Ext.apply(store.proxy.extraParams, typeParam);
+			}
         });
     },
     
@@ -73,34 +81,42 @@ Ext.define('NewsPaper.controller.RetireController', {
 	        }
             Ext.MessageBox.confirm('确认退休', '确认退休所选择的人员?', function (btn) {
                 if (btn == 'yes') {
-                	var retireGridStore = Ext.data.StoreManager.lookup('RetireGridStore');
-                    var progress = Ext.MessageBox.wait('正在退休所选择的人员', '提交', {
-                        text: '退休中...'
-                    });
-                    Ext.Ajax.request({
-                        url: '/InformationSystemService/employee/updateRestoralAndDimission',
-                        method: 'post',
-                        params: {
-                        	userName:Ext.util.Cookies.get("userName"),
-                            ids: ids,
-                            postState:'离职'
-                        },
-                        success: function (response) {
-                            progress.close();
-                            var result = Ext.JSON.decode(response.responseText);
-                            if (result.success) {
-                                Ext.example.msg('退休成功', result.msg);
-                            } else {
-                                Ext.MessageBox.alert('退休失败', result.msg);
-                            }
-                            retireGridStore.reload();
-                        },
-                        failure: function (response) {
-                            progress.close();
-                            var result = Ext.JSON.decode(response.responseText);
-                            Ext.MessageBox.alert('退休失败', result.msg);
-                        }
-                    });
+                	var userName = Ext.util.Cookies.get("userName");
+					if( userName == null){
+						Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
+							window.location.href = window.location.protocol + "//" 
+								+ window.location.host + "/InformationSystemClient";
+						});
+					}else{
+	                	var retireGridStore = Ext.data.StoreManager.lookup('RetireGridStore');
+	                    var progress = Ext.MessageBox.wait('正在退休所选择的人员', '提交', {
+	                        text: '退休中...'
+	                    });
+	                    Ext.Ajax.request({
+	                        url: '/InformationSystemService/employee/updateRestoralAndDimission',
+	                        method: 'post',
+	                        params: {
+	                        	userName:userName,
+	                            ids: ids,
+	                            postState:'离职'
+	                        },
+	                        success: function (response) {
+	                            progress.close();
+	                            var result = Ext.JSON.decode(response.responseText);
+	                            if (result.success) {
+	                                Ext.example.msg('退休成功', result.msg);
+	                            } else {
+	                                Ext.MessageBox.alert('退休失败', result.msg);
+	                            }
+	                            retireGridStore.reload();
+	                        },
+	                        failure: function (response) {
+	                            progress.close();
+	                            var result = Ext.JSON.decode(response.responseText);
+	                            Ext.MessageBox.alert('退休失败', result.msg);
+	                        }
+	                    });
+					}
                 }
             })
         } else {

@@ -40,16 +40,19 @@ Ext.onReady(function () {
                         if (response.responseText == 'true') {
 		                	Ext.create("NewsPaper.view.Viewport");
                         } else {
+                        	Ext.util.Cookies.clear("userName");
                         	window.location.href = window.location.protocol + "//" 
 								+ window.location.host + "/InformationSystemClient";
                         }
 	                },
 	                failure: function (response) {
+	                	Ext.util.Cookies.clear("userName");
 						window.location.href = window.location.protocol + "//" 
 							+ window.location.host + "/InformationSystemClient";
 	                }
 	            });
 			}else{
+				Ext.util.Cookies.clear("userName");
 				window.location.href = window.location.protocol + "//" 
 					+ window.location.host + "/InformationSystemClient";
 			}

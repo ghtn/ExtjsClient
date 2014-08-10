@@ -6,7 +6,7 @@
 <LINK rel=stylesheet type=text/css href="login/css/login.css">
 <title>登录</title>
 <script>
-	if(<%=request.getParameter("result") %> == '0'){
+	if('<%=request.getParameter("result") %>' == 'login'){
 		alert("用户名或密码错误！");
 	};
 </script>
@@ -95,20 +95,14 @@
 	</TABLE>
 </BODY>
 <script>
-	function submit(callback){
-		callback();
-	}
-	function addCookie(){
-		document.cookie = "userName=" + document.getElementById("Admin_name").value;
-	}
 	function login() {
 		var name = document.getElementById("Admin_name").value;
 		var password = document.getElementById("passwords").value;
 		if ("" == name || password == "") {
-			alert('请输入用户名或密码！');
+			alert('用户名或密码为空！');
 			return false;
 		}
-		submit(addCookie);
+		document.cookie = "userName=" + name;
 	}
 </script>
 </html>

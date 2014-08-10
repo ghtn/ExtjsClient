@@ -36,50 +36,58 @@ Ext.define('NewsPaper.controller.TransferController', {
 	    var card = record.data.card;
 	    // 准备好store
 	    store = Ext.data.StoreManager.lookup('TransferStore');
-		// load回调函数
-	    store.load({params:{
-	    	userName:Ext.util.Cookies.get("userName"),
-	    	card:card
-	    }, callback:function(records, opts, success){
-		    // 把数据显示到form里
-			var form = Ext.getCmp('transferInfoWindowView').down('#trandferInfoForm');
-			if( success){
-				
-				// 如果没有调动详情， 显示相应的信息
-				if( records.length == 0){
+	    var userName = Ext.util.Cookies.get("userName");
+		if( userName == null){
+			Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
+				window.location.href = window.location.protocol + "//" 
+					+ window.location.host + "/InformationSystemClient";
+			});
+		}else{
+			// load回调函数
+		    store.load({params:{
+		    	userName:userName,
+		    	card:card
+		    }, callback:function(records, opts, success){
+			    // 把数据显示到form里
+				var form = Ext.getCmp('transferInfoWindowView').down('#trandferInfoForm');
+				if( success){
+					
+					// 如果没有调动详情， 显示相应的信息
+					if( records.length == 0){
+						form.add({
+							xtype: 'displayfield',
+					        fieldLabel: '对不起',
+					        value: '暂时还没有该人员的调动过程'
+						});
+					}
+					
+					for(var i = 0; i < records.length; i++){
+						form.add({
+							xtype:'fieldset',
+					        title: 'No.' + (i+1),
+					        collapsible: true,
+							defaultType: 'displayfield',
+					        items:[
+							    {
+							        fieldLabel: '调动时间',
+							        value: records[i].data.transDate
+							    }, 
+							    {
+							        fieldLabel: '调动过程',
+							        value: records[i].data.detail
+						        }
+					        ]
+						});
+					}
+				}else{
 					form.add({
 						xtype: 'displayfield',
 				        fieldLabel: '对不起',
 				        value: '暂时还没有该人员的调动过程'
 					});
 				}
-				
-				for(var i = 0; i < records.length; i++){
-					form.add({
-						xtype:'fieldset',
-				        title: 'No.' + (i+1),
-				        collapsible: true,
-						defaultType: 'displayfield',
-				        items:[
-						    {
-						        fieldLabel: '调动时间',
-						        value: records[i].data.transDate
-						    }, 
-						    {
-						        fieldLabel: '调动过程',
-						        value: records[i].data.detail
-					        }
-				        ]
-					});
-				}
-			}else{
-				form.add({
-					xtype: 'displayfield',
-			        fieldLabel: '对不起',
-			        value: '暂时还没有该人员的调动过程'
-				});
-			}
-	    }});
+		    }});
+		}
 	},
 
 
@@ -94,12 +102,20 @@ Ext.define('NewsPaper.controller.TransferController', {
 			if( queryValue != null ){
 	    	    queryValue = queryValue.getValue();
 			}
-	        var typeParam = {
-	        	userName:Ext.util.Cookies.get("userName"),
-	            queryCondition: queryCondition,
-	            queryValue: queryValue
-	        };
-	        Ext.apply(store.proxy.extraParams, typeParam);
+			var userName = Ext.util.Cookies.get("userName");
+			if( userName == null){
+				Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
+					window.location.href = window.location.protocol + "//" 
+						+ window.location.host + "/InformationSystemClient";
+				});
+			}else{
+		        var typeParam = {
+		        	userName:userName,
+		            queryCondition: queryCondition,
+		            queryValue: queryValue
+		        };
+		        Ext.apply(store.proxy.extraParams, typeParam);
+			}
         });
     },
    

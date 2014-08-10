@@ -8,7 +8,7 @@
  */
 Ext.define('NewsPaper.controller.MainController', {
     extend: 'Ext.app.Controller',
-    views: ['Viewport', 'MainTreeView', 'MainTabpanelView'],
+    views: ['Viewport', 'MainTreeView', 'MainTabpanelView', 'ModifyPasswordWindowView'],
     stores: ['MainTreeStore'],
     models: ['MainTreeModel'],
 
@@ -20,8 +20,100 @@ Ext.define('NewsPaper.controller.MainController', {
             'mainTreeView': {
                 //监听鼠标点击事件，点击后调用changePage方法
                 itemclick: this.showPage
+            },
+            '#logout':{	// 注销
+            	click:this.logout
+            },
+            '#modifyPassword':{ // 修改密码
+            	click:this.modifyPassword
+            },
+            '#modifyPasswordFormReset':{// 重置修改密码表单
+            	click:this.modifyPasswordFormReset
+            },
+            '#modifyPasswordFormSubmit':{// 提交修改密码表单
+            	click:this.modifyPasswordFormSubmit
             }
         });
+    },
+    
+    modifyPassword:function(){
+    	var userName = Ext.util.Cookies.get("userName");
+    	var window = Ext.create('NewsPaper.view.ModifyPasswordWindowView').show();
+    	window.down("#modifyPasswordName").setValue(Ext.util.Cookies.get("userName"));
+    	window.down("#modifyPasswordNameHide").setValue(Ext.util.Cookies.get("userName"));
+    },
+    
+    modifyPasswordFormReset:function(){
+    	var window = Ext.getCmp('modifyPasswordWindowView');
+    	window.down('#modifyPasswordForm').getForm().reset();
+    	window.down("#modifyPasswordName").setValue(Ext.util.Cookies.get("userName"));
+    	window.down("#modifyPasswordNameHide").setValue(Ext.util.Cookies.get("userName"));
+    },
+    
+    modifyPasswordFormSubmit:function(){ 
+    	var view = Ext.getCmp('modifyPasswordWindowView');
+    	var form = view.down('#modifyPasswordForm').getForm();
+    	Ext.MessageBox.confirm('确认修改', '确认修改密码?', function (btn) {
+            if (btn == 'yes') {
+            	var userName = Ext.util.Cookies.get("userName");
+				if( userName == null){
+					Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
+						window.location.href = window.location.protocol + "//" 
+							+ window.location.host + "/InformationSystemClient";
+					});
+				}else{
+		            form.submit({
+			            waitMsg: '正在玩命修改...',
+			            method:'post',
+			            params:{
+				        	userName:userName
+						},
+			            success: function (form, action) {
+			            	if(action.result == true){
+				            	Ext.example.msg('恭喜', '密码修改成功');
+			            	}else{
+				        		Ext.example.msg('遗憾', '密码修改失败');
+			            	}
+			        		view.close();
+			            },
+			            failure: function (form, action) {
+			        		Ext.example.msg('遗憾', '密码修改失败');
+			        		view.close();
+			            }
+			        });
+				}
+            }
+        });
+    },
+    
+    logout:function(){
+		Ext.MessageBox.confirm('确认注销', '确认注销当前用户?', function (btn) {
+			if (btn == 'yes') {
+				var userName = Ext.util.Cookies.get("userName");
+		    	Ext.util.Cookies.clear("userName");
+		    	if( name != null && name != ""){
+		    		Ext.Ajax.request({
+		                url: '/InformationSystemService/user/logout',
+		                method: 'post',
+		                params: {
+		                    userName:userName
+		                },
+		                success: function (response) {
+		                	window.location.href = window.location.protocol + "//" 
+								+ window.location.host + "/InformationSystemClient";
+		                },
+		                failure: function (response) {
+		                	window.location.href = window.location.protocol + "//" 
+								+ window.location.host + "/InformationSystemClient";
+		                }
+		            });
+		    	}else{
+                	window.location.href = window.location.protocol + "//" 
+						+ window.location.host + "/InformationSystemClient";
+		    	}
+			}
+		});
+    	
     },
 
     /**

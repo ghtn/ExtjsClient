@@ -93,33 +93,47 @@ Ext.define('NewsPaper.controller.EmployeeController', {
 //			alert(ids);
             Ext.MessageBox.confirm('确认删除', '确认删除所选择的人员?', function (btn) {
                 if (btn == 'yes') {
-                	var employeeGridStore = Ext.data.StoreManager.lookup('EmployeeGridStore');
-                    var progress = Ext.MessageBox.wait('正在删除所选择的人员', '提交', {
-                        text: '删除中...'
-                    });
-                    Ext.Ajax.request({
-                        url: '/InformationSystemService/employee/remove',
-                        method: 'post',
-                        params: {
-                        	userName:Ext.util.Cookies.get("userName"),
-                            ids: ids
-                        },
-                        success: function (response) {
-                            progress.close();
-                            var result = Ext.JSON.decode(response.responseText);
-                            if (result.success) {
-                                Ext.example.msg('删除成功', result.msg);
-                            } else {
-                                Ext.MessageBox.alert('删除失败', result.msg);
-                            }
-                            employeeGridStore.reload();
-                        },
-                        failure: function (response) {
-                            progress.close();
-                            var result = Ext.JSON.decode(response.responseText);
-                            Ext.MessageBox.alert('删除失败', result.msg);
-                        }
-                    });
+                	var userName = Ext.util.Cookies.get("userName");
+					if( userName == null){
+						Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
+							window.location.href = window.location.protocol + "//" 
+								+ window.location.host + "/InformationSystemClient";
+						});
+					}else{
+	                	var employeeGridStore = Ext.data.StoreManager.lookup('EmployeeGridStore');
+	                    var progress = Ext.MessageBox.wait('正在删除所选择的人员', '提交', {
+	                        text: '删除中...'
+	                    });
+	                    Ext.Ajax.request({
+	                        url: '/InformationSystemService/employee/remove',
+	                        method: 'post',
+	                        params: {
+	                        	userName:userName,
+	                            ids: ids
+	                        },
+	                        success: function (response) {
+	                            progress.close();
+	                            if( !response.responseText){
+	                            	Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
+										window.location.href = window.location.protocol + "//" 
+											+ window.location.host + "/InformationSystemClient";
+									});
+	                            }
+	                            var result = Ext.JSON.decode(response.responseText);
+	                            if (result.success) {
+	                                Ext.example.msg('删除成功', result.msg);
+	                            } else {
+	                                Ext.MessageBox.alert('删除失败', result.msg);
+	                            }
+	                            employeeGridStore.reload();
+	                        },
+	                        failure: function (response) {
+	                            progress.close();
+	                            var result = Ext.JSON.decode(response.responseText);
+	                            Ext.MessageBox.alert('删除失败', result.msg);
+	                        }
+	                    });
+					}
                 }
             })
         } else {
@@ -141,28 +155,28 @@ Ext.define('NewsPaper.controller.EmployeeController', {
     },
 
     employeeBankFormSubmit: function () {
-        var window = Ext.getCmp('employeeBankWindowView');
-        var form = window.down('#employeeBankForm').getForm();
+        var view = Ext.getCmp('employeeBankWindowView');
+        var form = view.down('#employeeBankForm').getForm();
         if (form.isValid()) {// 这个是多余的，不过可以防止意外
             Ext.MessageBox.confirm('确认添加', '确认添加人员?', function (btn) {
                 if (btn == 'yes') {
                 	
                 	// 检测是否为空
-                	var armTime = window.down("#armTimeBank");
-                	var birthday = window.down("#birthdayBank");
-                	var workTime = window.down("#workTimeBank");
-                	var unitTime = window.down("#unitTimeBank");
-                	var dutyTime = window.down("#dutyTimeBank");
-                	var jobTitleTime = window.down("#jobTitleTimeBank");
-                	var jobTypeTime = window.down("#jobTypeTimeBank");
-                	var graduateTime = window.down("#graduateTimeBank");
-                	var endArmTime = window.down("#endArmTimeBank");
-                	var conversionTime = window.down("#conversionTimeBank");
-                	var cardBirthday = window.down("#employeeBankCardBirthday");
+                	var armTime = view.down("#armTimeBank");
+                	var birthday = view.down("#birthdayBank");
+                	var workTime = view.down("#workTimeBank");
+                	var unitTime = view.down("#unitTimeBank");
+                	var dutyTime = view.down("#dutyTimeBank");
+                	var jobTitleTime = view.down("#jobTitleTimeBank");
+                	var jobTypeTime = view.down("#jobTypeTimeBank");
+                	var graduateTime = view.down("#graduateTimeBank");
+                	var endArmTime = view.down("#endArmTimeBank");
+                	var conversionTime = view.down("#conversionTimeBank");
+                	var cardBirthday = view.down("#employeeBankCardBirthday");
                 	
-                	var postSalary = window.down("#postSalaryBank");
-                	var skillSalary = window.down("#skillSalaryBank");
-                	var skillGrage = window.down("#skillGrageBank");
+                	var postSalary = view.down("#postSalaryBank");
+                	var skillSalary = view.down("#skillSalaryBank");
+                	var skillGrage = view.down("#skillGrageBank");
                 	
                 	
                 	if( armTime.value == null){
@@ -208,22 +222,36 @@ Ext.define('NewsPaper.controller.EmployeeController', {
 	                	skillGrage.name = "";
                 	}
                 	
-                	var employeeGridStore = Ext.data.StoreManager.lookup('EmployeeGridStore');
-                    form.submit({
-                        waitMsg: '正在添加人员...',
-                        params:{
-                        	userName:Ext.util.Cookies.get("userName")
-                        },
-                        success: function (form, action) {
-                            Ext.example.msg('增加成功', action.result.msg);
-                            window.close();
-                            employeeGridStore.reload();
-                        },
-                        failure: function (form, action) {
-                            Ext.MessageBox.alert('增加失败', action.result.msg);
-                            window.close();
-                        }
-                    });
+                	var userName = Ext.util.Cookies.get("userName");
+					if( userName == null){
+						Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
+							window.location.href = window.location.protocol + "//" 
+								+ window.location.host + "/InformationSystemClient";
+						});
+					}else{
+	                	var employeeGridStore = Ext.data.StoreManager.lookup('EmployeeGridStore');
+	                    form.submit({
+	                        waitMsg: '正在添加人员...',
+	                        params:{
+	                        	userName:userName
+	                        },
+	                        success: function (form, action) {
+	                        	if(!action.result){
+	                        		Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
+										window.location.href = window.location.protocol + "//" 
+											+ window.location.host + "/InformationSystemClient";
+									});
+	                        	}
+	                            Ext.example.msg('增加成功', action.result.msg);
+	                            view.close();
+	                            employeeGridStore.reload();
+	                        },
+	                        failure: function (form, action) {
+	                            Ext.MessageBox.alert('增加失败', action.result.msg);
+	                            view.close();
+	                        }
+	                    });
+					}
                 }
             });
         }
@@ -240,39 +268,47 @@ Ext.define('NewsPaper.controller.EmployeeController', {
 			if( queryValue != null ){
 	    	    queryValue = queryValue.getValue();
 			}
-	        var typeParam = {
-	        	userName:Ext.util.Cookies.get("userName"),
-	            queryCondition: queryCondition,
-	            queryValue: queryValue,
-	            postState:"在职"
-	        };
-	        Ext.apply(store.proxy.extraParams, typeParam);
+			var userName = Ext.util.Cookies.get("userName");
+			if( userName == null){
+				Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
+					window.location.href = window.location.protocol + "//" 
+						+ window.location.host + "/InformationSystemClient";
+				});
+			}else{
+		        var typeParam = {
+		        	userName:userName,
+		            queryCondition: queryCondition,
+		            queryValue: queryValue,
+		            postState:"在职"
+		        };
+		        Ext.apply(store.proxy.extraParams, typeParam);
+			}
         });
     },
     
     employeeEditFormSubmit:function(){
-    	var window = Ext.getCmp('employeeEditWindowView');
-        var form = window.down('#employeeEditForm').getForm();
+    	var view = Ext.getCmp('employeeEditWindowView');
+        var form = view.down('#employeeEditForm').getForm();
         var employeeGridStore = Ext.data.StoreManager.lookup('EmployeeGridStore');
         if (form.isValid()) {// 这个是多余的，不过可以防止意外
             Ext.MessageBox.confirm('确认修改', '确认修改信息?', function (btn) {
                 if (btn == 'yes') {
                 	// 检测是否为空
-                	var armTime = window.down("#armTimeEdit");
-                	var birthday = window.down("#birthdayEdit");
-                	var workTime = window.down("#workTimeEdit");
-                	var unitTime = window.down("#unitTimeEdit");
-                	var dutyTime = window.down("#dutyTimeEdit");
-                	var jobTitleTime = window.down("#jobTitleTimeEdit");
-                	var jobTypeTime = window.down("#jobTypeTimeEdit");
-                	var graduateTime = window.down("#graduateTimeEdit");
-                	var endArmTime = window.down("#endArmTimeEdit");
-                	var conversionTime = window.down("#conversionTimeEdit");
-                	var cardBirthday = window.down("#employeeEditCardBirthday");
+                	var armTime = view.down("#armTimeEdit");
+                	var birthday = view.down("#birthdayEdit");
+                	var workTime = view.down("#workTimeEdit");
+                	var unitTime = view.down("#unitTimeEdit");
+                	var dutyTime = view.down("#dutyTimeEdit");
+                	var jobTitleTime = view.down("#jobTitleTimeEdit");
+                	var jobTypeTime = view.down("#jobTypeTimeEdit");
+                	var graduateTime = view.down("#graduateTimeEdit");
+                	var endArmTime = view.down("#endArmTimeEdit");
+                	var conversionTime = view.down("#conversionTimeEdit");
+                	var cardBirthday = view.down("#employeeEditCardBirthday");
                 	
-                	var postSalary = window.down("#postSalaryEdit");
-                	var skillSalary = window.down("#skillSalaryEdit");
-                	var skillGrage = window.down("#skillGrageEdit");
+                	var postSalary = view.down("#postSalaryEdit");
+                	var skillSalary = view.down("#skillSalaryEdit");
+                	var skillGrage = view.down("#skillGrageEdit");
                 	if( armTime.value == null){
 	                	armTime.name = "";
                 	}
@@ -315,22 +351,36 @@ Ext.define('NewsPaper.controller.EmployeeController', {
                 	if( skillGrage.value == null){
 	                	skillGrage.name = "";
                 	}
-                    form.submit({
-                        waitMsg: '正在修改信息...',
-                        submitEmptyText:false,
-                        params:{
-                    	    userName:Ext.util.Cookies.get("userName")
-                        },
-                        success: function (form, action) {
-                            Ext.example.msg('修改成功', action.result.msg);
-                            window.close();
-                            employeeGridStore.reload();
-                        },
-                        failure: function (form, action) {
-                            Ext.MessageBox.alert('修改失败', action.result.msg);
-                            window.close();
-                        }
-                    });
+                	var userName = Ext.util.Cookies.get("userName");
+					if( userName == null){
+						Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
+							window.location.href = window.location.protocol + "//" 
+								+ window.location.host + "/InformationSystemClient";
+						});
+					}else{
+	                    form.submit({
+	                        waitMsg: '正在修改信息...',
+	                        submitEmptyText:false,
+	                        params:{
+	                    	    userName:userName
+	                        },
+	                        success: function (form, action) {
+	                        	if(!action.result){
+	                        		Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
+										window.location.href = window.location.protocol + "//" 
+											+ window.location.host + "/InformationSystemClient";
+									});
+	                        	}
+	                            Ext.example.msg('修改成功', action.result.msg);
+	                            view.close();
+	                            employeeGridStore.reload();
+	                        },
+	                        failure: function (form, action) {
+	                            Ext.MessageBox.alert('修改失败', action.result.msg);
+	                            view.close();
+	                        }
+	                    });
+					}
                 }
             });
         }
@@ -355,21 +405,28 @@ Ext.define('NewsPaper.controller.EmployeeController', {
         }
 
         var form = Ext.getCmp('employeeImportWindowView').down('#employeeImportForm').getForm();
-
-        form.submit({
-            waitMsg: '上传数据文件中...',
-            params:{
-            	userName:Ext.util.Cookies.get("userName")
-            },
-            success: function (form, action) {
-                Ext.example.msg('上传成功', action.result.msg);
-                var button = Ext.getCmp('employeeImportWindowView').down('#startImportEmployees');
-                button.setDisabled(false);
-            },
-            failure: function (form, action) {
-                Ext.MessageBox.alert('上传失败', action.result.msg);
-            }
-        });
+		var userName = Ext.util.Cookies.get("userName");
+		if( userName == null){
+			Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
+				window.location.href = window.location.protocol + "//" 
+					+ window.location.host + "/InformationSystemClient";
+			});
+		}else{
+	        form.submit({
+	            waitMsg: '上传数据文件中...',
+	            params:{
+	            	userName:userName
+	            },
+	            success: function (form, action) {
+	                Ext.example.msg('上传成功', action.result.msg);
+	                var button = Ext.getCmp('employeeImportWindowView').down('#startImportEmployees');
+	                button.setDisabled(false);
+	            },
+	            failure: function (form, action) {
+	                Ext.MessageBox.alert('上传失败', action.result.msg);
+	            }
+	        });
+		}
     },
 
     startImportEmployees: function () {
@@ -378,36 +435,58 @@ Ext.define('NewsPaper.controller.EmployeeController', {
         var progress = Ext.MessageBox.wait('正在导入员工', '导入', {
             text: '导入中...'
         });
-
-        Ext.Ajax.request({
-            url: '/InformationSystemService/employee/importEmployees',
-            method: 'post',
-            params:{
-            	userName:Ext.util.Cookies.get("userName")
-            },
-            success: function (response) {
-                progress.close();
-                window.close();
-                var result = Ext.JSON.decode(response.responseText);
-                if (result.success) {
-                    Ext.example.msg('导入成功', result.msg);
-                    var gridStore = Ext.data.StoreManager.lookup('EmployeeGridStore');
-                    gridStore.reload();
-                } else {
-                    Ext.MessageBox.alert('导入失败', result.msg)
-                }
-            },
-            failure: function (response) {
-                progress.close();
-                window.close();
-                var result = Ext.JSON.decode(response.responseText);
-                Ext.MessageBox.alert('导入失败', result.msg)
-            }
-        });
+		
+        var userName = Ext.util.Cookies.get("userName");
+		if( userName == null){
+			Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
+				window.location.href = window.location.protocol + "//" 
+					+ window.location.host + "/InformationSystemClient";
+			});
+		}else{
+	        Ext.Ajax.request({
+	            url: '/InformationSystemService/employee/importEmployees',
+	            method: 'post',
+	            params:{
+	            	userName:userName
+	            },
+	            success: function (response) {
+	                progress.close();
+	                window.close();
+	                if( !response.responseText){
+		            	Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
+							window.location.href = window.location.protocol + "//" 
+								+ window.location.host + "/InformationSystemClient";
+						});
+		            }
+	                var result = Ext.JSON.decode(response.responseText);
+	                if (result.success) {
+	                    Ext.example.msg('导入成功', result.msg);
+	                    var gridStore = Ext.data.StoreManager.lookup('EmployeeGridStore');
+	                    gridStore.reload();
+	                } else {
+	                    Ext.MessageBox.alert('导入失败', result.msg)
+	                }
+	            },
+	            failure: function (response) {
+	                progress.close();
+	                window.close();
+	                var result = Ext.JSON.decode(response.responseText);
+	                Ext.MessageBox.alert('导入失败', result.msg)
+	            }
+	        });
+		}
     },
     
     downloadEmployeeTemplate: function () {
-        window.open('/InformationSystemService/employee/downloadTemplate?fileName=员工模板.xls&userName='+Ext.util.Cookies.get("userName"));
+    	var userName = Ext.util.Cookies.get("userName");
+		if( userName == null){
+			Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
+				window.location.href = window.location.protocol + "//" 
+					+ window.location.host + "/InformationSystemClient";
+			});
+		}else{
+	        window.open('/InformationSystemService/employee/downloadTemplate?fileName=员工模板.xls&userName='+userName);
+		}
     },
     
     filterQueryEmployee:function(){
@@ -883,7 +962,15 @@ Ext.define('NewsPaper.controller.EmployeeController', {
 		        	ids += "_";
 		        	ids += store.getAt(i).data.id;
 		        }
-		        window.open('/InformationSystemService/employee/exportEmployee?ids='+ids+"&userName="+Ext.util.Cookies.get("userName"));
+		        var userName = Ext.util.Cookies.get("userName");
+				if( userName == null){
+					Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
+						window.location.href = window.location.protocol + "//" 
+							+ window.location.host + "/InformationSystemClient";
+					});
+				}else{
+			        window.open('/InformationSystemService/employee/exportEmployee?ids='+ids+"&userName="+userName);
+				}
             }
 		});
     }

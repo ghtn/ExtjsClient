@@ -42,13 +42,21 @@ Ext.define('NewsPaper.controller.RestoralController', {
 			if( queryValue != null ){
 	    	    queryValue = queryValue.getValue();
 			}
-	        var typeParam = {
-	        	userName:Ext.util.Cookies.get("userName"),
-	            queryCondition: queryCondition,
-	            queryValue: queryValue,
-	            postState:"离职"
-	        };
-	        Ext.apply(store.proxy.extraParams, typeParam);
+			var userName = Ext.util.Cookies.get("userName");
+			if( userName == null){
+				Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
+					window.location.href = window.location.protocol + "//" 
+						+ window.location.host + "/InformationSystemClient";
+				});
+			}else{
+		        var typeParam = {
+		        	userName:userName,
+		            queryCondition: queryCondition,
+		            queryValue: queryValue,
+		            postState:"离职"
+		        };
+		        Ext.apply(store.proxy.extraParams, typeParam);
+			}
         });
     },
     
@@ -72,34 +80,42 @@ Ext.define('NewsPaper.controller.RestoralController', {
 	        }
             Ext.MessageBox.confirm('确认复职', '确认复职所选择的人员?', function (btn) {
                 if (btn == 'yes') {
-                	var restoralGridStore = Ext.data.StoreManager.lookup('RestoralGridStore');
-                    var progress = Ext.MessageBox.wait('正在复职所选择的人员', '提交', {
-                        text: '复职中...'
-                    });
-                    Ext.Ajax.request({
-                        url: '/InformationSystemService/employee/updateRestoralAndDimission',
-                        method: 'post',
-                        params: {
-                        	userName:Ext.util.Cookies.get("userName"),
-                            ids: ids,
-                            postState:'在职'
-                        },
-                        success: function (response) {
-                            progress.close();
-                            var result = Ext.JSON.decode(response.responseText);
-                            if (result.success) {
-                                Ext.example.msg('复职成功', result.msg);
-                            } else {
-                                Ext.MessageBox.alert('复职失败', result.msg);
-                            }
-                            restoralGridStore.reload();
-                        },
-                        failure: function (response) {
-                            progress.close();
-                            var result = Ext.JSON.decode(response.responseText);
-                            Ext.MessageBox.alert('复职失败', result.msg);
-                        }
-                    });
+                	var userName = Ext.util.Cookies.get("userName");
+					if( userName == null){
+						Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
+							window.location.href = window.location.protocol + "//" 
+								+ window.location.host + "/InformationSystemClient";
+						});
+					}else{
+	                	var restoralGridStore = Ext.data.StoreManager.lookup('RestoralGridStore');
+	                    var progress = Ext.MessageBox.wait('正在复职所选择的人员', '提交', {
+	                        text: '复职中...'
+	                    });
+	                    Ext.Ajax.request({
+	                        url: '/InformationSystemService/employee/updateRestoralAndDimission',
+	                        method: 'post',
+	                        params: {
+	                        	userName:userName,
+	                            ids: ids,
+	                            postState:'在职'
+	                        },
+	                        success: function (response) {
+	                            progress.close();
+	                            var result = Ext.JSON.decode(response.responseText);
+	                            if (result.success) {
+	                                Ext.example.msg('复职成功', result.msg);
+	                            } else {
+	                                Ext.MessageBox.alert('复职失败', result.msg);
+	                            }
+	                            restoralGridStore.reload();
+	                        },
+	                        failure: function (response) {
+	                            progress.close();
+	                            var result = Ext.JSON.decode(response.responseText);
+	                            Ext.MessageBox.alert('复职失败', result.msg);
+	                        }
+	                    });
+					}
                 }
             })
         } else {
