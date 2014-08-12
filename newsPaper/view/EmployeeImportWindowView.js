@@ -8,33 +8,29 @@ Ext.define('NewsPaper.view.EmployeeImportWindowView', {
     title: '导入员工',
     modal: true,
     width: 300,
+    height:200,
     bodyPadding: 10,
     closable: true,
-//    layout: 'fit',
+    layout: {
+	    type: 'vbox',
+	    align: 'center'
+	},
     items: {
-        xtype: 'form',
+    	xtype: 'form',
+        frame:true,
+		margin:'50 0 0 0',
         itemId: 'employeeImportForm',
-        bodyPadding: 5,
         url: '/InformationSystemService/employee/uploadFile',
-
         items: [
             {
                 xtype: 'filefield',
                 name: 'file',
                 itemId: 'employeeFileField',
-                fieldLabel: '上传',
-                labelWidth: 70,
+                fieldLabel: '上传并导入',
                 anchor: '100%',
                 allowBlank: false,
                 buttonText: '选择',
                 buttonOnly: true
-            }
-        ],
-        buttons: [
-            {
-                itemId: 'startImportEmployees',
-                text: '导入',
-                disabled: true
             }
         ]
     }

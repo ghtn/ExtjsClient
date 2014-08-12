@@ -40,9 +40,6 @@ Ext.define('NewsPaper.controller.EmployeeController', {
             '#employeeFileField': {// 上传文件
                 change: this.employeeFileField
             },
-            '#startImportEmployees': {// 导入Excel
-                click: this.startImportEmployees
-            },
             '#downloadEmployeeTemplate': {// 下载导入模板
                 click: this.downloadEmployeeTemplate
             },
@@ -412,66 +409,21 @@ Ext.define('NewsPaper.controller.EmployeeController', {
 					+ window.location.host + "/InformationSystemClient";
 			});
 		}else{
+            var window = Ext.getCmp('employeeImportWindowView');
 	        form.submit({
-	            waitMsg: '上传数据文件中...',
+	            waitMsg: '导入数据文件中...',
 	            params:{
 	            	userName:userName
 	            },
 	            success: function (form, action) {
-	                Ext.example.msg('上传成功', action.result.msg);
-	                var button = Ext.getCmp('employeeImportWindowView').down('#startImportEmployees');
-	                button.setDisabled(false);
+                    window.close();
+	                Ext.example.msg('导入成功', action.result.msg);
+                    var gridStore = Ext.data.StoreManager.lookup('EmployeeGridStore');
+                    gridStore.reload();
 	            },
 	            failure: function (form, action) {
-	                Ext.MessageBox.alert('上传失败', action.result.msg);
-	            }
-	        });
-		}
-    },
-
-    startImportEmployees: function () {
-        var window = Ext.getCmp('employeeImportWindowView');
-
-        var progress = Ext.MessageBox.wait('正在导入员工', '导入', {
-            text: '导入中...'
-        });
-		
-        var userName = Ext.util.Cookies.get("userName");
-		if( userName == null){
-			Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
-				window.location.href = window.location.protocol + "//" 
-					+ window.location.host + "/InformationSystemClient";
-			});
-		}else{
-	        Ext.Ajax.request({
-	            url: '/InformationSystemService/employee/importEmployees',
-	            method: 'post',
-	            params:{
-	            	userName:userName
-	            },
-	            success: function (response) {
-	                progress.close();
-	                window.close();
-	                if( !response.responseText){
-		            	Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
-							window.location.href = window.location.protocol + "//" 
-								+ window.location.host + "/InformationSystemClient";
-						});
-		            }
-	                var result = Ext.JSON.decode(response.responseText);
-	                if (result.success) {
-	                    Ext.example.msg('导入成功', result.msg);
-	                    var gridStore = Ext.data.StoreManager.lookup('EmployeeGridStore');
-	                    gridStore.reload();
-	                } else {
-	                    Ext.MessageBox.alert('导入失败', result.msg)
-	                }
-	            },
-	            failure: function (response) {
-	                progress.close();
-	                window.close();
-	                var result = Ext.JSON.decode(response.responseText);
-	                Ext.MessageBox.alert('导入失败', result.msg)
+                    window.close();
+	                Ext.MessageBox.alert('导入失败', action.result.msg);
 	            }
 	        });
 		}
