@@ -1,0 +1,22 @@
+[
+	{
+		"disp":"证书编号",
+		"value":"number"
+	},
+	{
+		"disp":"证书类型",
+		"value":"type"
+	},
+	{
+		"disp":"员工号",
+		"value":"empNumber"
+	},
+	{
+		"disp":"姓名",
+		"value":"name"
+	},
+	{
+		"disp":"身份证",
+		"value":"card"
+	}
+]

@@ -274,15 +274,7 @@ Ext.define('NewsPaper.view.EmployeeBankWindowView', {
 							{
 								name:"country",
 								fieldLabel:"国家地区",
-								labelStyle:"text-align:right",
-								xtype: 'combo',
-								editable:false,// 禁止手动写入
-							    /* 从本地加载数据 */  
-							    queryMode:"local",  
-								/* 显示 data 的 field 名称 */  
-							    displayField: 'disp',
-								valueField: 'value',
-		                        store:"CountryStore"
+								labelStyle:"text-align:right"
 							}, 
 							{
 								fieldLabel:"配置方式",

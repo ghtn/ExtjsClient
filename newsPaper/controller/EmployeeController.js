@@ -18,7 +18,7 @@ Ext.define('NewsPaper.controller.EmployeeController', {
             '#addEmployee': {	// 添加
                 click: this.addEmployee
             },
-            '#removeEmployee': {	// 删除(支持批量删除)
+            '#removeEmployee': {	// 删除
                 click: this.removeEmployee
             },
             '#importEmployee': {	// 导入
@@ -110,12 +110,6 @@ Ext.define('NewsPaper.controller.EmployeeController', {
 	                        },
 	                        success: function (response) {
 	                            progress.close();
-	                            if( !response.responseText){
-	                            	Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
-										window.location.href = window.location.protocol + "//" 
-											+ window.location.host + "/InformationSystemClient";
-									});
-	                            }
 	                            var result = Ext.JSON.decode(response.responseText);
 	                            if (result.success) {
 	                                Ext.example.msg('删除成功', result.msg);
@@ -233,12 +227,6 @@ Ext.define('NewsPaper.controller.EmployeeController', {
 	                        	userName:userName
 	                        },
 	                        success: function (form, action) {
-	                        	if(!action.result){
-	                        		Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
-										window.location.href = window.location.protocol + "//" 
-											+ window.location.host + "/InformationSystemClient";
-									});
-	                        	}
 	                            Ext.example.msg('增加成功', action.result.msg);
 	                            view.close();
 	                            employeeGridStore.reload();

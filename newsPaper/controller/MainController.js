@@ -230,17 +230,12 @@ Ext.define('NewsPaper.controller.MainController', {
             // 退休管理, 加载未退休人员
             if(rec.data.id == 505){
 				store = Ext.data.StoreManager.lookup('RetireGridStore');
-//            	store.loadPage(1, {callback:function(){
-//            		if( store.getCount() == 0){
-//            				Ext.example.msg('消息', '没有即将退休的员工！', 4000);
-//            		}
-//            		for(var i = 0; i < store.getCount(); i++){
-//            			var rec = store.getAt(i);
-//            			if( rec.get("warn") != '' && rec.get('warn') != null){
-//            				Ext.example.msg('预警', rec.get('name') + rec.get('warn'), 4000);
-//            			}
-//            		}
-//            	}});
+				store.loadPage(1);
+            }
+            
+            // 合同管理, 加载合同信息
+            if(rec.data.id == 506){
+				store = Ext.data.StoreManager.lookup('ContractGridStore');
 				store.loadPage(1);
             }
             
