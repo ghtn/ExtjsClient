@@ -94,11 +94,31 @@
                 "text": "退休管理",
                 "url": "retireBaseContainer",
                 "leaf": true
+            }
+        ]
+    },
+    {
+        "id": 600,
+        "text": "证书管理",
+        "leaf": false,
+        "expanded": true,
+        "children": [
+            {
+                "id": 601,
+                "text": "证书录入",
+                "url": "contractAddBaseContainer",
+                "leaf": true
             },
             {
-                "id": 506,
-                "text": "合同管理",
-                "url": "contractBaseContainer",
+                "id": 602,
+                "text": "查询证书",
+                "url": "contractQueryBaseContainer",
+                "leaf": true
+            },
+            {
+                "id": 603,
+                "text": "删除证书",
+                "url": "contractRemoveBaseContainer",
                 "leaf": true
             }
         ]

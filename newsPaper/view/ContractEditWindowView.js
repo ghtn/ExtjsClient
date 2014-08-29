@@ -65,6 +65,7 @@ Ext.define('NewsPaper.view.ContractEditWindowView', {
 									regexText : '身份证号不合法！'
 								}, {
 									name : 'entryDate',
+									itemId:'entryDateEdit',
 									xtype : 'datefield',
 									labelStyle : "text-align:right",
 									fieldLabel : '录入时间',

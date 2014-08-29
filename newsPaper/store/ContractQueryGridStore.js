@@ -5,7 +5,7 @@
  * Time: 下午4:44
  * To change this template use File | Settings | File Templates.
  */
-Ext.define('NewsPaper.store.ContractGridStore', {
+Ext.define('NewsPaper.store.ContractQueryGridStore', {
     extend: 'Ext.data.Store',
     model: 'NewsPaper.model.ContractGridModel',
     pageSize: 20,

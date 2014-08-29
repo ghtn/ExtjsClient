@@ -233,9 +233,15 @@ Ext.define('NewsPaper.controller.MainController', {
 				store.loadPage(1);
             }
             
-            // 合同管理, 加载合同信息
-            if(rec.data.id == 506){
-				store = Ext.data.StoreManager.lookup('ContractGridStore');
+            // 查询证书
+            if(rec.data.id == 602){
+				store = Ext.data.StoreManager.lookup('ContractQueryGridStore');
+				store.loadPage(1);
+            }
+            
+            // 删除证书
+            if(rec.data.id == 603){
+				store = Ext.data.StoreManager.lookup('ContractRemoveGridStore');
 				store.loadPage(1);
             }
             

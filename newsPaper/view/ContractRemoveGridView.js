@@ -6,11 +6,15 @@
  * To change this template use File | Settings | File Templates.
  */
  
-Ext.define('NewsPaper.view.ContractGridView', {
+Ext.define('NewsPaper.view.ContractRemoveGridView', {
     extend: 'Ext.grid.Panel',
-    alias: 'widget.contractGridView',
-    id: 'contractGridView',
-    store: 'ContractGridStore',
+    alias: 'widget.contractRemoveGridView',
+    id: 'contractRemoveGridView',
+    store: 'ContractRemoveGridStore',
+    selModel: {
+        selType: 'checkboxmodel',
+        mode: 'SIMPLE'
+    },
     columns: [
    		{xtype: 'rownumberer'},
         {
@@ -65,7 +69,7 @@ Ext.define('NewsPaper.view.ContractGridView', {
     bbar: [
         {
             xtype: 'pagingtoolbar',
-            store: 'ContractGridStore',
+            store: 'ContractRemoveGridStore',
             displayInfo: true
         }
     ],
@@ -73,7 +77,7 @@ Ext.define('NewsPaper.view.ContractGridView', {
         ' ',
         {
             xtype: 'combo',
-            itemId: 'filterContractCondition',
+            itemId: 'filterContractRemoveCondition',
             fieldLabel: '查询条件',
             labelWidth: 55,
             width: 150,
@@ -84,22 +88,20 @@ Ext.define('NewsPaper.view.ContractGridView', {
         },
         {
         	xtype:'textfield',
-        	itemId:'filterContractValue',
+        	itemId:'filterContractRemoveValue',
         	fieldLabel: ' ',
         	labelWidth: 5,
             width: 130
         },
         '-',
         {
-            itemId: 'filterContract', xtype: 'button', text: '查询', iconCls: 'Arrowrefresh'
+            itemId: 'filterContractRemove', xtype: 'button', text: '查询', iconCls: 'Arrowrefresh'
         },
         '-',
         {
-            itemId: 'resetContract', xtype: 'button', text: '清空', iconCls: 'Arrowundo'
+            itemId: 'resetContractRemove', xtype: 'button', text: '清空', iconCls: 'Arrowundo'
         },
         '->',
-        { itemId: 'addContract', xtype: 'button', text: '录入', iconCls: 'Add' },
-        '-',
         { itemId: 'removeContract', xtype: 'button', text: '删除', iconCls: 'Delete' }
         
     ]

@@ -5,12 +5,12 @@
  * Time: 下午4:38
  * To change this template use File | Settings | File Templates.
  */
-Ext.define('NewsPaper.view.ContractGridContainer', {
+Ext.define('NewsPaper.view.ContractRemoveGridContainer', {
     extend: 'Ext.container.Container',
-    alias: 'widget.contractGridContainer',
+    alias: 'widget.contractRemoveGridContainer',
     items: [
         {
-            xtype: 'contractGridView'
+            xtype: 'contractRemoveGridView'
         }
     ]
 });

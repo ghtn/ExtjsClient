@@ -1,22 +1,18 @@
 /**
- * Created by Administrator on 13-12-5.
+ * Created with IntelliJ IDEA. User: Administrator Date: 13-12-4 Time: 下午4:40 To
+ * change this template use File | Settings | File Templates.
  */
-Ext.define('NewsPaper.view.ContractBankWindowView', {
-	extend : 'Ext.window.Window',
-	id : 'contractBankWindowView',
-	title : '录入',
-	modal : true,
-	width : 850,
-	height : 600,
-	/* 自动滚轴 */
+
+Ext.define('NewsPaper.view.ContractAddPanelView', {
+	extend : 'Ext.panel.Panel',
+	alias : 'widget.contractAddPanelView',
+	id : "contractAddPanelView",
 	autoScroll : true,
-	closable : true,
-	layout : 'fit',
-	items : [{
-		xtype : "form",
-		id:"contractBankForm",
-		bodyPadding : 10,
-		url: '/InformationSystemService/contract/add',
+	items : {
+		xtype : 'form',
+		id : "contractBankForm",
+		url : '/InformationSystemService/contract/add',
+		padding:'0 150 0 150',
 		/* 自动滚轴 */
 		autoScroll : true,
 		frame : true,
@@ -59,11 +55,11 @@ Ext.define('NewsPaper.view.ContractBankWindowView', {
 									regexText : '身份证号不合法！'
 								}, {
 									name : 'entryDate',
-									itemId:'entryDate',
+									itemId : 'entryDateBank',
 									xtype : 'datefield',
 									labelStyle : "text-align:right",
 									fieldLabel : '录入时间',
-									editable:false,// 禁止手动写入
+									editable : false,// 禁止手动写入
 									format : 'Y-m-d'
 								}, {
 									name : 'type',
@@ -73,34 +69,27 @@ Ext.define('NewsPaper.view.ContractBankWindowView', {
 					}]
 		}, {
 			xtype : 'fieldset',
-			title : '合同',
+			title : '证书',
 			height : 395,
 			frame : true,
 			items : [{
-						html : '<img src=./resources/contract.png height=395 width=800/>'
-					}]
+				html : '<img src=./resources/contract.png height=395 width=820/>'
+			}]
 		}],
 		bbar : [
-			'->', // 右对齐， 简写！
-			{
-				itemId : 'contractBankFormReset',
-				xtype : 'button',
-				text : '重置',
-				iconCls : 'Arrowredo'
-			},
-			'-',
-			{
-				itemId : 'contractBankFormSubmit',
-				xtype : 'button',
-				formBind : true,
-				text : '提交',
-				iconCls : 'Accept'
-			},
-			' ',
-			' ',
-			' ',
-			' ',
-			' '
-			]
-	}]
+				'->', // 右对齐， 简写！
+				{
+					itemId : 'contractBankFormReset',
+					xtype : 'button',
+					text : '重置',
+					iconCls : 'Arrowredo'
+				}, '-', {
+					itemId : 'contractBankFormSubmit',
+					xtype : 'button',
+					formBind : true,
+					text : '提交',
+					iconCls : 'Accept'
+				}]
+	}
+
 });

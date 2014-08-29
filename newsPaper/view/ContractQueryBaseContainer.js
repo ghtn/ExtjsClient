@@ -1,9 +1,9 @@
 /**
  * Created by lihe on 14-6-23.
  */
-Ext.define('NewsPaper.view.ContractBaseContainer', {
+Ext.define('NewsPaper.view.ContractQueryBaseContainer', {
     extend: 'Ext.container.Container',
-    alias: 'widget.contractBaseContainer',
+    alias: 'widget.contractQueryBaseContainer',
     layout: 'border',
     items: [
         {
@@ -11,7 +11,7 @@ Ext.define('NewsPaper.view.ContractBaseContainer', {
             autoScroll: true,
             items: [
                 {
-                    xtype: 'contractGridContainer'
+                    xtype: 'contractQueryGridContainer'
                 }
             ]
         }

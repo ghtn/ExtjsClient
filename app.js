@@ -22,7 +22,8 @@ Ext.onReady(function() {
 				'MakePaperController', 'PaperController', 'ExamController',
 				'ScoreController', 'EmployeeController', 'DimissionController',
 				'TransferController', 'RestoralController', 'RetireController',
-				'ContractController'],
+				'ContractQueryController', 'ContractRemoveController',
+				'ContractAddController'],
 		// 自动加载和实例化Viewport文件
 		// autoCreateViewport: true
 		init : function() {
