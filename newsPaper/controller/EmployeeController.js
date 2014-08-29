@@ -350,12 +350,6 @@ Ext.define('NewsPaper.controller.EmployeeController', {
 	                    	    userName:userName
 	                        },
 	                        success: function (form, action) {
-	                        	if(!action.result){
-	                        		Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function(){
-										window.location.href = window.location.protocol + "//" 
-											+ window.location.host + "/InformationSystemClient";
-									});
-	                        	}
 	                            Ext.example.msg('修改成功', action.result.msg);
 	                            view.close();
 	                            employeeGridStore.reload();
