@@ -14,5 +14,29 @@
 	{
 		"disp":"身份证",
 		"value":"card"
+	},
+	{
+		"disp":"职务",
+		"value":"duty"
+	},
+	{
+		"disp":"工别",
+		"value":"jobDist"
+	},
+	{
+		"disp":"职称",
+		"value":"jobTitle"
+	},
+	{
+		"disp":"工种",
+		"value":"jobType"
+	},
+	{
+		"disp":"生产线",
+		"value":"productionLine"
+	},
+	{
+		"disp":"来源",
+		"value":"source"
 	}
 ]

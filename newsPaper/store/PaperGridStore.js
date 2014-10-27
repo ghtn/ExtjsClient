@@ -11,6 +11,7 @@ Ext.define('NewsPaper.store.PaperGridStore', {
     pageSize: 20,
     proxy: {
         type: 'ajax',
+//        url: '',
         url: '/InformationSystemService/paper/listPaperByPage',
         reader: {
             type: 'json',

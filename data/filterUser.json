@@ -1,0 +1,14 @@
+[
+	{
+		"disp":"账号",
+		"value":"account"
+	},
+	{
+		"disp":"权限",
+		"value":"grade"
+	},
+	{
+		"disp":"职务",
+		"value":"type"
+	}
+]

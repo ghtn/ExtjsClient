@@ -10,7 +10,7 @@ Ext.define('NewsPaper.view.DimissionGridView', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.dimissionGridView',
     id: 'dimissionGridView',
-    store: 'DimissionGridStore',
+    store: 'DimissionStore',
     selModel: {
         selType: 'checkboxmodel',
         mode: 'SIMPLE'
@@ -89,6 +89,12 @@ Ext.define('NewsPaper.view.DimissionGridView', {
         {
             text: '来源',
             dataIndex: 'source',
+            hidden:true,
+            flex: 2
+        },
+        {
+            text: '生产线',
+            dataIndex: 'productionLine',
             hidden:true,
             flex: 2
         },
@@ -297,12 +303,6 @@ Ext.define('NewsPaper.view.DimissionGridView', {
             flex: 1.2
         },
         {
-            text: '生产线',
-            dataIndex: 'productLine',
-            hidden:true,
-            flex: 1
-        },
-        {
             text: '岗位',
             dataIndex: 'job',
             hidden:true,
@@ -336,7 +336,7 @@ Ext.define('NewsPaper.view.DimissionGridView', {
     bbar: [
         {
             xtype: 'pagingtoolbar',
-            store: 'DimissionGridStore',
+            store: 'DimissionStore',
             displayInfo: true
         }
     ],

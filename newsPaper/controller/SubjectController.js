@@ -81,29 +81,17 @@ Ext.define('NewsPaper.controller.SubjectController', {
         var store = grid.getStore();
 
         store.on('beforeload', function () {
-            var startDate = "";
-            var endDate = "";
-            if (grid.down('#startDate')) {
-                startDate = grid.down('#startDate').getValue();
-                startDate = Ext.util.Format.date(startDate, 'Y-m-d');
-            }
-            if (grid.down('#endDate')) {
-                endDate = grid.down('#endDate').getValue();
-                endDate = Ext.util.Format.date(endDate, 'Y-m-d');
-            }
+            var startDate = grid.down('#startDate').getValue();
+            var endDate = grid.down('#endDate').getValue();
+            startDate = Ext.util.Format.date(startDate, 'Y-m-d');
+            endDate = Ext.util.Format.date(endDate, 'Y-m-d');
 
-            var subjectType = null;
-            if (grid.down('#subjectTypeCombo')) {
-                subjectType = grid.down('#subjectTypeCombo').getValue();
-            }
+            var subjectType = grid.down('#subjectTypeCombo').getValue();
             if (subjectType == null) {
                 subjectType = -1;
             }
 
-            var mark = null;
-            if (grid.down('#mark')) {
-                mark = grid.down('#mark').getValue();
-            }
+            var mark = grid.down('#mark').getValue();
             if (mark == null || mark == "") {
                 mark = -1;
             }
@@ -506,8 +494,31 @@ Ext.define('NewsPaper.controller.SubjectController', {
     },
 
     filterSubject2: function () {
+        var grid = Ext.getCmp('subjectGridView');
+        var startDate = grid.down('#startDate').getValue();
+        var endDate = grid.down('#endDate').getValue();
+        startDate = Ext.util.Format.date(startDate, 'Y-m-d');
+        endDate = Ext.util.Format.date(endDate, 'Y-m-d');
+
+        var subjectType = grid.down('#subjectTypeCombo').getValue();
+        if (subjectType == null) {
+            subjectType = -1;
+        }
+
+        var mark = grid.down('#mark').getValue();
+        if (mark == null || mark == "") {
+            mark = -1;
+        }
+
         var store = Ext.data.StoreManager.lookup('SubjectGridStore');
-        store.loadPage(1);
+        store.load({
+            params: {
+                startDate: startDate,
+                endDate: endDate,
+                type: subjectType,
+                mark: mark
+            }
+        });
     }
 });
 

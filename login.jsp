@@ -4,12 +4,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
 <LINK rel=stylesheet type=text/css href="login/css/login.css">
+<script src="js/jquery.min.js"></script>
+<script src="js/cookie.js"></script>
+<link rel="stylesheet" type="text/css" href="extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="extjs/resources/css/icon.css"/>
+<link rel="stylesheet" type="text/css" href="extjs/resources/css/example.css"/>
+<link rel="stylesheet" type="text/css" href="resources/app.css"/>
+<script type="text/javascript" src="extjs/bootstrap.js"></script>
+<script type="text/javascript" src="extjs/ext-lang-zh_CN.js"></script>
+<script type="text/javascript" src="extjs/examples.js"></script>
+<script src="js/login.js"></script>
 <title>登录</title>
-<script>
-	if('<%=request.getParameter("result") %>' == 'login'){
-		alert("用户名或密码错误！");
-	};
-</script>
 </head>
 <BODY topMargin=10 bgColor=#e7e7e7>
 	<TABLE border=0 cellSpacing=0 cellPadding=0 width=970
@@ -20,8 +25,7 @@
 				<TD class=head height=100 width=924></TD>
 			</TR>
 			<TR>
-				<TD colSpan=2><FORM method="post" name="forms"
-						action="../InformationSystemService/user/login">
+				<TD colSpan=2><FORM>
 						<TABLE border=0 cellSpacing=0 cellPadding=0 width=895 align=center>
 							<TBODY>
 								<TR>
@@ -42,13 +46,13 @@
 													<TD style="COLOR: #ffffff; FONT-SIZE: 14px" class=nr
 														height=25 width=79 align=middle>帐号：</TD>
 													<TD width=178><INPUT style="WIDTH: 150px"
-														class=wenbenkuang value="" name="name" id="Admin_name"></TD>
+														class=wenbenkuang value="" name="account" id="account"></TD>
 												</TR>
 												<TR class=nr>
 													<TD style="COLOR: #ffffff; FONT-SIZE: 14px" height=25
 														align=middle>密码：</TD>
 													<TD class=nr><INPUT style="WIDTH: 150px"
-														id="passwords" class=wenbenkuang type="password" value=""
+														id="password" class=wenbenkuang type="password" value=""
 														name="password"></TD>
 												</TR>
 											</TBODY>
@@ -62,8 +66,7 @@
 															<INPUT
 																style="BORDER-RIGHT-WIDTH: 0px; BORDER-TOP-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px"
 																class=go-wenbenkuang value=""
-																src="login/images/button_login02.gif" type=image
-																onclick="return login()" >
+																src="login/images/button_login02.gif" type=image id="login">
 														</DIV>
 													</TD>
 												</TR>
@@ -94,15 +97,4 @@
 		</TBODY>
 	</TABLE>
 </BODY>
-<script>
-	function login() {
-		var name = document.getElementById("Admin_name").value;
-		var password = document.getElementById("passwords").value;
-		if ("" == name || password == "") {
-			alert('用户名或密码为空！');
-			return false;
-		}
-		document.cookie = "userName=" + name;
-	}
-</script>
 </html>

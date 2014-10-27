@@ -7,7 +7,7 @@
  */
 Ext.define('NewsPaper.store.DeptStore', {
     extend: 'Ext.data.Store',
-    model: 'NewsPaper.model.DeptModel',
+    model: 'NewsPaper.model.BaseModel',
     proxy: {
         type: 'ajax',
         url: './data/dept.json',

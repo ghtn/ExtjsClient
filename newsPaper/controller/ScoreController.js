@@ -28,8 +28,33 @@ Ext.define('NewsPaper.controller.ScoreController', {
     },
 
     filterScore: function () {
+        var grid = Ext.getCmp('scoreGridView');
+        var idCard = grid.down('#idCard').getValue();
+        var name = grid.down('#name').getValue();
+        var empNumber = grid.down('#empNumber').getValue();
+        var examId = grid.down('#examCombo').getValue();
+        if (examId == null) {
+            examId = -1;
+        }
+        var pass = grid.down('#passCombo').getValue();
+        if (pass == null) {
+            pass = -1;
+        }
+
+//        alert("idCard = " + idCard + ", name = " + name + ", empNumber = " + empNumber + ", examId = " + examId + ", pass = " + pass);
+
         var store = Ext.data.StoreManager.lookup('ScoreGridStore');
-        store.loadPage(1);
+        store.load({
+            params: {
+                idCard: idCard,
+                name: name,
+                empNumber: empNumber,
+                examId: examId,
+                examScore: -1,
+                pass: pass,
+                errorCount: -1
+            }
+        });
     },
 
     exportScore: function () {
@@ -54,33 +79,14 @@ Ext.define('NewsPaper.controller.ScoreController', {
         var store = grid.getStore();
 
         store.on('beforeload', function () {
-            var idCard = "";
-            if (grid.down('#idCard')) {
-                idCard = grid.down('#idCard').getValue();
-            }
-
-            var name = "";
-            if (grid.down('#name')) {
-                name = grid.down('#name').getValue();
-            }
-
-            var empNumber = "";
-            if (grid.down('#empNumber')) {
-                empNumber = grid.down('#empNumber').getValue();
-            }
-
-            var examId = null;
-            if (grid.down('#examCombo')) {
-                examId = grid.down('#examCombo').getValue();
-            }
+            var idCard = grid.down('#idCard').getValue();
+            var name = grid.down('#name').getValue();
+            var empNumber = grid.down('#empNumber').getValue();
+            var examId = grid.down('#examCombo').getValue();
             if (examId == null) {
                 examId = -1;
             }
-
-            var pass = null;
-            if (grid.down('#passCombo')) {
-                pass = grid.down('#passCombo').getValue();
-            }
+            var pass = grid.down('#passCombo').getValue();
             if (pass == null) {
                 pass = -1;
             }

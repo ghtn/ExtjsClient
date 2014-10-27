@@ -15,34 +15,18 @@ Ext.define('NewsPaper.view.ModifyPasswordWindowView', {
         xtype: 'form',
         itemId: 'modifyPasswordForm',
         bodyPadding: 10,
-        url: '/InformationSystemService/user/updatePassword',
+        url: '../user/updatePassword',
         autoScroll : true,
 		frame : true,
 		defaultType:'textfield',
         items : [
-        	{
-				name:'name',
-				itemId:'modifyPasswordName',
-				allowBlank:false,
-				blankText:"用户名不能为空",
-				fieldLabel:"用户名",
-				disabled:true,
-				labelStyle:"text-align:right",
-				padding:'20 0 0 30',
-				vtype:"alphanum", // 数字、字母、下划线
-				vtypeText:"由字母、数字和下划线组成",
-				minLength:5,
-				minLengthText:"学号长度不能小于{0}",
-				maxLength:20,
-				maxLengthText:"学号长度不能大于{0}"
-			},
 			{
 				name:'passwordOld',
 				inputType:'password',
 				allowBlank:false,
-				blankText:"当前密码不能为空",
+				blankText:"密码不能为空",
 				labelStyle:"text-align:right",
-				fieldLabel:"当前密码",
+				fieldLabel:"密码",
 				padding:'20 0 0 30'
 			},
 			{

@@ -10,7 +10,7 @@ Ext.define('NewsPaper.store.SubjectGridStore', {
     model: 'NewsPaper.model.SubjectGridModel',
     pageSize: 20,
     proxy: {
-        type: 'ajax',
+        type: 'ajax',			
         url: '/InformationSystemService/subject/listSubjectByPage',
         reader: {
             type: 'json',

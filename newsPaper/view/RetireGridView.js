@@ -10,7 +10,7 @@ Ext.define('NewsPaper.view.RetireGridView', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.retireGridView',
     id: 'retireGridView',
-    store: 'RetireGridStore',
+    store: 'EmployeeStore',
     selModel: {
         selType: 'checkboxmodel',
         mode: 'SIMPLE'
@@ -89,6 +89,12 @@ Ext.define('NewsPaper.view.RetireGridView', {
         {
             text: '来源',
             dataIndex: 'source',
+            hidden:true,
+            flex: 2
+        },
+        {
+            text: '生产线',
+            dataIndex: 'productionLine',
             hidden:true,
             flex: 2
         },
@@ -349,7 +355,7 @@ Ext.define('NewsPaper.view.RetireGridView', {
     bbar: [
         {
             xtype: 'pagingtoolbar',
-            store: 'RetireGridStore',
+            store: 'EmployeeStore',
             displayInfo: true
         }
     ],

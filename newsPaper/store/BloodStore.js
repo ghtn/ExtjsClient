@@ -7,7 +7,7 @@
  */
 Ext.define('NewsPaper.store.BloodStore', {
     extend: 'Ext.data.Store',
-    model: 'NewsPaper.model.BloodModel',
+    model: 'NewsPaper.model.BaseModel',
     proxy: {
         type: 'ajax',
         url: './data/blood.json',

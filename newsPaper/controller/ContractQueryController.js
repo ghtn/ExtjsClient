@@ -8,7 +8,7 @@ Ext.define('NewsPaper.controller.ContractQueryController', {
 	views : ['ContractQueryBaseContainer', 'ContractQueryGridContainer',
 			'ContractQueryGridView', 'ContractEditWindowView'],
 	stores : ['ContractQueryGridStore', 'FilterContractStore'],
-	models : ['ContractGridModel', 'FilterContractModel'],
+	models : ['ContractGridModel', 'BaseModel'],
 
 	init : function() {
 		this.control({
@@ -37,41 +37,37 @@ Ext.define('NewsPaper.controller.ContractQueryController', {
 		var store = Ext.data.StoreManager.lookup('ContractQueryGridStore');
 		if (form.isValid()) {// 这个是多余的，不过可以防止意外
 			Ext.MessageBox.confirm('确认修改', '确认修改信息?', function(btn) {
-				if (btn == 'yes') {
-					// 检测是否为空
-					var entryDate = view.down("#entryDateEdit");
-					if (entryDate.getValue() == null) {
-						entryDate.name = "";
-					}
-					var userName = Ext.util.Cookies.get("userName");
-					if (userName == null) {
-						Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！",
-								function() {
-									window.location.href = window.location.protocol
-											+ "//"
-											+ window.location.host
-											+ "/InformationSystemClient";
-								});
-					} else {
-						form.submit({
-							waitMsg : '正在修改信息...',
-							submitEmptyText : false,
-							params : {
-								userName : userName
-							},
-							success : function(form, action) {
-								Ext.example.msg('修改成功', action.result.msg);
-								view.close();
-								store.reload();
-							},
-							failure : function(form, action) {
-								Ext.example.msg('修改成功', "操作失败！");
-								view.close();
+						if (btn == 'yes') {
+							// 检测是否为空
+							var entryDate = view.down("#entryDateEdit");
+							if (entryDate.getValue() == null) {
+								entryDate.name = "";
 							}
-						});
-					}
-				}
-			});
+							if (getCookie("ghtn_user") == "") {
+								Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！",
+										function() {
+											window.location.href = "login.jsp";
+										});
+							} else {
+								form.submit({
+											waitMsg : '正在修改信息...',
+											submitEmptyText : false,
+											params : {
+												account : user.account
+											},
+											success : function(form, action) {
+												Ext.example.msg('恭喜', '修改成功');
+												view.close();
+												store.reload();
+											},
+											failure : function(form, action) {
+												Ext.example.msg('对不起', "修改失败！");
+												view.close();
+											}
+										});
+							}
+						}
+					});
 		}
 	},
 
@@ -108,28 +104,28 @@ Ext.define('NewsPaper.controller.ContractQueryController', {
 	contractQueryGridRender : function(grid) {
 		var store = grid.getStore();
 		store.on('beforeload', function() {
-			var queryCondition = grid.down('#filterContractQueryCondition')
-			var queryValue = grid.down('#filterContractQueryValue')
-			if (queryCondition != null) {
-				queryCondition = queryCondition.getValue();
-			}
-			if (queryValue != null) {
-				queryValue = queryValue.getValue();
-			}
-			var userName = Ext.util.Cookies.get("userName");
-			if (userName == null) {
-				Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function() {
-					window.location.href = window.location.protocol + "//"
-							+ window.location.host + "/InformationSystemClient";
+					var queryCondition = grid
+							.down('#filterContractQueryCondition')
+					var queryValue = grid.down('#filterContractQueryValue')
+					if (queryCondition != null) {
+						queryCondition = queryCondition.getValue();
+					}
+					if (queryValue != null) {
+						queryValue = queryValue.getValue();
+					}
+					if (getCookie("ghtn_user") == "") {
+						Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！",
+								function() {
+									window.location.href = "login.jsp";
+								});
+					} else {
+						var typeParam = {
+							account : user.account,
+							queryCondition : queryCondition,
+							queryValue : queryValue
+						};
+						Ext.apply(store.proxy.extraParams, typeParam);
+					}
 				});
-			} else {
-				var typeParam = {
-					userName : userName,
-					queryCondition : queryCondition,
-					queryValue : queryValue
-				};
-				Ext.apply(store.proxy.extraParams, typeParam);
-			}
-		});
 	}
 });

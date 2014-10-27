@@ -10,7 +10,7 @@ Ext.define('NewsPaper.view.RestoralGridView', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.restoralGridView',
     id: 'restoralGridView',
-    store: 'RestoralGridStore',
+    store: 'RestoralStore',
     selModel: {
         selType: 'checkboxmodel',
         mode: 'SIMPLE'
@@ -124,6 +124,12 @@ Ext.define('NewsPaper.view.RestoralGridView', {
             dataIndex: 'duty',
             hidden:true,
             flex: 1
+        },
+        {
+            text: '生产线',
+            dataIndex: 'productionLine',
+            hidden:true,
+            flex: 2
         },
         {
             text: '职务任职时间',
@@ -356,7 +362,7 @@ Ext.define('NewsPaper.view.RestoralGridView', {
     bbar: [
         {
             xtype: 'pagingtoolbar',
-            store: 'RestoralGridStore',
+            store: 'RestoralStore',
             displayInfo: true
         }
     ],

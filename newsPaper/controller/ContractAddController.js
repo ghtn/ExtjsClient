@@ -34,26 +34,22 @@ Ext.define('NewsPaper.controller.ContractAddController', {
 						entryDateBank.name = "";
 					}
 
-					var userName = Ext.util.Cookies.get("userName");
-					if (userName == null) {
+					if (getCookie("ghtn_user") == "") {
 						Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！",
 								function() {
-									window.location.href = window.location.protocol
-											+ "//"
-											+ window.location.host
-											+ "/InformationSystemClient";
+									window.location.href = "login.jsp";
 								});
 					} else {
 						form.submit({
 							waitMsg : '正在添加人员...',
 							params : {
-								userName : userName
+								account : user.account
 							},
 							success : function(form, action) {
-								Ext.example.msg('添加成功', action.result.msg);
+								Ext.example.msg('恭喜', '添加成功');
 							},
 							failure : function(form, action) {
-								Ext.example.msg('添加失败', "操作失败！");
+								Ext.example.msg('对不起', "添加失败！");
 							}
 						});
 					}

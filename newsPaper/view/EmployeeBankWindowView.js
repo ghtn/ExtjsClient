@@ -6,7 +6,7 @@ Ext.define('NewsPaper.view.EmployeeBankWindowView', {
 	id : 'employeeBankWindowView',
 	title : '添加',
 	modal : true,
-	width : 850,
+	width : 870,
 	height : 600,
 	/* 自动滚轴 */
 	autoScroll : true,
@@ -138,7 +138,15 @@ Ext.define('NewsPaper.view.EmployeeBankWindowView', {
 								fieldLabel:"工种",
 								allowBlank:false,
 								blankText:"工种不能为空",
-								labelStyle:"text-align:right"
+								labelStyle:"text-align:right",
+								xtype: 'combo',
+								editable:false,// 禁止手动写入
+							    /* 从本地加载数据 */  
+							    queryMode:"local",  
+								/* 显示 data 的 field 名称 */  
+							    displayField: 'disp',
+								valueField: 'value',
+                   				store:"JobTypeStore"
 							},
 							{
 								name:"unitTime",
@@ -225,7 +233,15 @@ Ext.define('NewsPaper.view.EmployeeBankWindowView', {
 							{
 								name:"jobDist",
 								fieldLabel:"工别",
-								labelStyle:"text-align:right"
+								labelStyle:"text-align:right",
+								xtype: 'combo',
+								editable:false,// 禁止手动写入
+							    /* 从本地加载数据 */  
+							    queryMode:"local",  
+								/* 显示 data 的 field 名称 */  
+							    displayField: 'disp',
+								valueField: 'value',
+                   				store:"JobDistStore"
 							}, 
 							{
 								name:"speciality",
@@ -274,6 +290,7 @@ Ext.define('NewsPaper.view.EmployeeBankWindowView', {
 							{
 								name:"country",
 								fieldLabel:"国家地区",
+								emptyText:'中国',
 								labelStyle:"text-align:right"
 							}, 
 							{
@@ -298,12 +315,28 @@ Ext.define('NewsPaper.view.EmployeeBankWindowView', {
 							{
 								name:"technicist",
 								fieldLabel:"技术人员",
-								labelStyle:"text-align:right"
+								labelStyle:"text-align:right",
+								xtype: 'combo',
+								editable:false,// 禁止手动写入
+							    /* 从本地加载数据 */  
+							    queryMode:"local",  
+								/* 显示 data 的 field 名称 */  
+							    displayField: 'disp',
+								valueField: 'value',
+                   				store:"TechStore"
 							}, 
 							{
 								name:"source",
 								fieldLabel:"来源",
-								labelStyle:"text-align:right"
+								labelStyle:"text-align:right",
+								xtype: 'combo',
+								editable:false,// 禁止手动写入
+							    /* 从本地加载数据 */  
+							    queryMode:"local",  
+								/* 显示 data 的 field 名称 */  
+							    displayField: 'disp',
+								valueField: 'value',
+                   				store:"SourceStore"
 							},
 							{
 								name:"workTime",
@@ -326,7 +359,15 @@ Ext.define('NewsPaper.view.EmployeeBankWindowView', {
 							{
 								name:"duty",
 								fieldLabel:"职务",
-								labelStyle:"text-align:right"
+								labelStyle:"text-align:right",
+								xtype: 'combo',
+								editable:false,// 禁止手动写入
+							    /* 从本地加载数据 */  
+							    queryMode:"local",  
+								/* 显示 data 的 field 名称 */  
+							    displayField: 'disp',
+								valueField: 'value',
+                   				store:"DutyStore"
 							}, 
 							{
 								name:"dutyTime",
@@ -354,7 +395,15 @@ Ext.define('NewsPaper.view.EmployeeBankWindowView', {
 							{
 								name:"jobTitle",
 								fieldLabel:"职称",
-								labelStyle:"text-align:right"
+								labelStyle:"text-align:right",
+								xtype: 'combo',
+								editable:false,// 禁止手动写入
+							    /* 从本地加载数据 */  
+							    queryMode:"local",  
+								/* 显示 data 的 field 名称 */  
+							    displayField: 'disp',
+								valueField: 'value',
+                   				store:"JobTitleStore"
 							},
 							{
 								name:"jobTitleTime",
@@ -474,11 +523,19 @@ Ext.define('NewsPaper.view.EmployeeBankWindowView', {
                 				minValue:0,
 								fieldLabel:"技能工资",
 								labelStyle:"text-align:right"
-							},
+							}, 
 							{
-								name:"productLine",
-								fieldLabel:"生成线",
-								labelStyle:"text-align:right"
+								name:"productionLine",
+								fieldLabel:"生产线",
+								labelStyle:"text-align:right",
+								xtype: 'combo',
+								editable:false,// 禁止手动写入
+							    /* 从本地加载数据 */  
+							    queryMode:"local",  
+								/* 显示 data 的 field 名称 */  
+							    displayField: 'disp',
+								valueField: 'value',
+                   				store:"ProductionLineStore"
 							}
 						]
 					},
@@ -568,7 +625,6 @@ Ext.define('NewsPaper.view.EmployeeBankWindowView', {
 								itemId:'employeeBankCardBirthday',
 								xtype:"datefield",
 								editable:false,// 禁止手动写入
-								hidden:true,
                    				format: 'Y-m-d',
 								fieldLabel:"身份证出生日期",
 								labelStyle:"text-align:right"

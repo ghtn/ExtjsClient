@@ -20,7 +20,7 @@ Ext.define('NewsPaper.view.EmployeeImportWindowView', {
         frame:true,
 		margin:'50 0 0 0',
         itemId: 'employeeImportForm',
-        url: '/InformationSystemService/employee/uploadFile',
+        url: '../employee/uploadFile',
         items: [
             {
                 xtype: 'filefield',

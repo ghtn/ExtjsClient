@@ -7,7 +7,7 @@
  */
 Ext.define('NewsPaper.store.FilterContractStore', {
     extend: 'Ext.data.Store',
-    model: 'NewsPaper.model.FilterContractModel',
+    model: 'NewsPaper.model.BaseModel',
     proxy: {
         type: 'ajax',
         url: './data/filterContract.json',

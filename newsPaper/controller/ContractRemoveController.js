@@ -8,7 +8,7 @@ Ext.define('NewsPaper.controller.ContractRemoveController', {
 	views : ['ContractRemoveBaseContainer', 'ContractRemoveGridContainer',
 			'ContractRemoveGridView'],
 	stores : ['ContractRemoveGridStore', 'FilterContractStore'],
-	models : ['ContractGridModel', 'FilterContractModel'],
+	models : ['ContractGridModel', 'BaseModel'],
 
 	init : function() {
 		this.control({
@@ -42,14 +42,10 @@ Ext.define('NewsPaper.controller.ContractRemoveController', {
 			// alert(ids);
 			Ext.MessageBox.confirm('确认删除', '确认删除所选择的证书?', function(btn) {
 				if (btn == 'yes') {
-					var userName = Ext.util.Cookies.get("userName");
-					if (userName == null) {
+					if (getCookie("ghtn_user") == "") {
 						Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！",
 								function() {
-									window.location.href = window.location.protocol
-											+ "//"
-											+ window.location.host
-											+ "/InformationSystemClient";
+									window.location.href = "login.jsp";
 								});
 					} else {
 						var store = Ext.data.StoreManager
@@ -59,10 +55,10 @@ Ext.define('NewsPaper.controller.ContractRemoveController', {
 									text : '删除中...'
 								});
 						Ext.Ajax.request({
-									url : '/InformationSystemService/contract/remove',
+									url : '../contract/remove',
 									method : 'post',
 									params : {
-										userName : userName,
+										account : user.account,
 										ids : ids
 									},
 									success : function(response) {
@@ -70,24 +66,22 @@ Ext.define('NewsPaper.controller.ContractRemoveController', {
 										var result = Ext.JSON
 												.decode(response.responseText);
 										if (result.success) {
-											Ext.example.msg('删除成功', result.msg);
+											Ext.example.msg('恭喜', '删除成功！');
 										} else {
-											Ext.example.msg('删除失败', "操作失败！");
+											Ext.example.msg('对不起', '删除失败！');
 										}
 										store.reload();
 									},
 									failure : function(response) {
 										progress.close();
-										var result = Ext.JSON
-												.decode(response.responseText);
-										Ext.example.msg('删除失败', "操作失败！");
+										Ext.example.msg('对不起', '删除失败!');
 									}
 								});
 					}
 				}
 			})
 		} else {
-			Ext.MessageBox.alert('错误', '请选择一条记录！');
+			Ext.MessageBox.alert('对不起', '至少选择一条记录！');
 		}
 	},
 
@@ -118,15 +112,14 @@ Ext.define('NewsPaper.controller.ContractRemoveController', {
 			if (queryValue != null) {
 				queryValue = queryValue.getValue();
 			}
-			var userName = Ext.util.Cookies.get("userName");
-			if (userName == null) {
-				Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！", function() {
-					window.location.href = window.location.protocol + "//"
-							+ window.location.host + "/InformationSystemClient";
-				});
+			if (getCookie("ghtn_user") == "") {
+						Ext.MessageBox.alert("警告", "您长时间未使用，请重新登录！",
+								function() {
+									window.location.href = "login.jsp";
+								});
 			} else {
 				var typeParam = {
-					userName : userName,
+					account : user.account,
 					queryCondition : queryCondition,
 					queryValue : queryValue
 				};

@@ -10,7 +10,7 @@ Ext.define('NewsPaper.view.EmployeeGridView', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.employeeGridView',
     id: 'employeeGridView',
-    store: 'EmployeeGridStore',
+    store: 'EmployeeStore',
     columns: [
    		{xtype: 'rownumberer'},
         {
@@ -85,6 +85,12 @@ Ext.define('NewsPaper.view.EmployeeGridView', {
         {
             text: '来源',
             dataIndex: 'source',
+            hidden:true,
+            flex: 2
+        },
+        {
+            text: '生产线',
+            dataIndex: 'productionLine',
             hidden:true,
             flex: 2
         },
@@ -292,12 +298,6 @@ Ext.define('NewsPaper.view.EmployeeGridView', {
             flex: 1.2
         },
         {
-            text: '生产线',
-            dataIndex: 'productLine',
-            hidden:true,
-            flex: 1
-        },
-        {
             text: '岗位',
             dataIndex: 'job',
             hidden:true,
@@ -331,7 +331,7 @@ Ext.define('NewsPaper.view.EmployeeGridView', {
     bbar: [
         {
             xtype: 'pagingtoolbar',
-            store: 'EmployeeGridStore',
+            store: 'EmployeeStore',
             displayInfo: true
         }
     ],

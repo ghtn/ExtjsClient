@@ -16,13 +16,6 @@ Ext.define('NewsPaper.view.Viewport', {
 
     items: [
         {
-            id: 'viewport-header',
-            xtype: 'box',
-            region: 'north',
-            height: 50,
-            html: '信息管理系统'
-        },
-        {
             region: 'center',
             title: '主页面',
             xtype: 'mainTabpanelView'
@@ -31,9 +24,9 @@ Ext.define('NewsPaper.view.Viewport', {
             region: 'west',
             title: '功能区',
             animCollapse: true,
-            width: 200,
-            minWidth: 150,
-            maxWidth: 400,
+            width: 240,
+            minWidth: 200,
+            maxWidth: 430,
             split: true,
             collapsible: true,
             autoScroll: true,
@@ -54,7 +47,7 @@ Ext.define('NewsPaper.view.Viewport', {
 					itemId : 'logout',
 					xtype : 'button',
 					text : '注销',
-					iconCls : 'Lockdelete'
+					iconCls : 'House'
 				},
 				' '
 		    ]

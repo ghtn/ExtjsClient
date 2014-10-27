@@ -7,7 +7,7 @@
  */
 Ext.define('NewsPaper.store.FilterEmployeeStore', {
     extend: 'Ext.data.Store',
-    model: 'NewsPaper.model.FilterEmployeeModel',
+    model: 'NewsPaper.model.BaseModel',
     proxy: {
         type: 'ajax',
         url: './data/filterEmployee.json',

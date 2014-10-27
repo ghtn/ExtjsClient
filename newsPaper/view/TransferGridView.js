@@ -10,7 +10,7 @@ Ext.define('NewsPaper.view.TransferGridView', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.transferGridView',
     id: 'transferGridView',
-    store: 'TransferGridStore',
+    store: 'TransferEmployeeStore',
     columns: [
    		{xtype: 'rownumberer'},
         {
@@ -85,6 +85,12 @@ Ext.define('NewsPaper.view.TransferGridView', {
         {
             text: '来源',
             dataIndex: 'source',
+            hidden:true,
+            flex: 2
+        },
+        {
+            text: '生产线',
+            dataIndex: 'productionLine',
             hidden:true,
             flex: 2
         },
@@ -293,12 +299,6 @@ Ext.define('NewsPaper.view.TransferGridView', {
             flex: 1.2
         },
         {
-            text: '生产线',
-            dataIndex: 'productLine',
-            hidden:true,
-            flex: 1
-        },
-        {
             text: '岗位',
             dataIndex: 'job',
             hidden:true,
@@ -332,7 +332,7 @@ Ext.define('NewsPaper.view.TransferGridView', {
     bbar: [
         {
             xtype: 'pagingtoolbar',
-            store: 'TransferGridStore',
+            store: 'TransferEmployeeStore',
             displayInfo: true
         }
     ],
@@ -363,7 +363,12 @@ Ext.define('NewsPaper.view.TransferGridView', {
         '-',
         {
             itemId: 'resetFilterTransferEmployee', xtype: 'button', text: '清空', iconCls: 'Arrowundo'
+        },
+        '->',
+        {
+            itemId: 'transferEmployee', xtype: 'button', text: '人员调动', iconCls: 'Arrowswitch'
         }
+        
     ]
 
 });

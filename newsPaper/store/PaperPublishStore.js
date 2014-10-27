@@ -14,7 +14,8 @@ Ext.define('NewsPaper.store.PaperPublishStore', {
         type: 'ajax',
         reader: 'json',
         url: '/InformationSystemService/paper/getPublish'
+//        url: ''
     },
-    autoLoad: true
+//    autoLoad: true
     //autoSync: true
 });

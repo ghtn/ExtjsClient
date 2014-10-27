@@ -7,7 +7,7 @@
  */
 Ext.define('NewsPaper.store.PostStateStore', {
     extend: 'Ext.data.Store',
-    model: 'NewsPaper.model.PostStateModel',
+    model: 'NewsPaper.model.BaseModel',
     proxy: {
         type: 'ajax',
         url: './data/postState.json',

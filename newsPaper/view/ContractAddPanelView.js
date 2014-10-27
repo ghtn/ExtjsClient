@@ -11,7 +11,7 @@ Ext.define('NewsPaper.view.ContractAddPanelView', {
 	items : {
 		xtype : 'form',
 		id : "contractBankForm",
-		url : '/InformationSystemService/contract/add',
+		url : '../contract/add',
 		padding:'0 150 0 150',
 		/* 自动滚轴 */
 		autoScroll : true,
